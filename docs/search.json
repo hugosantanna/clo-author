@@ -137,7 +137,7 @@
     "href": "index.html",
     "title": "The Clo-Author",
     "section": "",
-    "text": "The legendary Clodovil\nAn open-source Claude Code workflow that turns your terminal into a full-service applied econometrics research assistant — from literature review to journal submission.\nBuilt on Pedro Sant’Anna’s claude-code-my-workflow, reoriented for applied econometrics research publication."
+    "text": "An open-source Claude Code workflow that turns your terminal into a full-service applied econometrics research assistant — from literature review to journal submission.\nBuilt on Pedro Sant’Anna’s claude-code-my-workflow, reoriented for applied econometrics research publication."
   },
   {
     "objectID": "index.html#what-you-get",
@@ -179,7 +179,7 @@
     "href": "index.html#origin",
     "title": "The Clo-Author",
     "section": "Origin",
-    "text": "Origin\nThis project is a fork of Pedro Sant’Anna’s claude-code-my-workflow, which was built for Econ 730 at Emory University (6 lectures, 800+ slides). The Clo-Author reorients that infrastructure from lecture production to applied econometrics research publication.\nMaintained by Hugo Sant’Anna. MIT License — fork it, customize it, make it yours."
+    "text": "Origin\nThis project is a fork of Pedro Sant’Anna’s claude-code-my-workflow, which was built for Econ 730 at Emory University (6 lectures, 800+ slides). The Clo-Author reorients that infrastructure from lecture production to applied econometrics research publication.\nThe /humanizer skill is by Siqi Chen, adapted here for academic writing in economics.\nMaintained by Hugo Sant’Anna. MIT License — fork it, customize it, make it yours."
   },
   {
     "objectID": "user-guide.html",
