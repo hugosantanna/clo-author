@@ -1,9 +1,8 @@
 ---
 name: strategize
 description: Design identification strategy or pre-analysis plan. Dispatches Strategist (proposer) and strategist-critic (validator). Replaces /identify and /pre-analysis-plan.
-disable-model-invocation: true
 argument-hint: "[mode: strategy | pap] [research question or spec path]"
-allowed-tools: ["Read", "Grep", "Glob", "Write", "Task"]
+allowed-tools: Read,Grep,Glob,Write,Task
 ---
 
 # Strategize

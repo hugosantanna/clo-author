@@ -1,9 +1,8 @@
 ---
 name: write
 description: Draft academic economics paper sections with notation protocol, anti-hedging, and humanizer pass. Replaces /draft-paper and /humanizer.
-disable-model-invocation: true
 argument-hint: "[section or mode: intro | strategy | results | conclusion | abstract | full | humanize] [file path (optional)]"
-allowed-tools: ["Read", "Grep", "Glob", "Write", "Edit", "Task"]
+allowed-tools: Read,Grep,Glob,Write,Edit,Task
 ---
 
 # Write
@@ -43,7 +42,7 @@ Strip AI writing patterns from existing text without rewriting content.
 
 Strips 24 patterns across 4 categories:
 - Structural: forced narrative arcs, artificial progression
-- Lexical: "delve", "leverage", "nuanced", "robust"
+- Lexical: "delve,leverage,nuanced,robust"
 - Rhetorical: rule-of-three, negative parallelisms, em dash overuse
 - Formatting: excessive bullet points, promotional language
 

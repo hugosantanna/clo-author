@@ -1,9 +1,8 @@
 ---
 name: tools
 description: Utility commands — commit, compile, validate-bib, journal, context-status, deploy, learn. Replaces individual utility skills.
-disable-model-invocation: true
 argument-hint: "[subcommand: commit | compile | validate-bib | journal | context | deploy | learn] [args]"
-allowed-tools: ["Read", "Grep", "Glob", "Write", "Edit", "Bash", "Task"]
+allowed-tools: Read,Grep,Glob,Write,Edit,Bash,Task
 ---
 
 # Tools

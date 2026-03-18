@@ -1,9 +1,8 @@
 ---
 name: revise
 description: R&R cycle — classify referee comments and route to appropriate agents. Replaces /respond-to-referee.
-disable-model-invocation: true
 argument-hint: "[referee-report file path] [paper path (optional)]"
-allowed-tools: ["Read", "Grep", "Glob", "Write", "Edit", "Task"]
+allowed-tools: Read,Grep,Glob,Write,Edit,Task
 ---
 
 # Revise

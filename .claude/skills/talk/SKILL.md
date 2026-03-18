@@ -1,9 +1,8 @@
 ---
 name: talk
 description: Create and audit Beamer presentations. Combines talk creation, visual audit, and compilation. Replaces /create-talk, /visual-audit, /compile-latex (for talks).
-disable-model-invocation: true
 argument-hint: "[mode: create | audit | compile] [format: job-market | seminar | short | lightning] [file path]"
-allowed-tools: ["Read", "Grep", "Glob", "Write", "Edit", "Task", "Bash"]
+allowed-tools: Read,Grep,Glob,Write,Edit,Task,Bash
 ---
 
 # Talk

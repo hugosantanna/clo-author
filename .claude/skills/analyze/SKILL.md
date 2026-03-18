@@ -1,9 +1,8 @@
 ---
 name: analyze
 description: End-to-end data analysis dispatching Coder and Data-engineer for implementation, coder-critic for review. Supports R, Stata, Python, Julia. Replaces /data-analysis.
-disable-model-invocation: true
 argument-hint: "[dataset path or goal] Options: --dual [lang1,lang2]"
-allowed-tools: ["Read", "Grep", "Glob", "Write", "Edit", "Bash", "Task"]
+allowed-tools: Read,Grep,Glob,Write,Edit,Bash,Task
 ---
 
 # Analyze

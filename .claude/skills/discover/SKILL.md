@@ -1,9 +1,8 @@
 ---
 name: discover
 description: Discovery phase combining research interviews, literature search, data discovery, and ideation. Routes to appropriate agents based on arguments. Replaces /interview-me, /lit-review, /find-data, /research-ideation.
-disable-model-invocation: true
 argument-hint: "[mode: interview | lit | data | ideate] [topic or query]"
-allowed-tools: ["Read", "Grep", "Glob", "Write", "Edit", "WebSearch", "WebFetch", "Task"]
+allowed-tools: Read,Grep,Glob,Write,Edit,WebSearch,WebFetch,Task
 ---
 
 # Discover

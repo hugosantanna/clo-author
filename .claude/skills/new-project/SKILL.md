@@ -1,9 +1,8 @@
 ---
 name: new-project
 description: Full research pipeline from idea to paper. Orchestrates all phases — discovery, strategy, analysis, writing, peer review, and submission. Use when starting a new research project from scratch.
-disable-model-invocation: true
 argument-hint: "[research topic or 'interactive' for guided start]"
-allowed-tools: ["Read", "Grep", "Glob", "Write", "Edit", "Bash", "Task", "WebSearch", "WebFetch"]
+allowed-tools: Read,Grep,Glob,Write,Edit,Bash,Task,WebSearch,WebFetch
 ---
 
 # New Project
