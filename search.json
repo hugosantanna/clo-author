@@ -1,150 +1,213 @@
 [
   {
-    "objectID": "architecture.html",
-    "href": "architecture.html",
-    "title": "Architecture Reference",
+    "objectID": "changelog.html",
+    "href": "changelog.html",
+    "title": "What’s New",
     "section": "",
-    "text": "Claude Code’s power comes from six configuration layers that work together. For details on each layer, see the Customization Guide.\n\n\n\n\n\n\n\n\nLayer\nLocation\nLoaded When\n\n\n\n\nCLAUDE.md\nProject root\nEvery session\n\n\nRules\n.claude/rules/\nAlways-on or path-scoped\n\n\nReferences\n.claude/references/\nOn demand (agents read when needed)\n\n\nSkills\n.claude/skills/\nOn demand (slash commands)\n\n\nAgents\n.claude/agents/\nOn demand (via skills or orchestrator)\n\n\nHooks\n.claude/settings.json\nOn events (automatic)\n\n\n\nClaude reliably follows about 100–150 custom instructions. Your system prompt uses ~50, leaving ~100 for your project. CLAUDE.md and always-on rules share this budget. Path-scoped rules, references, skills, and agents load on demand — they don’t count against the limit."
+    "text": "Released 2026-04-08\nEvery agent now knows whether it’s working on a reduced-form, structural, theory+empirics, or descriptive paper — and adapts accordingly.\n\n\n\n\n\n\n\n\n\n\nAgent\nBefore\nAfter\n\n\n\n\nWriter\nHumanizer-first, one template\nParagraph-level argument moves, 4 paper-type section templates\n\n\nWriter-critic\n6 checks, format-focused\n8 checks: structure, coherence, design-specific completeness\n\n\nStrategist\nReduced-form only\n4 paper types: reduced-form, structural, theory+empirics, descriptive\n\n\nStrategist-critic\nDiD/IV/RDD checklists\n+ structural model checks, prediction sharpness, construct validity\n\n\nCoder\nBasic script standards\nEngineering discipline: naming maps, numerical guards, function-per-file\n\n\nCoder-critic\n12 checks\n16 checks: + numerical discipline, prohibited patterns\n\n\nMethods-referee\nReduced-form evaluation only\nPaper-type-specific dimensions and scoring rubrics\n\n\n\n\n\n\nNew in the Coder and Coder-critic, derived from C++ Core Guidelines:\n\nFloat comparison guards (no == on floats)\nCDF clamping to [0, 1], inverse link protection\nInteger literals (1L, seq_len(n))\nPre-allocation (no growing lists in loops)\nBootstrap/parallel patterns with proper seed handling\nLanguage-specific coding standards: .claude/references/coding-standards-{r,python,julia}.md\n\n\n\n\nThe v3.0 release claimed to serve “all empirical social science.” That was too broad — the pipeline’s agents, rules, and section templates are built for economics.\nv4.0 is honest about this: built for economics, adaptable to adjacent fields. Finance, accounting, marketing, and management researchers can customize the domain profile and journal profiles. The 30 journal profiles across these fields are retained as useful reference data.\n\n\n\nSignificance stars are now journal-dependent:\n\nWorking papers (default): Stars OK\nAEA journals (AER, AEJ:Applied, AEJ:Policy, AER:Insights): No stars, per current AEA style guide\nAll others: Stars acceptable\n\nJournal profiles now include a Table format field for overrides.\n\n\n\nThe preamble standard now distinguishes:\n\nRequired (blocking): document class, margins, double-spacing, biblatex+biber, booktabs, hyperref last\nRecommended (advisory): lmodern, microtype, citation color, captionsetup, hidelinks\n\nWriter-critic deductions adjusted accordingly — recommended items are reported but don’t cost points.\n\n\n\n\nFixed bibtex → biber mismatch across CLAUDE.md and tools/SKILL.md\nFixed remaining uppercase paths (Paper → paper, Talks → paper/talks)\n\n\n\n\n\nDeleted scripts/quality_score.py (761 lines targeting nonexistent directories)\nDeleted scripts/sync_to_docs.sh (92 lines targeting nonexistent deployment structure)\n\n\n\n\n\n“turns your terminal into a research assistant” → “scaffold for empirical economics research”\n“works autonomously” → removed\n“Realistic Peer Review” → “Simulated Peer Review”\n“calibrated referee pools” → “configured referee pools”\nAdded Limitations section"
   },
   {
-    "objectID": "architecture.html#the-pipeline",
-    "href": "architecture.html#the-pipeline",
-    "title": "Architecture Reference",
-    "section": "The Pipeline",
-    "text": "The Pipeline\n\n\n\n\n\n%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#1a1a36', 'primaryTextColor': '#00f0ff', 'primaryBorderColor': '#00f0ff', 'lineColor': '#b44dff', 'secondaryColor': '#14142a', 'tertiaryColor': '#080810', 'edgeLabelBackground': '#080810', 'clusterBkg': '#0c0c18', 'clusterBorder': '#1e1e35'}}}%%\nflowchart LR\n    YOU:::start --&gt; D:::phase1\n    D --&gt; S:::phase2\n    S --&gt; E:::phase3\n    E --&gt; R:::phase4\n    R --&gt;|score &gt;= 95| SUB:::phase5\n    R -.-&gt;|missing lit| D\n    R -.-&gt;|flawed ID| S\n    R -.-&gt;|more checks| E\n    E -.-&gt;|parallel| T:::talks\n\n    YOU((You))\n    D(Discovery)\n    S(Strategy)\n    E(Execution)\n    R(Peer Review)\n    SUB(Submission)\n    T(Talks)\n\n    classDef start fill:#080810,stroke:#ff2d7b,color:#ff2d7b,stroke-width:2px\n    classDef phase1 fill:#14142a,stroke:#00f0ff,color:#00f0ff,stroke-width:2px\n    classDef phase2 fill:#14142a,stroke:#00cc66,color:#00cc66,stroke-width:2px\n    classDef phase3 fill:#14142a,stroke:#b44dff,color:#b44dff,stroke-width:2px\n    classDef phase4 fill:#14142a,stroke:#ff2d7b,color:#ff2d7b,stroke-width:2px\n    classDef phase5 fill:#14142a,stroke:#00f0ff,color:#00f0ff,stroke-width:2px\n    classDef talks fill:#0c0c18,stroke:#8888a8,color:#8888a8,stroke-width:1px,stroke-dasharray: 5 5"
-  },
-  {
-    "objectID": "architecture.html#agents-by-phase",
-    "href": "architecture.html#agents-by-phase",
-    "title": "Architecture Reference",
-    "section": "Agents by Phase",
-    "text": "Agents by Phase\nEach phase dispatches worker → critic pairs. The worker creates; the critic reviews (read-only, never edits). If they can’t agree after 3 rounds, the Orchestrator escalates.\n\nPhase 1: Discovery\n\n\n\n\n\n\n\n\n\nWorker\nWhat it creates\nCritic\nWhat it checks\n\n\n\n\nLibrarian\nBibliography, frontier map\nlibrarian-critic\nCoverage, gaps, recency\n\n\nExplorer\nData sources, feasibility\nexplorer-critic\nMeasurement, sample, ID fit\n\n\n\n\n\nPhase 2: Strategy\n\n\n\n\n\n\n\n\n\nWorker\nWhat it creates\nCritic\nWhat it checks\n\n\n\n\nStrategist\nStrategy memo (4 paper types)\nstrategist-critic\nAssumptions, inference, sanity (type-specific)\n\n\n\n\n\nPhase 3: Execution\n\n\n\n\n\n\n\n\n\nWorker\nWhat it creates\nCritic\nWhat it checks\n\n\n\n\nData-engineer\nCleaning scripts, figures\ncoder-critic\nCode quality, reproducibility\n\n\nCoder\nAnalysis scripts, tables (numerical discipline)\ncoder-critic\nStrategy alignment, 16 checks incl. numerical discipline\n\n\nWriter\nPaper sections (argument moves, 4 types)\nwriter-critic\n8 checks: structure, coherence, design completeness\n\n\n\n\n\nPhase 4: Peer Review\n\n\n\n\n\n\n\n\nAgent\nFocus\nRole\n\n\n\n\nEditor\nDesk review, scope, referee assignment\nAssigns dispositions + pet peeves to referees\n\n\ndomain-referee\nContributions, literature, external validity\nBlind — doesn’t see the other report\n\n\nmethods-referee\nIdentification, estimation, robustness\nBlind — doesn’t see the other report\n\n\n\nThe Editor does desk review first, then dispatches referees with dispositions (Structuralist, Credibility, Measurement, Policy, Theory, Skeptic). After reports return, the Editor synthesizes the editorial decision, classifying issues as FATAL / ADDRESSABLE / TASTE.\n\n\nPhase 5: Submission\n\n\n\nAgent\nWhat it does\nScoring\n\n\n\n\nVerifier\n10-check AEA replication audit\nPass/fail (binary)\n\n\n\n\n\nTalks (parallel with Peer Review)\n\n\n\n\n\n\n\n\n\nWorker\nWhat it creates\nCritic\nWhat it checks\n\n\n\n\nStoryteller\nBeamer + Quarto slides (4 formats)\nstoryteller-critic\nNarrative, visuals, fidelity"
-  },
-  {
-    "objectID": "architecture.html#the-worker-critic-loop",
-    "href": "architecture.html#the-worker-critic-loop",
-    "title": "Architecture Reference",
-    "section": "The Worker-Critic Loop",
-    "text": "The Worker-Critic Loop\n\n\n\n\n\n%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#14142a', 'primaryTextColor': '#d0d0e0', 'primaryBorderColor': '#b44dff', 'lineColor': '#b44dff', 'secondaryColor': '#0c0c18', 'tertiaryColor': '#080810', 'edgeLabelBackground': '#080810'}}}%%\nflowchart TD\n    W[WORKER creates artifact]:::worker --&gt; C[CRITIC reviews, scores 0-100]:::critic\n    C --&gt;|score &gt;= 80| A([APPROVED]):::approved\n    C --&gt;|score &lt; 80| F[WORKER fixes issues]:::worker\n    F --&gt; C2[CRITIC re-reviews]:::critic\n    C2 --&gt;|pass| A\n    C2 --&gt;|fail, round 3| ESC([ESCALATE to user]):::escalate\n\n    classDef worker fill:#14142a,stroke:#b44dff,color:#b44dff,stroke-width:2px\n    classDef critic fill:#14142a,stroke:#00f0ff,color:#00f0ff,stroke-width:2px\n    classDef approved fill:#14142a,stroke:#00cc66,color:#00cc66,stroke-width:2px\n    classDef escalate fill:#14142a,stroke:#ff2d7b,color:#ff2d7b,stroke-width:2px\n\n\n\n\n\n\nWhy it works: The critic can’t fix files (read-only), so it has no incentive to downplay issues. The worker can’t approve itself (the critic re-audits). This prevents Claude from saying “looks good” about its own work.\nSeverity gradient: Critics calibrate harshness by phase — encouraging in Discovery, precise in Execution, adversarial in Peer Review."
-  },
-  {
-    "objectID": "architecture.html#the-mental-model",
-    "href": "architecture.html#the-mental-model",
-    "title": "Architecture Reference",
-    "section": "The Mental Model",
-    "text": "The Mental Model\nThink of the orchestrator as a general contractor. You are the client. You describe what you want. The plan-first protocol is the blueprint phase. Once you approve the blueprint, the contractor takes over: hires the right specialists (agents), inspects their work (verification), sends them back to fix issues (review-fix loop), and only calls you when the job passes inspection (quality gates).\nThe Orchestrator:\n\nDispatches worker-critic pairs based on the dependency graph\nEnforces quality gates: 80 (commit), 90 (PR), 95 (submission)\nEscalates when pairs can’t converge after 3 rounds\nSynthesizes referee reports into editorial decisions\nSelects target journals at submission time\nTracks the research journal with scores and phase transitions"
-  },
-  {
-    "objectID": "architecture.html#dependency-driven-dispatch",
-    "href": "architecture.html#dependency-driven-dispatch",
-    "title": "Architecture Reference",
-    "section": "Dependency-Driven Dispatch",
-    "text": "Dependency-Driven Dispatch\n\n\n\n\n\n%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#14142a', 'primaryTextColor': '#d0d0e0', 'primaryBorderColor': '#b44dff', 'lineColor': '#b44dff', 'secondaryColor': '#0c0c18', 'tertiaryColor': '#080810', 'edgeLabelBackground': '#080810'}}}%%\nflowchart TD\n    P1:::phase --&gt; P2:::phase\n    P2 --&gt; P3:::phase\n    P3 --&gt; P4:::phase\n    P4 --&gt;|score &gt;= 95| P5:::phase\n\n    P1(Discovery)\n    P2(Strategy)\n    P3(Execution)\n    P4(Peer Review)\n    P5(Submission)\n\n    subgraph s1 [\" \"]\n        direction LR\n        L[Librarian]:::worker ---|reviewed by| LC[librarian-critic]:::critic\n        X[Explorer]:::worker ---|reviewed by| XC[explorer-critic]:::critic\n    end\n\n    subgraph s2 [\" \"]\n        ST[Strategist]:::worker ---|reviewed by| STC[strategist-critic]:::critic\n    end\n\n    subgraph s3 [\" \"]\n        direction LR\n        DE[Data-engineer]:::worker ---|reviewed by| CC1[coder-critic]:::critic\n        CO[Coder]:::worker ---|reviewed by| CC2[coder-critic]:::critic\n        WR[Writer]:::worker ---|reviewed by| WC[writer-critic]:::critic\n    end\n\n    subgraph s4 [\" \"]\n        direction LR\n        ED[Editor]:::infra\n        DR[domain-referee]:::referee\n        MR[methods-referee]:::referee\n    end\n\n    subgraph s5 [\" \"]\n        VE[Verifier]:::infra\n    end\n\n    P1 --- s1\n    P2 --- s2\n    P3 --- s3\n    P4 --- s4\n    P5 --- s5\n\n    classDef phase fill:#14142a,stroke:#ff2d7b,color:#ff2d7b,stroke-width:2px\n    classDef worker fill:#14142a,stroke:#b44dff,color:#b44dff,stroke-width:1px\n    classDef critic fill:#14142a,stroke:#00f0ff,color:#00f0ff,stroke-width:1px\n    classDef referee fill:#14142a,stroke:#ff2d7b,color:#ff2d7b,stroke-width:1px\n    classDef infra fill:#14142a,stroke:#00cc66,color:#00cc66,stroke-width:1px\n\n\n\n\n\n\nPhases activate when dependencies are met, not by forced sequence. Parallel dispatch within phases (e.g., Librarian and Explorer run simultaneously in Phase 1)."
-  },
-  {
-    "objectID": "architecture.html#the-loop",
-    "href": "architecture.html#the-loop",
-    "title": "Architecture Reference",
-    "section": "The Loop",
-    "text": "The Loop\n\n\n\n\n\n%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#14142a', 'primaryTextColor': '#d0d0e0', 'primaryBorderColor': '#b44dff', 'lineColor': '#b44dff', 'secondaryColor': '#0c0c18', 'tertiaryColor': '#080810', 'edgeLabelBackground': '#080810'}}}%%\nflowchart TD\n    START([Plan approved]):::start --&gt; IMPL[IMPLEMENT]:::step\n    IMPL --&gt; VERIFY[VERIFY: compile, render, check]:::step\n    VERIFY --&gt; REVIEW[REVIEW: worker-critic pairs]:::step\n    REVIEW --&gt; FIX[FIX: critical then major then minor]:::step\n    FIX --&gt; REVERIFY[RE-VERIFY: confirm fixes]:::step\n    REVERIFY --&gt; SCORE[SCORE: weighted aggregate]:::step\n    SCORE --&gt;|score &gt;= threshold| DONE([Present summary]):::approved\n    SCORE --&gt;|score &lt; threshold| REVIEW\n    SCORE -.-&gt;|max 5 rounds| DONE\n\n    classDef start fill:#14142a,stroke:#ff2d7b,color:#ff2d7b,stroke-width:2px\n    classDef step fill:#14142a,stroke:#b44dff,color:#b44dff,stroke-width:2px\n    classDef approved fill:#14142a,stroke:#00cc66,color:#00cc66,stroke-width:2px\n\n\n\n\n\n\n\nThree-Strikes Escalation\nIf a worker-critic pair can’t resolve after 3 rounds:\n\n\n\n\n\n\n\nPair\nEscalation Target\n\n\n\n\nCoder + coder-critic\n→ Strategist (design may be wrong)\n\n\nWriter + writer-critic\n→ domain-referee (framing may need rethinking)\n\n\nStrategist + strategist-critic\n→ User (fundamental design disagreement)\n\n\nStoryteller + storyteller-critic\n→ Writer (paper content may need revision)\n\n\n\n\n\n“Just Do It” Mode\nWhen you say “just do it”, the orchestrator still runs the full verify-review-fix loop, but skips the final approval pause and auto-commits if the score is &gt;= 80."
-  },
-  {
-    "objectID": "architecture.html#the-protocol",
-    "href": "architecture.html#the-protocol",
-    "title": "Architecture Reference",
-    "section": "The Protocol",
-    "text": "The Protocol\nNon-trivial task arrives\n  │\n  Step 1: Enter Plan Mode\n  Step 2: Draft plan (approach, files, verification)\n  Step 3: Save to quality_reports/plans/YYYY-MM-DD_description.md\n  Step 4: Present plan to user\n  Step 5: User approves (or revises)\n  Step 6: Save initial session log\n  Step 7: Orchestrator takes over (dependency-driven dispatch)\n  Step 8: Update session log + plan status to COMPLETED\nPlans are saved to disk so they survive context compression. The rule: avoid /clear — prefer auto-compression."
-  },
-  {
-    "objectID": "architecture.html#session-logging-3-triggers",
-    "href": "architecture.html#session-logging-3-triggers",
-    "title": "Architecture Reference",
-    "section": "Session Logging (3 Triggers)",
-    "text": "Session Logging (3 Triggers)\n\nAfter plan approval — create the log with goal, plan summary, rationale\nDuring implementation — append 1–3 lines as design decisions happen\nAt session end — add what was accomplished, open questions, unresolved issues"
-  },
-  {
-    "objectID": "architecture.html#when-to-use",
-    "href": "architecture.html#when-to-use",
-    "title": "Architecture Reference",
-    "section": "When to Use",
-    "text": "When to Use\n\n\n\n\n\n\n\n\nScenario\nSequential (slow)\nParallel (fast)\n\n\n\n\nPaper review\nRun each agent sequentially\nRun strategist-critic + coder-critic + writer-critic + Verifier simultaneously\n\n\nLiterature search\nSearch one database at a time\nSpawn agents for journals, NBER, SSRN\n\n\nData exploration\nCheck one source at a time\nSpawn agents for each data category\n\n\n\nThe orchestrator recognizes independent subtasks and spawns parallel agents automatically."
-  },
-  {
-    "objectID": "architecture.html#practical-limits",
-    "href": "architecture.html#practical-limits",
-    "title": "Architecture Reference",
-    "section": "Practical Limits",
-    "text": "Practical Limits\n\n3–4 agents is the sweet spot. More increases overhead without proportional speedup.\nAgents are independent — they cannot see each other’s work. Dependent tasks run sequentially.\nParallel agents multiply token usage."
-  },
-  {
-    "objectID": "architecture.html#creating-talks-from-papers",
-    "href": "architecture.html#creating-talks-from-papers",
-    "title": "Architecture Reference",
-    "section": "Creating Talks from Papers",
-    "text": "Creating Talks from Papers\nThe /talk skill dispatches the Storyteller (creator) and storyteller-critic (reviewer) to generate presentations in 4 formats (job market, seminar, short, lightning). Supports both Beamer (output to paper/talks/) and Quarto RevealJS (output to paper/quarto/ via --quarto flag). All content derives from paper/main.tex."
-  },
-  {
-    "objectID": "architecture.html#replication-first-coding",
-    "href": "architecture.html#replication-first-coding",
-    "title": "Architecture Reference",
-    "section": "Replication-First Coding",
-    "text": "Replication-First Coding\nWhen working with papers that have replication packages:\nPhase 1: Inventory original code → record \"gold standard\" numbers\nPhase 2: Translate (e.g., Stata → R) → match original spec EXACTLY\nPhase 3: Verify match → tolerance &lt; 0.01 for estimates, &lt; 0.05 for SEs\nPhase 4: Only then extend with new estimators and specifications"
-  },
-  {
-    "objectID": "architecture.html#cross-language-replication",
-    "href": "architecture.html#cross-language-replication",
-    "title": "Architecture Reference",
-    "section": "Cross-Language Replication",
-    "text": "Cross-Language Replication\nRun the same analysis in two languages simultaneously to catch implementation bugs:\n\n/analyze --dual r,python dispatches two Coder agents in parallel with the same strategy memo\n/review --replicate python re-implements existing R code in Python and compares outputs\nTolerances come from .claude/references/domain-profile.md — divergence beyond tolerance is flagged as a bug\n\nInspired by Scott Cunningham’s approach: if two independent implementations produce the same estimates, neither has a bug. If they diverge, you’ve caught something before it reaches the paper."
-  },
-  {
-    "objectID": "architecture.html#branch-isolation-with-git-worktrees",
-    "href": "architecture.html#branch-isolation-with-git-worktrees",
-    "title": "Architecture Reference",
-    "section": "Branch Isolation with Git Worktrees",
-    "text": "Branch Isolation with Git Worktrees\nGit worktrees create a separate working directory linked to the same repository. Useful for major translations, risky refactors, or multi-day projects.\n\n\n\nSituation\nUse Worktree?\n\n\n\n\nQuick fix to one file\nNo\n\n\nMajor refactor\nYes\n\n\nExperimenting with new approach\nYes\n\n\n\nFor most users, working directly on main with frequent commits is simpler and sufficient."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "The Clo-Author 3.0",
+    "objectID": "changelog.html#agents-rewritten",
+    "href": "changelog.html#agents-rewritten",
+    "title": "What’s New",
     "section": "",
-    "text": "An open-source Claude Code scaffold for empirical economics research — from literature review to journal submission. Can be adapted to adjacent fields (finance, accounting, marketing, management) by customizing the domain profile and journal profiles.\nBuilt on Pedro Sant’Anna’s claude-code-my-workflow, reoriented for empirical research publication.\nYou describe a task in plain English. Claude plans the approach (you approve), dispatches specialized agents, reviews quality, fixes issues, and presents results — 17 agents, 10 commands, all running behind the scenes. You review the output at each stage."
+    "text": "Agent\nBefore\nAfter\n\n\n\n\nWriter\nHumanizer-first, one template\nParagraph-level argument moves, 4 paper-type section templates\n\n\nWriter-critic\n6 checks, format-focused\n8 checks: structure, coherence, design-specific completeness\n\n\nStrategist\nReduced-form only\n4 paper types: reduced-form, structural, theory+empirics, descriptive\n\n\nStrategist-critic\nDiD/IV/RDD checklists\n+ structural model checks, prediction sharpness, construct validity\n\n\nCoder\nBasic script standards\nEngineering discipline: naming maps, numerical guards, function-per-file\n\n\nCoder-critic\n12 checks\n16 checks: + numerical discipline, prohibited patterns\n\n\nMethods-referee\nReduced-form evaluation only\nPaper-type-specific dimensions and scoring rubrics"
   },
   {
-    "objectID": "index.html#get-started-in-5-minutes",
-    "href": "index.html#get-started-in-5-minutes",
-    "title": "The Clo-Author 3.0",
-    "section": "Get Started in 5 Minutes",
-    "text": "Get Started in 5 Minutes\n\nStep 1: Fork & Clone\ngh repo fork hugosantanna/clo-author --clone\ncd clo-author\n\n\nStep 2: Start Claude Code\nclaude\nUsing VS Code? Open the Claude Code panel instead. Everything works the same.\n\n\nStep 3: Paste the Starter Prompt\nFill in the bolded placeholders with your project details:\n\nI am starting a new empirical research project in [YOUR FIELD] on [YOUR TOPIC]. Read CLAUDE.md and help me set up the project structure. Start with /discover --lit [YOUR TOPIC].\n\nClaude reads the configuration, fills in your project details, and enters contractor mode — planning, implementing, reviewing, and verifying autonomously.\n\n\nStep 4: Start Working\nOnce setup is done, just describe what you need:\n\n“Review my paper” — checks your identification strategy, code, writing, and LaTeX in parallel\n/review --methods paper/main.tex — validates your causal design assumptions, clustering, and inference\n/analyze Data/cleaned/survey.csv — cleans data, runs your specification, produces tables and figures\n/new-project health insurance — walks you through the full pipeline from literature review to submission"
+    "objectID": "changelog.html#numerical-discipline",
+    "href": "changelog.html#numerical-discipline",
+    "title": "What’s New",
+    "section": "",
+    "text": "New in the Coder and Coder-critic, derived from C++ Core Guidelines:\n\nFloat comparison guards (no == on floats)\nCDF clamping to [0, 1], inverse link protection\nInteger literals (1L, seq_len(n))\nPre-allocation (no growing lists in loops)\nBootstrap/parallel patterns with proper seed handling\nLanguage-specific coding standards: .claude/references/coding-standards-{r,python,julia}.md"
   },
   {
-    "objectID": "index.html#what-happens-behind-the-scenes",
-    "href": "index.html#what-happens-behind-the-scenes",
-    "title": "The Clo-Author 3.0",
-    "section": "What Happens Behind the Scenes",
-    "text": "What Happens Behind the Scenes\nYou talk, Claude orchestrates. The 17 agents work in worker-critic pairs — every creator has a paired critic who can’t edit files, only review. An Editor does desk review before dispatching two specialized referees (domain + methods) who simulate real journal peer review with dispositions and pet peeves. The orchestrator dispatches agents based on a dependency graph, enforces quality gates (80/90/95), and routes escalations when critics and creators can’t agree after 3 rounds.\nFor the full picture: User Guide (what you can do), Meet the Agents (who does the work), Architecture (how the system works), Customization (how to make it yours), and Command Reference (every flag and subcommand)."
+    "objectID": "changelog.html#scope-back-to-economics",
+    "href": "changelog.html#scope-back-to-economics",
+    "title": "What’s New",
+    "section": "",
+    "text": "The v3.0 release claimed to serve “all empirical social science.” That was too broad — the pipeline’s agents, rules, and section templates are built for economics.\nv4.0 is honest about this: built for economics, adaptable to adjacent fields. Finance, accounting, marketing, and management researchers can customize the domain profile and journal profiles. The 30 journal profiles across these fields are retained as useful reference data."
   },
   {
-    "objectID": "index.html#day-1-checklist",
-    "href": "index.html#day-1-checklist",
-    "title": "The Clo-Author 3.0",
-    "section": "Day 1 Checklist",
-    "text": "Day 1 Checklist\n\nFork the repo and clone it locally\nRun claude in the project directory\nPaste the starter prompt (fill in your project details)\nWait for Claude to customize CLAUDE.md for your project\nApprove the configuration plan\nAsk Claude to do something: “Review my paper” or /discover --lit [topic]\nApprove the task plan, watch it work, review the output\n\nThat’s it. Everything else — agents, hooks, rules — runs automatically in the background.\n\n\n\n\n\n\nNoteOptional: Manual Setup\n\n\n\n\n\nIf you prefer to configure things yourself instead of letting Claude handle it:\nCustomize CLAUDE.md — Open CLAUDE.md and replace all [BRACKETED PLACEHOLDERS]:\n\nProject name and institution\nFolder structure (adjust to your layout)\nCurrent project state (your papers and analyses)\n\nFill in the domain profile — Run /discover (interactive interview) or manually edit .claude/references/domain-profile.md:\n\nYour field and adjacent subfields\nTarget journals ranked by tier\nCommon data sources and identification strategies\nField conventions and seminal references\n\nConfigure permissions — Review .claude/settings.json. The template includes permissions for git, LaTeX, R, and utility scripts.\nTest it:\n/tools compile paper/main.tex\n/review --proofread paper/main.tex"
+    "objectID": "changelog.html#profile-aware-table-standards",
+    "href": "changelog.html#profile-aware-table-standards",
+    "title": "What’s New",
+    "section": "",
+    "text": "Significance stars are now journal-dependent:\n\nWorking papers (default): Stars OK\nAEA journals (AER, AEJ:Applied, AEJ:Policy, AER:Insights): No stars, per current AEA style guide\nAll others: Stars acceptable\n\nJournal profiles now include a Table format field for overrides."
   },
   {
-    "objectID": "index.html#prerequisites",
-    "href": "index.html#prerequisites",
-    "title": "The Clo-Author 3.0",
-    "section": "Prerequisites",
-    "text": "Prerequisites\n\n\n\nTool\nRequired For\nInstall\n\n\n\n\nClaude Code\nEverything\nnpm install -g @anthropic-ai/claude-code\n\n\nXeLaTeX\nPaper compilation\nTeX Live or MacTeX\n\n\nR\nAnalysis & figures\nr-project.org\n\n\ngh CLI\nGitHub integration\nbrew install gh (macOS)\n\n\n\nOptional: Stata, Python, Julia (multi-language analysis), Quarto (web slides)."
+    "objectID": "changelog.html#working-paper-format-required-vs.-recommended",
+    "href": "changelog.html#working-paper-format-required-vs.-recommended",
+    "title": "What’s New",
+    "section": "",
+    "text": "The preamble standard now distinguishes:\n\nRequired (blocking): document class, margins, double-spacing, biblatex+biber, booktabs, hyperref last\nRecommended (advisory): lmodern, microtype, citation color, captionsetup, hidelinks\n\nWriter-critic deductions adjusted accordingly — recommended items are reported but don’t cost points."
   },
   {
-    "objectID": "index.html#origin",
-    "href": "index.html#origin",
-    "title": "The Clo-Author 3.0",
-    "section": "Origin",
-    "text": "Origin\nThis project is a fork of Pedro Sant’Anna’s claude-code-my-workflow, which was built for Econ 730 at Emory University (6 lectures, 800+ slides). The Clo-Author reorients that infrastructure from lecture production to empirical economics research.\nThe /humanizer skill is by Siqi Chen, adapted here for academic writing.\nMaintained by Hugo Sant’Anna. MIT License — fork it, customize it, make it yours."
+    "objectID": "changelog.html#compilation-alignment",
+    "href": "changelog.html#compilation-alignment",
+    "title": "What’s New",
+    "section": "",
+    "text": "Fixed bibtex → biber mismatch across CLAUDE.md and tools/SKILL.md\nFixed remaining uppercase paths (Paper → paper, Talks → paper/talks)"
+  },
+  {
+    "objectID": "changelog.html#dead-code-removal",
+    "href": "changelog.html#dead-code-removal",
+    "title": "What’s New",
+    "section": "",
+    "text": "Deleted scripts/quality_score.py (761 lines targeting nonexistent directories)\nDeleted scripts/sync_to_docs.sh (92 lines targeting nonexistent deployment structure)"
+  },
+  {
+    "objectID": "changelog.html#readme-honesty",
+    "href": "changelog.html#readme-honesty",
+    "title": "What’s New",
+    "section": "",
+    "text": "“turns your terminal into a research assistant” → “scaffold for empirical economics research”\n“works autonomously” → removed\n“Realistic Peer Review” → “Simulated Peer Review”\n“calibrated referee pools” → “configured referee pools”\nAdded Limitations section"
+  },
+  {
+    "objectID": "user-guide.html",
+    "href": "user-guide.html",
+    "title": "User Guide",
+    "section": "",
+    "text": "You describe what you want in plain English. Claude handles the rest.\n\n\n\nYou Do\nHappens Automatically\n\n\n\n\nDescribe what you want\nClaude selects and runs the right skills\n\n\nApprove plans\nOrchestrator coordinates agents via dependency graph\n\n\nReview final output\nWorker-critic pairs ensure quality\n\n\nSay “commit” when ready\nQuality gates enforce score thresholds\n\n\n\nFor complex or ambiguous tasks, Claude may ask 3–5 clarifying questions to create a requirements specification before planning. Each requirement is tagged MUST/SHOULD/MAY, and each aspect is marked CLEAR/ASSUMED/BLOCKED."
+  },
+  {
+    "objectID": "user-guide.html#discovery-phase",
+    "href": "user-guide.html#discovery-phase",
+    "title": "User Guide",
+    "section": "Discovery Phase",
+    "text": "Discovery Phase\n\n/discover\nInteractive research interview that builds your research specification and domain profile. Equivalent to sitting down with a mentor and sharpening your question.\n\n\n/discover --lit [topic]\nDispatches the Librarian (collector) and librarian-critic (coverage reviewer). Searches top-5 generals, NBER/SSRN/RePEc, and field journals. Produces annotated bibliography, BibTeX entries, frontier map, and positioning recommendation.\n\n\n/discover --data [question]\nDispatches the Explorer (data finder) and explorer-critic (data quality reviewer). Searches public, administrative, survey, and novel data sources. Scores feasibility (A/B/C/D) and measurement quality.\n\n\n/discover --ideate [topic]\nGenerates research questions and identification strategies for a broad topic."
+  },
+  {
+    "objectID": "user-guide.html#strategy-phase",
+    "href": "user-guide.html#strategy-phase",
+    "title": "User Guide",
+    "section": "Strategy Phase",
+    "text": "Strategy Phase\n\n/strategize\nDispatches the Strategist (proposer) and strategist-critic (reviewer). Produces strategy memo, pseudo-code, robustness plan, and falsification tests. The strategist-critic validates your assumptions, checks inference, and stress-tests the design.\n\n\n/strategize --pap\nFor experimental/RCT research only. Dispatches the Strategist in Pre-Analysis Plan mode. Drafts in AEA/OSF/EGAP registry format with pre-specified outcomes, subgroups, multiple testing corrections, and power calculations. Not needed for observational quasi-experimental designs."
+  },
+  {
+    "objectID": "user-guide.html#execution-phase",
+    "href": "user-guide.html#execution-phase",
+    "title": "User Guide",
+    "section": "Execution Phase",
+    "text": "Execution Phase\n\n/analyze [dataset]\nDispatches the Data-engineer (cleaning + visualization), Coder (analysis implementation), and coder-critic (reviewer). End-to-end analysis: data cleaning, main specification, robustness checks, publication-ready tables and figures. Supports R, Stata, Python, and Julia.\nUse --dual r,python to run the same analysis in two languages simultaneously. Both implementations follow the same strategy memo; results are compared within tolerance. Divergences are flagged. See the Command Reference for details.\n\n\n/write [section]\nDispatches the Writer agent. First identifies the paper type (reduced-form, structural, theory+empirics, descriptive), then drafts using paragraph-level argument moves — each paragraph has one job (motivation, result, mechanism, qualification):\n\nIntroduction: paper-type-specific sequence — reduced-form leads with identification preview + result; structural leads with model preview + counterfactual; descriptive leads with data innovation + key fact\nStrategy/Model: design-specific templates (DiD parallel trends, IV exclusion restriction, RDD manipulation) or structural (environment, identification of parameters, estimation, counterfactuals)\nResults: narration adapts to output type — regression tables, event study figures, IV first stage + 2SLS, counterfactual simulations, descriptive facts\nNotation protocol: consistent notation throughout, calibrated to your field via domain profile\n\nAnti-hedging rules enforced. Cleanup pass automatically strips 24 AI writing patterns after drafting."
+  },
+  {
+    "objectID": "user-guide.html#review-phase",
+    "href": "user-guide.html#review-phase",
+    "title": "User Guide",
+    "section": "Review Phase",
+    "text": "Review Phase\n\n/review [file]\nSmart routing based on file type and flags:\n\n\n\n\n\n\n\nInput\nWhat Runs\n\n\n\n\n/review paper/main.tex\nwriter-critic + strategist-critic + Verifier (comprehensive)\n\n\n/review scripts/R/analysis.R\ncoder-critic standalone\n\n\n/review --peer\ndomain-referee + methods-referee (simulated peer review)\n\n\n/review --peer JHR\nSame, calibrated to JHR’s review culture\n\n\n/review --methods paper/main.tex\nstrategist-critic standalone\n\n\n/review --proofread paper/main.tex\nwriter-critic standalone\n\n\n/review --code scripts/R/\ncoder-critic standalone (code quality only)\n\n\n/review --replicate python\nRe-implement existing R code in Python, compare outputs\n\n\n/review --all\nAll critics in parallel + weighted aggregate score\n\n\n\n\n\n/review --peer [journal]\nDispatches the full peer review pipeline: Editor desk review, then two specialized blind referees.\n\nEditor does a desk review first — checks scope, minimum quality, and assigns referee dispositions\ndomain-referee: Expert in your paper’s subject literature. Checks contributions, positioning, missing citations, substantive arguments, external validity.\nmethods-referee: Expert in empirical methods. Checks identification strategy, estimation, inference, robustness, replication readiness.\n\nBoth referees are independent (neither sees the other’s report). Each referee gets a disposition (Structuralist, Credibility, Measurement, Policy, Theory, or Skeptic) and pet peeves (1 critical + 1 constructive) that shape their review personality. Every major comment includes a “what would change my mind” statement. The Editor synthesizes the editorial decision, classifying each issue as FATAL, ADDRESSABLE, or TASTE.\nR&R memory: Use --peer --r2 for round 2 reviews — referees remember their prior reports and check whether their concerns were addressed.\nStress test: Use --stress [journal] for maximum-severity review (max 3 rounds).\nJournal calibration: Add a journal name to calibrate both referees to that journal’s review culture. For example, /review --peer JHR makes the referees prioritize policy relevance and clean identification (what JHR referees actually care about). 30 journals are pre-populated in .claude/references/journal-profiles.md (economics and adjacent fields); you can add your own. Without a journal name, referees review as generic top-field reviewers.\nSee the full command reference for all flags and subcommands."
+  },
+  {
+    "objectID": "user-guide.html#revision-phase",
+    "href": "user-guide.html#revision-phase",
+    "title": "User Guide",
+    "section": "Revision Phase",
+    "text": "Revision Phase\n\n/revise [report]\nClassifies each referee comment and routes to the right agent:\n\n\n\n\n\n\n\n\nClass\nRouting\nAction\n\n\n\n\nNEW ANALYSIS\n→ Coder\nFlag for user, create analysis task\n\n\nCLARIFICATION\n→ Writer\nDraft revised text\n\n\nDISAGREE\n→ User\nDraft diplomatic pushback (flagged for review)\n\n\nMINOR\n→ Writer\nDraft fix directly\n\n\n\nProduces point-by-point response letter with diplomatic disagreement protocol."
+  },
+  {
+    "objectID": "user-guide.html#presentations",
+    "href": "user-guide.html#presentations",
+    "title": "User Guide",
+    "section": "Presentations",
+    "text": "Presentations\n\n/talk [format]\nDispatches the Storyteller (creator) and storyteller-critic (talk reviewer). Generates talks derived from your paper in 4 formats:\n\n\n\n\n\n\n\n\n\nFormat\nSlides\nDuration\nContent\n\n\n\n\nJob Market\n40–50\n45–60 min\nFull story, all results, mechanism, robustness\n\n\nSeminar\n25–35\n30–45 min\nMotivation, main result, 2 robustness checks\n\n\nShort\n10–15\n15 min\nQuestion, method, key result, implication\n\n\nLightning\n3–5\n5 min\nHook, result, so-what\n\n\n\nTalk scores are advisory (non-blocking).\nSubcommands: /talk create [format], /talk audit [file], /talk compile [file].\nBeamer (default): Outputs to paper/talks/. Use /talk create [format].\nQuarto RevealJS: Outputs to paper/quarto/. Use /talk create [format] --quarto for web-native slides with interactive features."
+  },
+  {
+    "objectID": "user-guide.html#submission-phase",
+    "href": "user-guide.html#submission-phase",
+    "title": "User Guide",
+    "section": "Submission Phase",
+    "text": "Submission Phase\n\n/submit --target\nJournal targeting. Produces ranked journal list using domain-profile tiers, formatting requirements, and submission strategy.\n\n\n/submit --package\nBuild replication package: AEA-format README, master script, numbered script order, deposit checklist.\n\n\n/submit --audit\nDispatches the Verifier in submission mode (all 10 checks):\n\nLaTeX compilation\nScript execution\nFile integrity\nOutput freshness\nPackage inventory\nDependency verification\nData provenance\nEnd-to-end execution\nOutput cross-reference\nREADME completeness (AEA format)\n\n\n\n/submit --final\nFinal submission gate. Requires aggregate score &gt;= 95 with all components &gt;= 80. Generates cover letter draft and submission checklist."
+  },
+  {
+    "objectID": "user-guide.html#utilities",
+    "href": "user-guide.html#utilities",
+    "title": "User Guide",
+    "section": "Utilities",
+    "text": "Utilities\n\n/tools [subcommand]\n\n\n\nSubcommand\nWhat It Does\n\n\n\n\n/tools commit [msg]\nStage, commit, PR, merge\n\n\n/tools compile [file]\n3-pass XeLaTeX + BibTeX\n\n\n/tools validate-bib\nCross-reference citations\n\n\n/tools journal\nResearch journal timeline\n\n\n/tools learn\nExtract session discoveries into persistent skills\n\n\n/tools deploy\nBuild and deploy to GitHub Pages"
+  },
+  {
+    "objectID": "user-guide.html#auto-memory",
+    "href": "user-guide.html#auto-memory",
+    "title": "User Guide",
+    "section": "Auto-Memory",
+    "text": "Auto-Memory\nClaude Code has a built-in memory system that automatically saves corrections and preferences across sessions. No manual tagging needed — when you correct Claude (“that’s UAB, not Emory”), it saves the correction and applies it in future conversations.\nMemory is stored in .claude/projects/.../memory/ and persists across sessions. You can also explicitly ask Claude to remember or forget something."
+  },
+  {
+    "objectID": "user-guide.html#skill-extraction-tools-learn",
+    "href": "user-guide.html#skill-extraction-tools-learn",
+    "title": "User Guide",
+    "section": "Skill Extraction: /tools learn",
+    "text": "Skill Extraction: /tools learn\nFor discoveries that deserve a reusable workflow (not just a one-liner correction), use /tools learn to create a full skill.\n\n\n\nSituation\nUse\n\n\n\n\nCorrection or preference\nAuto-memory (automatic)\n\n\nMulti-step workflow\n/tools learn to create full skill"
+  },
+  {
+    "objectID": "user-guide.html#domain-profile",
+    "href": "user-guide.html#domain-profile",
+    "title": "User Guide",
+    "section": "Domain Profile",
+    "text": "Domain Profile\nThe domain profile (.claude/references/domain-profile.md) calibrates all agents to your field. Agents read their discipline from this file; the default is economics if not specified. Fill it in manually or use /discover (interactive interview) to populate it:\n\nField & adjacent subfields — inferred from your topic\nTarget journals — ranked by tier\nCommon data sources — datasets typical for your area\nCommon identification strategies — designs used in your literature\nField conventions — estimation quirks, clustering norms\nSeminal references — papers every referee expects you to cite\nReferee concerns — the “gotcha” questions referees always ask"
+  },
+  {
+    "objectID": "user-guide.html#how-to-upgrade-2.x-3.0",
+    "href": "user-guide.html#how-to-upgrade-2.x-3.0",
+    "title": "User Guide",
+    "section": "How to Upgrade (2.x → 3.0)",
+    "text": "How to Upgrade (2.x → 3.0)\n\nDownload the latest release or clone clo-author 3.0 into a temporary folder\nDelete your old .claude/ directory\nCopy the new .claude/ into your project\nDone — your paper, scripts, data, CLAUDE.md, bibliography are all untouched\n\nThat’s it. No git merge, no upstream remote, no conflicts. The infrastructure is entirely inside .claude/; your research content lives in separate directories that clo-author never touches.\nOptional: also copy the new templates/ directory if you want updated templates.\nYour CLAUDE.md stays yours. You already customized it with your project name, institution, field, and folder paths. Don’t overwrite it — the 3.0 infrastructure reads whatever paths you have there."
+  },
+  {
+    "objectID": "user-guide.html#future-upgrades-3.x-4.0",
+    "href": "user-guide.html#future-upgrades-3.x-4.0",
+    "title": "User Guide",
+    "section": "Future Upgrades (3.x → 4.0+)",
+    "text": "Future Upgrades (3.x → 4.0+)\nOnce you’re on 3.0, run /tools upgrade for future versions. It automates the same process: replace .claude/, preserve your content, report what changed."
+  },
+  {
+    "objectID": "user-guide.html#what-changed-in-3.0",
+    "href": "user-guide.html#what-changed-in-3.0",
+    "title": "User Guide",
+    "section": "What Changed in 3.0",
+    "text": "What Changed in 3.0\n\n\n\n\n\n\n\n\nComponent\n2.x\n3.0\n\n\n\n\nScope\nEconomics only\nEconomics (adaptable to adjacent fields)\n\n\nPeer review\nScore averaging\nEditor + dispositions + desk reject\n\n\nJournal profiles\n15 (economics)\n35+ across 5 fields\n\n\nProfile location\n.claude/rules/\n.claude/references/ (on-demand)\n\n\nFolder structure\nPaper/, Figures/, Tables/, Talks/\npaper/ (self-contained), scripts/\n\n\nPresentations\nBeamer only\nBeamer + Quarto RevealJS\n\n\nMemory\n[LEARN] tags\nAuto-memory (built-in)\n\n\nContext overhead\n~3,500 lines/session\n~1,000 lines/session\n\n\nAgent prompts\nEconomics-specific\nField-neutral (read from domain profile)\n\n\n\nKey principle: The upgrade adapts to your project. It never renames folders with content or overwrites filled-in profiles."
+  },
+  {
+    "objectID": "user-guide.html#sec-create-skills",
+    "href": "user-guide.html#sec-create-skills",
+    "title": "User Guide",
+    "section": "Creating Custom Skills",
+    "text": "Creating Custom Skills\nCreate a skill when you repeatedly explain the same 3+ step workflow to Claude. Each skill lives in .claude/skills/[name]/SKILL.md:\n---\nname: your-skill-name\ndescription: [What it does] + [When to use] + [Key capabilities]\nargument-hint: \"[brief hint for user]\"\nallowed-tools: [\"Read\", \"Write\", \"Edit\", \"Bash\", \"Task\"]\n---\nQuick start: Copy templates/skill-template.md to .claude/skills/your-skill-name/SKILL.md and customize.\n\nSee the full command reference in the Customization Guide."
+  },
+  {
+    "objectID": "reference.html",
+    "href": "reference.html",
+    "title": "Command Reference",
+    "section": "",
+    "text": "Quick Lookup\n\n\n\n\n\n\n\n\nCommand\nFlags / Modes\nWhat It Does\n\n\n\n\n/new-project [topic]\n—\nFull orchestrated pipeline: idea to paper\n\n\n/discover\n--lit, --data, --ideate\nDiscovery phase: interview, literature, data\n\n\n/strategize\n--pap\nEmpirical strategy (4 paper types) or pre-analysis plan\n\n\n/analyze [dataset]\n--dual [langs]\nEnd-to-end data analysis (single or parallel language)\n\n\n/write [section]\n--humanize\nDraft sections (argument moves, 4 paper types) or strip AI patterns\n\n\n/review [file]\n--peer [journal], --peer --r2, --stress [journal], --methods, --proofread, --code, --replicate [lang], --all\nQuality reviews (routes by target + flags)\n\n\n/revise [report]\n—\nR&R cycle: classify + route referee comments\n\n\n/talk\ncreate, audit, compile\nBeamer presentations\n\n\n/submit\n--target, --package, --audit, --final\nSubmission pipeline\n\n\n/tools\ncommit, compile, validate-bib, journal, context, deploy, learn\nUtilities\n\n\n\n\n\n\n/new-project\n/new-project [topic]\nLaunches the full orchestrated pipeline. Claude conducts a research interview, builds a spec, then runs Discovery → Strategy → Execution → Peer Review → Submission autonomously.\nAgents: All (orchestrator-managed) Output: Complete project scaffold + research spec + domain profile\n\n\n\n/discover\n/discover                       Interactive research interview (default)\n/discover --lit [topic]         Literature review\n/discover --data [question]     Data source discovery\n/discover --ideate [topic]      Research question generation\n\n\n\n\n\n\n\n\nMode\nAgents\nOutput\n\n\n\n\n(default)\nDirect conversation\nResearch spec + domain profile\n\n\n--lit\nLibrarian → librarian-critic\nAnnotated bibliography + BibTeX + frontier map\n\n\n--data\nExplorer → explorer-critic\nRanked data sources with feasibility grades (A/B/C/D)\n\n\n--ideate\nDirect generation\n3–5 research questions with strategies\n\n\n\nSaves to: quality_reports/\n\n\n\n/strategize\n/strategize [question]          Design identification strategy\n/strategize --pap [spec]        Draft pre-analysis plan (AEA/OSF/EGAP format)\n\n\n\n\n\n\n\n\nMode\nAgents\nOutput\n\n\n\n\n(default)\nStrategist → strategist-critic\nStrategy memo (paper-type aware) + robustness plan + falsification tests\n\n\n--pap\nStrategist (PAP mode)\nPre-analysis plan in AEA/OSF/EGAP format (primarily experimental/RCT)\n\n\n\nSaves to: quality_reports/strategy_memo_[topic].md\n\n\n\n/analyze\n/analyze [dataset path or goal]\n/analyze --dual r,python        Parallel analysis in two languages\n/analyze --dual r,stata         Same, with Stata as second language\nEnd-to-end analysis: data cleaning → main specification → robustness → publication tables and figures. Reads the strategy memo (if it exists) and implements it faithfully.\n\n\n\n\n\n\n\n\nMode\nAgents\nOutput\n\n\n\n\n(default)\nData-engineer + Coder → coder-critic\nScripts, tables, figures in one language\n\n\n--dual [langs]\nData-engineer + 2 Coders in parallel → 2 coder-critics + comparison\nSame outputs in both languages + convergence report\n\n\n\nLanguages: R, Stata, Python, Julia Saves to: scripts/, paper/tables/, paper/figures/, Output/cross_language_comparison.md\nCross-language replication: When --dual is used, both implementations run the same specification independently. Results are compared against tolerances in domain-profile.md. Divergences are flagged. Inspired by Scott Cunningham’s approach: if two independent implementations agree, neither has a bug.\n\n\n\n/write\n/write intro                    Introduction (paper-type-specific moves)\n/write strategy                 Empirical strategy / Model (design-specific)\n/write results                  Results (narration by output type)\n/write conclusion               Conclusion (type-specific ending)\n/write data                     Data section (expanded for descriptive papers)\n/write model                    Model section (structural / theory+empirics only)\n/write abstract                 Abstract (100-150 words)\n/write full                     All sections\n/write --humanize [file]        Strip AI writing patterns only\n\n\n\n\n\n\n\n\nMode\nAgent\nOutput\n\n\n\n\n[section]\nWriter\nLaTeX section in paper/sections/\n\n\n--humanize\nWriter (cleanup mode)\nEdited file with 24 AI patterns stripped\n\n\n\nThe Writer first identifies the paper type (reduced-form, structural, theory+empirics, descriptive), then drafts using paragraph-level argument moves with type-specific section templates. Cleanup pass runs automatically after drafting.\n\n\n\n/review\n/review paper/main.tex          Comprehensive (auto-detect paper)\n/review scripts/R/analysis.R    Code review (auto-detect script)\n/review --peer                  Blind peer review (generic)\n/review --peer JHR              Blind peer review (calibrated to JHR)\n/review --peer --r2             R&R round 2 (referees remember prior reports)\n/review --stress JHR            Maximum-severity stress test (max 3 rounds)\n/review --methods [file]        Causal audit only\n/review --proofread [file]      Manuscript polish only\n/review --code [file]           Code quality only\n/review --replicate python      Re-implement in another language, compare\n/review --all                   All critics in parallel + weighted score\n\n\n\n\n\n\n\n\nFlag\nAgents\nWhat It Checks\n\n\n\n\n(auto .tex)\nwriter-critic + strategist-critic + Verifier\nWriting + identification + compilation\n\n\n(auto .R/.py)\ncoder-critic\nCode quality and reproducibility\n\n\n--peer\nEditor + domain-referee + methods-referee\nEditor desk review → referee assignment with dispositions → blind reports → editorial decision\n\n\n--peer [journal]\nEditor + domain-referee + methods-referee\nSame, calibrated to that journal’s review culture\n\n\n--peer --r2\nEditor + domain-referee + methods-referee\nR&R round 2 — referees remember prior reports\n\n\n--stress [journal]\nEditor + domain-referee + methods-referee\nMaximum-severity stress test (max 3 rounds)\n\n\n--methods\nstrategist-critic\n4-phase causal design review\n\n\n--proofread\nwriter-critic\nNotation, hedging, LaTeX, claims vs evidence\n\n\n--code\ncoder-critic\nCode quality (no strategy comparison)\n\n\n--replicate [lang]\nCoder (replication) + coder-critic\nRe-implement in target language, compare outputs\n\n\n--all\nAll critics in parallel\nWeighted aggregate score\n\n\n\nReferee dispositions: Each referee is assigned one of 6 dispositions (Structuralist, Credibility, Measurement, Policy, Theory, Skeptic) plus pet peeves (1 critical + 1 constructive). Every major comment includes “what would change my mind.”\nEditorial decision: The Editor classifies each issue as FATAL (rejection-worthy), ADDRESSABLE (fixable in revision), or TASTE (referee preference, not binding).\nJournal calibration: When a journal name is provided with --peer, the Editor and both referees read .claude/references/journal-profiles.md and adapt their priorities, bar, and checklist to that journal. 30 journals are pre-populated (economics and adjacent fields); unknown journals still get adapted review using the journal name + your domain profile. You can add custom profiles.\nSaves to: quality_reports/\n\n\n\n/revise\n/revise [referee-report-path]\nFor real R&R responses (not the simulated /review --peer). Give it your actual referee report and Claude classifies each comment, then routes to the right agent:\n\n\n\n\n\n\n\n\nClassification\nRouted To\nAction\n\n\n\n\nNEW ANALYSIS\nCoder agent\nFlag for user, create analysis task\n\n\nCLARIFICATION\nWriter agent\nDraft revised text\n\n\nREWRITE\nWriter agent\nStructural revision\n\n\nDISAGREE\nYou (the user)\nDraft diplomatic pushback (flagged for your review)\n\n\nMINOR\nWriter agent\nFix directly\n\n\n\nOutput: Point-by-point response letter + revised sections + tracking document Saves to: quality_reports/referee_response_[journal]_[date].tex\n\n\n\n/talk\n/talk create job-market          Full talk (45-60 min, 40-50 slides)\n/talk create seminar             Standard seminar (30-45 min, 25-35 slides)\n/talk create short               Conference session (15 min, 10-15 slides)\n/talk create lightning           Elevator pitch (5 min, 3-5 slides)\n/talk create [format] --quarto   Quarto RevealJS version (output to paper/quarto/)\n/talk audit [file]               Visual layout check\n/talk compile [file]             XeLaTeX or Quarto compilation\n\n\n\n\n\n\n\n\nMode\nAgents\nOutput\n\n\n\n\ncreate\nStoryteller → storyteller-critic\nBeamer .tex in paper/talks/\n\n\ncreate --quarto\nStoryteller → storyteller-critic\nQuarto .qmd in paper/quarto/\n\n\naudit\nVisual checks\nLayout issues report\n\n\ncompile\nXeLaTeX or Quarto\nCompiled PDF or HTML\n\n\n\nTalk scores are advisory (non-blocking).\n\n\n\n/submit\n/submit --target                 Journal recommendations\n/submit --package                Build AEA replication package\n/submit --audit                  Audit replication package (10 checks)\n/submit --final [journal]        Final gate: score &gt;= 95, all components &gt;= 80\n\n\n\n\n\n\n\n\nMode\nAgents\nOutput\n\n\n\n\n--target\nOrchestrator\nRanked list of 3 journals with rationale\n\n\n--package\nCoder + Verifier\nMaster script + README + data docs in Replication/\n\n\n--audit\nVerifier (10 checks)\nPass/fail replication audit\n\n\n--final\nAll + gate enforcement\nCover letter draft + submission checklist (or blocking issues)\n\n\n\n\n\n\n/tools\n/tools commit [message]          Stage + commit (+ optional PR)\n/tools compile [file]            3-pass XeLaTeX + BibTeX\n/tools validate-bib              Cross-reference all \\cite{} keys\n/tools journal                   Research journal timeline\n/tools context                   Context status + session health\n/tools deploy                    Render guide + push to GitHub Pages\n/tools learn                     Extract session discoveries to MEMORY.md\nEach subcommand is lightweight — no multi-agent orchestration."
+  },
+  {
+    "objectID": "customization.html",
+    "href": "customization.html",
+    "title": "Customization Guide",
+    "section": "",
+    "text": "The Clo-Author works out of the box, but it’s designed to be customized. Six configuration layers control how Claude behaves in your project — from the high-level project constitution to low-level event hooks.\n\n\n\n\n\n\n\n\nLayer\nLocation\nLoaded When\n\n\n\n\nCLAUDE.md\nProject root\nEvery session\n\n\nRules\n.claude/rules/\nAlways-on or path-scoped\n\n\nReferences\n.claude/references/\nOn demand (agents read when needed)\n\n\nSkills\n.claude/skills/\nOn demand (slash commands)\n\n\nAgents\n.claude/agents/\nOn demand (via skills or orchestrator)\n\n\nHooks\n.claude/settings.json\nOn events (automatic)\n\n\n\nClaude reliably follows about 100–150 custom instructions. Your system prompt uses ~50, leaving ~100 for your project. CLAUDE.md and always-on rules share this budget. Path-scoped rules, references, skills, and agents load on demand — they don’t count against the limit."
+  },
+  {
+    "objectID": "customization.html#journal-profiles",
+    "href": "customization.html#journal-profiles",
+    "title": "Customization Guide",
+    "section": "Journal Profiles",
+    "text": "Journal Profiles\nThe journal profiles (.claude/references/journal-profiles.md) calibrate the Editor, domain-referee, and methods-referee to a specific journal’s review culture when you run /review --peer [journal].\n30 journals are pre-populated across multiple fields:\n\nEconomics: AER, Econometrica, JPE, QJE, REStud, AEJ:Applied, AEJ:Policy, JHR, JHE, RAND, JPubE, JLE, JDE, RESTAT, AER:Insights\nFinance: JF, JFE, RFS, JFQA\nAccounting: JAR, JAE, TAR, CAR\nMarketing: JMR, Marketing Science, JCR\nManagement: Management Science, SMJ, ASQ\n\nEach profile describes the journal’s bar, what its referees prioritize, and typical concerns — in plain language that the LLM interprets naturally.\nFor journals not in the list, referees still adapt using the journal name + your domain profile. You can add your own profiles using the template at the bottom of the file."
+  },
+  {
+    "objectID": "customization.html#design-principles",
+    "href": "customization.html#design-principles",
+    "title": "Customization Guide",
+    "section": "Design Principles",
+    "text": "Design Principles\n\nUse command-based hooks for fast, mechanical checks\nUse rules for nuanced judgment\nAvoid prompt-based hooks that trigger LLM calls on every response"
+  },
+  {
+    "objectID": "customization.html#all-4-hooks",
+    "href": "customization.html#all-4-hooks",
+    "title": "Customization Guide",
+    "section": "All 4 Hooks",
+    "text": "All 4 Hooks\n\n\n\n\n\n\n\n\nHook\nEvent\nWhat It Does\n\n\n\n\nFile protection\nPreToolUse\nBlocks edits to bibliography and settings\n\n\nContext state capture\nPreCompact\nSaves plan state + context survival checklist\n\n\nContext restoration\nSessionStart[compact\\|resume]\nRestores context after compaction\n\n\nPost-merge reminder\nGit post-merge\nReminds to run /tools learn after merges"
   },
   {
     "objectID": "agents.html",
@@ -280,150 +343,150 @@
     "text": "storyteller-critic\nReviews the talk for narrative flow (does the argument build?), visual quality (readable slides, not text walls), content fidelity (does the talk match the paper?), and format appropriateness (is a 15-min talk actually 15 minutes?). Scored as advisory — talks don’t block the pipeline.\n\n\n\n\n\n\nWarningHonest Take: Talks\n\n\n\nThe Storyteller produces slide decks that follow a reasonable narrative arc and derive content from the paper. It is better at structure (what goes on which slide, how to sequence the argument) than at visual design (it tends toward text-heavy slides). Expect to cut content and add whitespace. It has no sense of what will look good projected — it optimizes for completeness, which is the opposite of what makes a good talk."
   },
   {
-    "objectID": "customization.html",
-    "href": "customization.html",
-    "title": "Customization Guide",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "The Clo-Author 3.0",
     "section": "",
-    "text": "The Clo-Author works out of the box, but it’s designed to be customized. Six configuration layers control how Claude behaves in your project — from the high-level project constitution to low-level event hooks.\n\n\n\n\n\n\n\n\nLayer\nLocation\nLoaded When\n\n\n\n\nCLAUDE.md\nProject root\nEvery session\n\n\nRules\n.claude/rules/\nAlways-on or path-scoped\n\n\nReferences\n.claude/references/\nOn demand (agents read when needed)\n\n\nSkills\n.claude/skills/\nOn demand (slash commands)\n\n\nAgents\n.claude/agents/\nOn demand (via skills or orchestrator)\n\n\nHooks\n.claude/settings.json\nOn events (automatic)\n\n\n\nClaude reliably follows about 100–150 custom instructions. Your system prompt uses ~50, leaving ~100 for your project. CLAUDE.md and always-on rules share this budget. Path-scoped rules, references, skills, and agents load on demand — they don’t count against the limit."
+    "text": "An open-source Claude Code scaffold for empirical economics research — from literature review to journal submission. Can be adapted to adjacent fields (finance, accounting, marketing, management) by customizing the domain profile and journal profiles.\nBuilt on Pedro Sant’Anna’s claude-code-my-workflow, reoriented for empirical research publication.\nYou describe a task in plain English. Claude plans the approach (you approve), dispatches specialized agents, reviews quality, fixes issues, and presents results — 17 agents, 10 commands, all running behind the scenes. You review the output at each stage."
   },
   {
-    "objectID": "customization.html#journal-profiles",
-    "href": "customization.html#journal-profiles",
-    "title": "Customization Guide",
-    "section": "Journal Profiles",
-    "text": "Journal Profiles\nThe journal profiles (.claude/references/journal-profiles.md) calibrate the Editor, domain-referee, and methods-referee to a specific journal’s review culture when you run /review --peer [journal].\n30 journals are pre-populated across multiple fields:\n\nEconomics: AER, Econometrica, JPE, QJE, REStud, AEJ:Applied, AEJ:Policy, JHR, JHE, RAND, JPubE, JLE, JDE, RESTAT, AER:Insights\nFinance: JF, JFE, RFS, JFQA\nAccounting: JAR, JAE, TAR, CAR\nMarketing: JMR, Marketing Science, JCR\nManagement: Management Science, SMJ, ASQ\n\nEach profile describes the journal’s bar, what its referees prioritize, and typical concerns — in plain language that the LLM interprets naturally.\nFor journals not in the list, referees still adapt using the journal name + your domain profile. You can add your own profiles using the template at the bottom of the file."
+    "objectID": "index.html#get-started-in-5-minutes",
+    "href": "index.html#get-started-in-5-minutes",
+    "title": "The Clo-Author 3.0",
+    "section": "Get Started in 5 Minutes",
+    "text": "Get Started in 5 Minutes\n\nStep 1: Fork & Clone\ngh repo fork hugosantanna/clo-author --clone\ncd clo-author\n\n\nStep 2: Start Claude Code\nclaude\nUsing VS Code? Open the Claude Code panel instead. Everything works the same.\n\n\nStep 3: Paste the Starter Prompt\nFill in the bolded placeholders with your project details:\n\nI am starting a new empirical research project in [YOUR FIELD] on [YOUR TOPIC]. Read CLAUDE.md and help me set up the project structure. Start with /discover --lit [YOUR TOPIC].\n\nClaude reads the configuration, fills in your project details, and enters contractor mode — planning, implementing, reviewing, and verifying autonomously.\n\n\nStep 4: Start Working\nOnce setup is done, just describe what you need:\n\n“Review my paper” — checks your identification strategy, code, writing, and LaTeX in parallel\n/review --methods paper/main.tex — validates your causal design assumptions, clustering, and inference\n/analyze Data/cleaned/survey.csv — cleans data, runs your specification, produces tables and figures\n/new-project health insurance — walks you through the full pipeline from literature review to submission"
   },
   {
-    "objectID": "customization.html#design-principles",
-    "href": "customization.html#design-principles",
-    "title": "Customization Guide",
-    "section": "Design Principles",
-    "text": "Design Principles\n\nUse command-based hooks for fast, mechanical checks\nUse rules for nuanced judgment\nAvoid prompt-based hooks that trigger LLM calls on every response"
+    "objectID": "index.html#what-happens-behind-the-scenes",
+    "href": "index.html#what-happens-behind-the-scenes",
+    "title": "The Clo-Author 3.0",
+    "section": "What Happens Behind the Scenes",
+    "text": "What Happens Behind the Scenes\nYou talk, Claude orchestrates. The 17 agents work in worker-critic pairs — every creator has a paired critic who can’t edit files, only review. An Editor does desk review before dispatching two specialized referees (domain + methods) who simulate real journal peer review with dispositions and pet peeves. The orchestrator dispatches agents based on a dependency graph, enforces quality gates (80/90/95), and routes escalations when critics and creators can’t agree after 3 rounds.\nFor the full picture: User Guide (what you can do), Meet the Agents (who does the work), Architecture (how the system works), Customization (how to make it yours), and Command Reference (every flag and subcommand)."
   },
   {
-    "objectID": "customization.html#all-4-hooks",
-    "href": "customization.html#all-4-hooks",
-    "title": "Customization Guide",
-    "section": "All 4 Hooks",
-    "text": "All 4 Hooks\n\n\n\n\n\n\n\n\nHook\nEvent\nWhat It Does\n\n\n\n\nFile protection\nPreToolUse\nBlocks edits to bibliography and settings\n\n\nContext state capture\nPreCompact\nSaves plan state + context survival checklist\n\n\nContext restoration\nSessionStart[compact\\|resume]\nRestores context after compaction\n\n\nPost-merge reminder\nGit post-merge\nReminds to run /tools learn after merges"
+    "objectID": "index.html#day-1-checklist",
+    "href": "index.html#day-1-checklist",
+    "title": "The Clo-Author 3.0",
+    "section": "Day 1 Checklist",
+    "text": "Day 1 Checklist\n\nFork the repo and clone it locally\nRun claude in the project directory\nPaste the starter prompt (fill in your project details)\nWait for Claude to customize CLAUDE.md for your project\nApprove the configuration plan\nAsk Claude to do something: “Review my paper” or /discover --lit [topic]\nApprove the task plan, watch it work, review the output\n\nThat’s it. Everything else — agents, hooks, rules — runs automatically in the background.\n\n\n\n\n\n\nNoteOptional: Manual Setup\n\n\n\n\n\nIf you prefer to configure things yourself instead of letting Claude handle it:\nCustomize CLAUDE.md — Open CLAUDE.md and replace all [BRACKETED PLACEHOLDERS]:\n\nProject name and institution\nFolder structure (adjust to your layout)\nCurrent project state (your papers and analyses)\n\nFill in the domain profile — Run /discover (interactive interview) or manually edit .claude/references/domain-profile.md:\n\nYour field and adjacent subfields\nTarget journals ranked by tier\nCommon data sources and identification strategies\nField conventions and seminal references\n\nConfigure permissions — Review .claude/settings.json. The template includes permissions for git, LaTeX, R, and utility scripts.\nTest it:\n/tools compile paper/main.tex\n/review --proofread paper/main.tex"
   },
   {
-    "objectID": "reference.html",
-    "href": "reference.html",
-    "title": "Command Reference",
+    "objectID": "index.html#prerequisites",
+    "href": "index.html#prerequisites",
+    "title": "The Clo-Author 3.0",
+    "section": "Prerequisites",
+    "text": "Prerequisites\n\n\n\nTool\nRequired For\nInstall\n\n\n\n\nClaude Code\nEverything\nnpm install -g @anthropic-ai/claude-code\n\n\nXeLaTeX\nPaper compilation\nTeX Live or MacTeX\n\n\nR\nAnalysis & figures\nr-project.org\n\n\ngh CLI\nGitHub integration\nbrew install gh (macOS)\n\n\n\nOptional: Stata, Python, Julia (multi-language analysis), Quarto (web slides)."
+  },
+  {
+    "objectID": "index.html#origin",
+    "href": "index.html#origin",
+    "title": "The Clo-Author 3.0",
+    "section": "Origin",
+    "text": "Origin\nThis project is a fork of Pedro Sant’Anna’s claude-code-my-workflow, which was built for Econ 730 at Emory University (6 lectures, 800+ slides). The Clo-Author reorients that infrastructure from lecture production to empirical economics research.\nThe /humanizer skill is by Siqi Chen, adapted here for academic writing.\nMaintained by Hugo Sant’Anna. MIT License — fork it, customize it, make it yours."
+  },
+  {
+    "objectID": "architecture.html",
+    "href": "architecture.html",
+    "title": "Architecture Reference",
     "section": "",
-    "text": "Quick Lookup\n\n\n\n\n\n\n\n\nCommand\nFlags / Modes\nWhat It Does\n\n\n\n\n/new-project [topic]\n—\nFull orchestrated pipeline: idea to paper\n\n\n/discover\n--lit, --data, --ideate\nDiscovery phase: interview, literature, data\n\n\n/strategize\n--pap\nEmpirical strategy (4 paper types) or pre-analysis plan\n\n\n/analyze [dataset]\n--dual [langs]\nEnd-to-end data analysis (single or parallel language)\n\n\n/write [section]\n--humanize\nDraft sections (argument moves, 4 paper types) or strip AI patterns\n\n\n/review [file]\n--peer [journal], --peer --r2, --stress [journal], --methods, --proofread, --code, --replicate [lang], --all\nQuality reviews (routes by target + flags)\n\n\n/revise [report]\n—\nR&R cycle: classify + route referee comments\n\n\n/talk\ncreate, audit, compile\nBeamer presentations\n\n\n/submit\n--target, --package, --audit, --final\nSubmission pipeline\n\n\n/tools\ncommit, compile, validate-bib, journal, context, deploy, learn\nUtilities\n\n\n\n\n\n\n/new-project\n/new-project [topic]\nLaunches the full orchestrated pipeline. Claude conducts a research interview, builds a spec, then runs Discovery → Strategy → Execution → Peer Review → Submission autonomously.\nAgents: All (orchestrator-managed) Output: Complete project scaffold + research spec + domain profile\n\n\n\n/discover\n/discover                       Interactive research interview (default)\n/discover --lit [topic]         Literature review\n/discover --data [question]     Data source discovery\n/discover --ideate [topic]      Research question generation\n\n\n\n\n\n\n\n\nMode\nAgents\nOutput\n\n\n\n\n(default)\nDirect conversation\nResearch spec + domain profile\n\n\n--lit\nLibrarian → librarian-critic\nAnnotated bibliography + BibTeX + frontier map\n\n\n--data\nExplorer → explorer-critic\nRanked data sources with feasibility grades (A/B/C/D)\n\n\n--ideate\nDirect generation\n3–5 research questions with strategies\n\n\n\nSaves to: quality_reports/\n\n\n\n/strategize\n/strategize [question]          Design identification strategy\n/strategize --pap [spec]        Draft pre-analysis plan (AEA/OSF/EGAP format)\n\n\n\n\n\n\n\n\nMode\nAgents\nOutput\n\n\n\n\n(default)\nStrategist → strategist-critic\nStrategy memo (paper-type aware) + robustness plan + falsification tests\n\n\n--pap\nStrategist (PAP mode)\nPre-analysis plan in AEA/OSF/EGAP format (primarily experimental/RCT)\n\n\n\nSaves to: quality_reports/strategy_memo_[topic].md\n\n\n\n/analyze\n/analyze [dataset path or goal]\n/analyze --dual r,python        Parallel analysis in two languages\n/analyze --dual r,stata         Same, with Stata as second language\nEnd-to-end analysis: data cleaning → main specification → robustness → publication tables and figures. Reads the strategy memo (if it exists) and implements it faithfully.\n\n\n\n\n\n\n\n\nMode\nAgents\nOutput\n\n\n\n\n(default)\nData-engineer + Coder → coder-critic\nScripts, tables, figures in one language\n\n\n--dual [langs]\nData-engineer + 2 Coders in parallel → 2 coder-critics + comparison\nSame outputs in both languages + convergence report\n\n\n\nLanguages: R, Stata, Python, Julia Saves to: scripts/, paper/tables/, paper/figures/, Output/cross_language_comparison.md\nCross-language replication: When --dual is used, both implementations run the same specification independently. Results are compared against tolerances in domain-profile.md. Divergences are flagged. Inspired by Scott Cunningham’s approach: if two independent implementations agree, neither has a bug.\n\n\n\n/write\n/write intro                    Introduction (paper-type-specific moves)\n/write strategy                 Empirical strategy / Model (design-specific)\n/write results                  Results (narration by output type)\n/write conclusion               Conclusion (type-specific ending)\n/write data                     Data section (expanded for descriptive papers)\n/write model                    Model section (structural / theory+empirics only)\n/write abstract                 Abstract (100-150 words)\n/write full                     All sections\n/write --humanize [file]        Strip AI writing patterns only\n\n\n\n\n\n\n\n\nMode\nAgent\nOutput\n\n\n\n\n[section]\nWriter\nLaTeX section in paper/sections/\n\n\n--humanize\nWriter (cleanup mode)\nEdited file with 24 AI patterns stripped\n\n\n\nThe Writer first identifies the paper type (reduced-form, structural, theory+empirics, descriptive), then drafts using paragraph-level argument moves with type-specific section templates. Cleanup pass runs automatically after drafting.\n\n\n\n/review\n/review paper/main.tex          Comprehensive (auto-detect paper)\n/review scripts/R/analysis.R    Code review (auto-detect script)\n/review --peer                  Blind peer review (generic)\n/review --peer JHR              Blind peer review (calibrated to JHR)\n/review --peer --r2             R&R round 2 (referees remember prior reports)\n/review --stress JHR            Maximum-severity stress test (max 3 rounds)\n/review --methods [file]        Causal audit only\n/review --proofread [file]      Manuscript polish only\n/review --code [file]           Code quality only\n/review --replicate python      Re-implement in another language, compare\n/review --all                   All critics in parallel + weighted score\n\n\n\n\n\n\n\n\nFlag\nAgents\nWhat It Checks\n\n\n\n\n(auto .tex)\nwriter-critic + strategist-critic + Verifier\nWriting + identification + compilation\n\n\n(auto .R/.py)\ncoder-critic\nCode quality and reproducibility\n\n\n--peer\nEditor + domain-referee + methods-referee\nEditor desk review → referee assignment with dispositions → blind reports → editorial decision\n\n\n--peer [journal]\nEditor + domain-referee + methods-referee\nSame, calibrated to that journal’s review culture\n\n\n--peer --r2\nEditor + domain-referee + methods-referee\nR&R round 2 — referees remember prior reports\n\n\n--stress [journal]\nEditor + domain-referee + methods-referee\nMaximum-severity stress test (max 3 rounds)\n\n\n--methods\nstrategist-critic\n4-phase causal design review\n\n\n--proofread\nwriter-critic\nNotation, hedging, LaTeX, claims vs evidence\n\n\n--code\ncoder-critic\nCode quality (no strategy comparison)\n\n\n--replicate [lang]\nCoder (replication) + coder-critic\nRe-implement in target language, compare outputs\n\n\n--all\nAll critics in parallel\nWeighted aggregate score\n\n\n\nReferee dispositions: Each referee is assigned one of 6 dispositions (Structuralist, Credibility, Measurement, Policy, Theory, Skeptic) plus pet peeves (1 critical + 1 constructive). Every major comment includes “what would change my mind.”\nEditorial decision: The Editor classifies each issue as FATAL (rejection-worthy), ADDRESSABLE (fixable in revision), or TASTE (referee preference, not binding).\nJournal calibration: When a journal name is provided with --peer, the Editor and both referees read .claude/references/journal-profiles.md and adapt their priorities, bar, and checklist to that journal. 30 journals are pre-populated (economics and adjacent fields); unknown journals still get adapted review using the journal name + your domain profile. You can add custom profiles.\nSaves to: quality_reports/\n\n\n\n/revise\n/revise [referee-report-path]\nFor real R&R responses (not the simulated /review --peer). Give it your actual referee report and Claude classifies each comment, then routes to the right agent:\n\n\n\n\n\n\n\n\nClassification\nRouted To\nAction\n\n\n\n\nNEW ANALYSIS\nCoder agent\nFlag for user, create analysis task\n\n\nCLARIFICATION\nWriter agent\nDraft revised text\n\n\nREWRITE\nWriter agent\nStructural revision\n\n\nDISAGREE\nYou (the user)\nDraft diplomatic pushback (flagged for your review)\n\n\nMINOR\nWriter agent\nFix directly\n\n\n\nOutput: Point-by-point response letter + revised sections + tracking document Saves to: quality_reports/referee_response_[journal]_[date].tex\n\n\n\n/talk\n/talk create job-market          Full talk (45-60 min, 40-50 slides)\n/talk create seminar             Standard seminar (30-45 min, 25-35 slides)\n/talk create short               Conference session (15 min, 10-15 slides)\n/talk create lightning           Elevator pitch (5 min, 3-5 slides)\n/talk create [format] --quarto   Quarto RevealJS version (output to paper/quarto/)\n/talk audit [file]               Visual layout check\n/talk compile [file]             XeLaTeX or Quarto compilation\n\n\n\n\n\n\n\n\nMode\nAgents\nOutput\n\n\n\n\ncreate\nStoryteller → storyteller-critic\nBeamer .tex in paper/talks/\n\n\ncreate --quarto\nStoryteller → storyteller-critic\nQuarto .qmd in paper/quarto/\n\n\naudit\nVisual checks\nLayout issues report\n\n\ncompile\nXeLaTeX or Quarto\nCompiled PDF or HTML\n\n\n\nTalk scores are advisory (non-blocking).\n\n\n\n/submit\n/submit --target                 Journal recommendations\n/submit --package                Build AEA replication package\n/submit --audit                  Audit replication package (10 checks)\n/submit --final [journal]        Final gate: score &gt;= 95, all components &gt;= 80\n\n\n\n\n\n\n\n\nMode\nAgents\nOutput\n\n\n\n\n--target\nOrchestrator\nRanked list of 3 journals with rationale\n\n\n--package\nCoder + Verifier\nMaster script + README + data docs in Replication/\n\n\n--audit\nVerifier (10 checks)\nPass/fail replication audit\n\n\n--final\nAll + gate enforcement\nCover letter draft + submission checklist (or blocking issues)\n\n\n\n\n\n\n/tools\n/tools commit [message]          Stage + commit (+ optional PR)\n/tools compile [file]            3-pass XeLaTeX + BibTeX\n/tools validate-bib              Cross-reference all \\cite{} keys\n/tools journal                   Research journal timeline\n/tools context                   Context status + session health\n/tools deploy                    Render guide + push to GitHub Pages\n/tools learn                     Extract session discoveries to MEMORY.md\nEach subcommand is lightweight — no multi-agent orchestration."
+    "text": "Claude Code’s power comes from six configuration layers that work together. For details on each layer, see the Customization Guide.\n\n\n\n\n\n\n\n\nLayer\nLocation\nLoaded When\n\n\n\n\nCLAUDE.md\nProject root\nEvery session\n\n\nRules\n.claude/rules/\nAlways-on or path-scoped\n\n\nReferences\n.claude/references/\nOn demand (agents read when needed)\n\n\nSkills\n.claude/skills/\nOn demand (slash commands)\n\n\nAgents\n.claude/agents/\nOn demand (via skills or orchestrator)\n\n\nHooks\n.claude/settings.json\nOn events (automatic)\n\n\n\nClaude reliably follows about 100–150 custom instructions. Your system prompt uses ~50, leaving ~100 for your project. CLAUDE.md and always-on rules share this budget. Path-scoped rules, references, skills, and agents load on demand — they don’t count against the limit."
   },
   {
-    "objectID": "user-guide.html",
-    "href": "user-guide.html",
-    "title": "User Guide",
-    "section": "",
-    "text": "You describe what you want in plain English. Claude handles the rest.\n\n\n\nYou Do\nHappens Automatically\n\n\n\n\nDescribe what you want\nClaude selects and runs the right skills\n\n\nApprove plans\nOrchestrator coordinates agents via dependency graph\n\n\nReview final output\nWorker-critic pairs ensure quality\n\n\nSay “commit” when ready\nQuality gates enforce score thresholds\n\n\n\nFor complex or ambiguous tasks, Claude may ask 3–5 clarifying questions to create a requirements specification before planning. Each requirement is tagged MUST/SHOULD/MAY, and each aspect is marked CLEAR/ASSUMED/BLOCKED."
+    "objectID": "architecture.html#the-pipeline",
+    "href": "architecture.html#the-pipeline",
+    "title": "Architecture Reference",
+    "section": "The Pipeline",
+    "text": "The Pipeline\n\n\n\n\n\n%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#1a1a36', 'primaryTextColor': '#00f0ff', 'primaryBorderColor': '#00f0ff', 'lineColor': '#b44dff', 'secondaryColor': '#14142a', 'tertiaryColor': '#080810', 'edgeLabelBackground': '#080810', 'clusterBkg': '#0c0c18', 'clusterBorder': '#1e1e35'}}}%%\nflowchart LR\n    YOU:::start --&gt; D:::phase1\n    D --&gt; S:::phase2\n    S --&gt; E:::phase3\n    E --&gt; R:::phase4\n    R --&gt;|score &gt;= 95| SUB:::phase5\n    R -.-&gt;|missing lit| D\n    R -.-&gt;|flawed ID| S\n    R -.-&gt;|more checks| E\n    E -.-&gt;|parallel| T:::talks\n\n    YOU((You))\n    D(Discovery)\n    S(Strategy)\n    E(Execution)\n    R(Peer Review)\n    SUB(Submission)\n    T(Talks)\n\n    classDef start fill:#080810,stroke:#ff2d7b,color:#ff2d7b,stroke-width:2px\n    classDef phase1 fill:#14142a,stroke:#00f0ff,color:#00f0ff,stroke-width:2px\n    classDef phase2 fill:#14142a,stroke:#00cc66,color:#00cc66,stroke-width:2px\n    classDef phase3 fill:#14142a,stroke:#b44dff,color:#b44dff,stroke-width:2px\n    classDef phase4 fill:#14142a,stroke:#ff2d7b,color:#ff2d7b,stroke-width:2px\n    classDef phase5 fill:#14142a,stroke:#00f0ff,color:#00f0ff,stroke-width:2px\n    classDef talks fill:#0c0c18,stroke:#8888a8,color:#8888a8,stroke-width:1px,stroke-dasharray: 5 5"
   },
   {
-    "objectID": "user-guide.html#discovery-phase",
-    "href": "user-guide.html#discovery-phase",
-    "title": "User Guide",
-    "section": "Discovery Phase",
-    "text": "Discovery Phase\n\n/discover\nInteractive research interview that builds your research specification and domain profile. Equivalent to sitting down with a mentor and sharpening your question.\n\n\n/discover --lit [topic]\nDispatches the Librarian (collector) and librarian-critic (coverage reviewer). Searches top-5 generals, NBER/SSRN/RePEc, and field journals. Produces annotated bibliography, BibTeX entries, frontier map, and positioning recommendation.\n\n\n/discover --data [question]\nDispatches the Explorer (data finder) and explorer-critic (data quality reviewer). Searches public, administrative, survey, and novel data sources. Scores feasibility (A/B/C/D) and measurement quality.\n\n\n/discover --ideate [topic]\nGenerates research questions and identification strategies for a broad topic."
+    "objectID": "architecture.html#agents-by-phase",
+    "href": "architecture.html#agents-by-phase",
+    "title": "Architecture Reference",
+    "section": "Agents by Phase",
+    "text": "Agents by Phase\nEach phase dispatches worker → critic pairs. The worker creates; the critic reviews (read-only, never edits). If they can’t agree after 3 rounds, the Orchestrator escalates.\n\nPhase 1: Discovery\n\n\n\n\n\n\n\n\n\nWorker\nWhat it creates\nCritic\nWhat it checks\n\n\n\n\nLibrarian\nBibliography, frontier map\nlibrarian-critic\nCoverage, gaps, recency\n\n\nExplorer\nData sources, feasibility\nexplorer-critic\nMeasurement, sample, ID fit\n\n\n\n\n\nPhase 2: Strategy\n\n\n\n\n\n\n\n\n\nWorker\nWhat it creates\nCritic\nWhat it checks\n\n\n\n\nStrategist\nStrategy memo (4 paper types)\nstrategist-critic\nAssumptions, inference, sanity (type-specific)\n\n\n\n\n\nPhase 3: Execution\n\n\n\n\n\n\n\n\n\nWorker\nWhat it creates\nCritic\nWhat it checks\n\n\n\n\nData-engineer\nCleaning scripts, figures\ncoder-critic\nCode quality, reproducibility\n\n\nCoder\nAnalysis scripts, tables (numerical discipline)\ncoder-critic\nStrategy alignment, 16 checks incl. numerical discipline\n\n\nWriter\nPaper sections (argument moves, 4 types)\nwriter-critic\n8 checks: structure, coherence, design completeness\n\n\n\n\n\nPhase 4: Peer Review\n\n\n\n\n\n\n\n\nAgent\nFocus\nRole\n\n\n\n\nEditor\nDesk review, scope, referee assignment\nAssigns dispositions + pet peeves to referees\n\n\ndomain-referee\nContributions, literature, external validity\nBlind — doesn’t see the other report\n\n\nmethods-referee\nIdentification, estimation, robustness\nBlind — doesn’t see the other report\n\n\n\nThe Editor does desk review first, then dispatches referees with dispositions (Structuralist, Credibility, Measurement, Policy, Theory, Skeptic). After reports return, the Editor synthesizes the editorial decision, classifying issues as FATAL / ADDRESSABLE / TASTE.\n\n\nPhase 5: Submission\n\n\n\nAgent\nWhat it does\nScoring\n\n\n\n\nVerifier\n10-check AEA replication audit\nPass/fail (binary)\n\n\n\n\n\nTalks (parallel with Peer Review)\n\n\n\n\n\n\n\n\n\nWorker\nWhat it creates\nCritic\nWhat it checks\n\n\n\n\nStoryteller\nBeamer + Quarto slides (4 formats)\nstoryteller-critic\nNarrative, visuals, fidelity"
   },
   {
-    "objectID": "user-guide.html#strategy-phase",
-    "href": "user-guide.html#strategy-phase",
-    "title": "User Guide",
-    "section": "Strategy Phase",
-    "text": "Strategy Phase\n\n/strategize\nDispatches the Strategist (proposer) and strategist-critic (reviewer). Produces strategy memo, pseudo-code, robustness plan, and falsification tests. The strategist-critic validates your assumptions, checks inference, and stress-tests the design.\n\n\n/strategize --pap\nFor experimental/RCT research only. Dispatches the Strategist in Pre-Analysis Plan mode. Drafts in AEA/OSF/EGAP registry format with pre-specified outcomes, subgroups, multiple testing corrections, and power calculations. Not needed for observational quasi-experimental designs."
+    "objectID": "architecture.html#the-worker-critic-loop",
+    "href": "architecture.html#the-worker-critic-loop",
+    "title": "Architecture Reference",
+    "section": "The Worker-Critic Loop",
+    "text": "The Worker-Critic Loop\n\n\n\n\n\n%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#14142a', 'primaryTextColor': '#d0d0e0', 'primaryBorderColor': '#b44dff', 'lineColor': '#b44dff', 'secondaryColor': '#0c0c18', 'tertiaryColor': '#080810', 'edgeLabelBackground': '#080810'}}}%%\nflowchart TD\n    W[WORKER creates artifact]:::worker --&gt; C[CRITIC reviews, scores 0-100]:::critic\n    C --&gt;|score &gt;= 80| A([APPROVED]):::approved\n    C --&gt;|score &lt; 80| F[WORKER fixes issues]:::worker\n    F --&gt; C2[CRITIC re-reviews]:::critic\n    C2 --&gt;|pass| A\n    C2 --&gt;|fail, round 3| ESC([ESCALATE to user]):::escalate\n\n    classDef worker fill:#14142a,stroke:#b44dff,color:#b44dff,stroke-width:2px\n    classDef critic fill:#14142a,stroke:#00f0ff,color:#00f0ff,stroke-width:2px\n    classDef approved fill:#14142a,stroke:#00cc66,color:#00cc66,stroke-width:2px\n    classDef escalate fill:#14142a,stroke:#ff2d7b,color:#ff2d7b,stroke-width:2px\n\n\n\n\n\n\nWhy it works: The critic can’t fix files (read-only), so it has no incentive to downplay issues. The worker can’t approve itself (the critic re-audits). This prevents Claude from saying “looks good” about its own work.\nSeverity gradient: Critics calibrate harshness by phase — encouraging in Discovery, precise in Execution, adversarial in Peer Review."
   },
   {
-    "objectID": "user-guide.html#execution-phase",
-    "href": "user-guide.html#execution-phase",
-    "title": "User Guide",
-    "section": "Execution Phase",
-    "text": "Execution Phase\n\n/analyze [dataset]\nDispatches the Data-engineer (cleaning + visualization), Coder (analysis implementation), and coder-critic (reviewer). End-to-end analysis: data cleaning, main specification, robustness checks, publication-ready tables and figures. Supports R, Stata, Python, and Julia.\nUse --dual r,python to run the same analysis in two languages simultaneously. Both implementations follow the same strategy memo; results are compared within tolerance. Divergences are flagged. See the Command Reference for details.\n\n\n/write [section]\nDispatches the Writer agent. First identifies the paper type (reduced-form, structural, theory+empirics, descriptive), then drafts using paragraph-level argument moves — each paragraph has one job (motivation, result, mechanism, qualification):\n\nIntroduction: paper-type-specific sequence — reduced-form leads with identification preview + result; structural leads with model preview + counterfactual; descriptive leads with data innovation + key fact\nStrategy/Model: design-specific templates (DiD parallel trends, IV exclusion restriction, RDD manipulation) or structural (environment, identification of parameters, estimation, counterfactuals)\nResults: narration adapts to output type — regression tables, event study figures, IV first stage + 2SLS, counterfactual simulations, descriptive facts\nNotation protocol: consistent notation throughout, calibrated to your field via domain profile\n\nAnti-hedging rules enforced. Cleanup pass automatically strips 24 AI writing patterns after drafting."
+    "objectID": "architecture.html#the-mental-model",
+    "href": "architecture.html#the-mental-model",
+    "title": "Architecture Reference",
+    "section": "The Mental Model",
+    "text": "The Mental Model\nThink of the orchestrator as a general contractor. You are the client. You describe what you want. The plan-first protocol is the blueprint phase. Once you approve the blueprint, the contractor takes over: hires the right specialists (agents), inspects their work (verification), sends them back to fix issues (review-fix loop), and only calls you when the job passes inspection (quality gates).\nThe Orchestrator:\n\nDispatches worker-critic pairs based on the dependency graph\nEnforces quality gates: 80 (commit), 90 (PR), 95 (submission)\nEscalates when pairs can’t converge after 3 rounds\nSynthesizes referee reports into editorial decisions\nSelects target journals at submission time\nTracks the research journal with scores and phase transitions"
   },
   {
-    "objectID": "user-guide.html#review-phase",
-    "href": "user-guide.html#review-phase",
-    "title": "User Guide",
-    "section": "Review Phase",
-    "text": "Review Phase\n\n/review [file]\nSmart routing based on file type and flags:\n\n\n\n\n\n\n\nInput\nWhat Runs\n\n\n\n\n/review paper/main.tex\nwriter-critic + strategist-critic + Verifier (comprehensive)\n\n\n/review scripts/R/analysis.R\ncoder-critic standalone\n\n\n/review --peer\ndomain-referee + methods-referee (simulated peer review)\n\n\n/review --peer JHR\nSame, calibrated to JHR’s review culture\n\n\n/review --methods paper/main.tex\nstrategist-critic standalone\n\n\n/review --proofread paper/main.tex\nwriter-critic standalone\n\n\n/review --code scripts/R/\ncoder-critic standalone (code quality only)\n\n\n/review --replicate python\nRe-implement existing R code in Python, compare outputs\n\n\n/review --all\nAll critics in parallel + weighted aggregate score\n\n\n\n\n\n/review --peer [journal]\nDispatches the full peer review pipeline: Editor desk review, then two specialized blind referees.\n\nEditor does a desk review first — checks scope, minimum quality, and assigns referee dispositions\ndomain-referee: Expert in your paper’s subject literature. Checks contributions, positioning, missing citations, substantive arguments, external validity.\nmethods-referee: Expert in empirical methods. Checks identification strategy, estimation, inference, robustness, replication readiness.\n\nBoth referees are independent (neither sees the other’s report). Each referee gets a disposition (Structuralist, Credibility, Measurement, Policy, Theory, or Skeptic) and pet peeves (1 critical + 1 constructive) that shape their review personality. Every major comment includes a “what would change my mind” statement. The Editor synthesizes the editorial decision, classifying each issue as FATAL, ADDRESSABLE, or TASTE.\nR&R memory: Use --peer --r2 for round 2 reviews — referees remember their prior reports and check whether their concerns were addressed.\nStress test: Use --stress [journal] for maximum-severity review (max 3 rounds).\nJournal calibration: Add a journal name to calibrate both referees to that journal’s review culture. For example, /review --peer JHR makes the referees prioritize policy relevance and clean identification (what JHR referees actually care about). 30 journals are pre-populated in .claude/references/journal-profiles.md (economics and adjacent fields); you can add your own. Without a journal name, referees review as generic top-field reviewers.\nSee the full command reference for all flags and subcommands."
+    "objectID": "architecture.html#dependency-driven-dispatch",
+    "href": "architecture.html#dependency-driven-dispatch",
+    "title": "Architecture Reference",
+    "section": "Dependency-Driven Dispatch",
+    "text": "Dependency-Driven Dispatch\n\n\n\n\n\n%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#14142a', 'primaryTextColor': '#d0d0e0', 'primaryBorderColor': '#b44dff', 'lineColor': '#b44dff', 'secondaryColor': '#0c0c18', 'tertiaryColor': '#080810', 'edgeLabelBackground': '#080810'}}}%%\nflowchart TD\n    P1:::phase --&gt; P2:::phase\n    P2 --&gt; P3:::phase\n    P3 --&gt; P4:::phase\n    P4 --&gt;|score &gt;= 95| P5:::phase\n\n    P1(Discovery)\n    P2(Strategy)\n    P3(Execution)\n    P4(Peer Review)\n    P5(Submission)\n\n    subgraph s1 [\" \"]\n        direction LR\n        L[Librarian]:::worker ---|reviewed by| LC[librarian-critic]:::critic\n        X[Explorer]:::worker ---|reviewed by| XC[explorer-critic]:::critic\n    end\n\n    subgraph s2 [\" \"]\n        ST[Strategist]:::worker ---|reviewed by| STC[strategist-critic]:::critic\n    end\n\n    subgraph s3 [\" \"]\n        direction LR\n        DE[Data-engineer]:::worker ---|reviewed by| CC1[coder-critic]:::critic\n        CO[Coder]:::worker ---|reviewed by| CC2[coder-critic]:::critic\n        WR[Writer]:::worker ---|reviewed by| WC[writer-critic]:::critic\n    end\n\n    subgraph s4 [\" \"]\n        direction LR\n        ED[Editor]:::infra\n        DR[domain-referee]:::referee\n        MR[methods-referee]:::referee\n    end\n\n    subgraph s5 [\" \"]\n        VE[Verifier]:::infra\n    end\n\n    P1 --- s1\n    P2 --- s2\n    P3 --- s3\n    P4 --- s4\n    P5 --- s5\n\n    classDef phase fill:#14142a,stroke:#ff2d7b,color:#ff2d7b,stroke-width:2px\n    classDef worker fill:#14142a,stroke:#b44dff,color:#b44dff,stroke-width:1px\n    classDef critic fill:#14142a,stroke:#00f0ff,color:#00f0ff,stroke-width:1px\n    classDef referee fill:#14142a,stroke:#ff2d7b,color:#ff2d7b,stroke-width:1px\n    classDef infra fill:#14142a,stroke:#00cc66,color:#00cc66,stroke-width:1px\n\n\n\n\n\n\nPhases activate when dependencies are met, not by forced sequence. Parallel dispatch within phases (e.g., Librarian and Explorer run simultaneously in Phase 1)."
   },
   {
-    "objectID": "user-guide.html#revision-phase",
-    "href": "user-guide.html#revision-phase",
-    "title": "User Guide",
-    "section": "Revision Phase",
-    "text": "Revision Phase\n\n/revise [report]\nClassifies each referee comment and routes to the right agent:\n\n\n\n\n\n\n\n\nClass\nRouting\nAction\n\n\n\n\nNEW ANALYSIS\n→ Coder\nFlag for user, create analysis task\n\n\nCLARIFICATION\n→ Writer\nDraft revised text\n\n\nDISAGREE\n→ User\nDraft diplomatic pushback (flagged for review)\n\n\nMINOR\n→ Writer\nDraft fix directly\n\n\n\nProduces point-by-point response letter with diplomatic disagreement protocol."
+    "objectID": "architecture.html#the-loop",
+    "href": "architecture.html#the-loop",
+    "title": "Architecture Reference",
+    "section": "The Loop",
+    "text": "The Loop\n\n\n\n\n\n%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#14142a', 'primaryTextColor': '#d0d0e0', 'primaryBorderColor': '#b44dff', 'lineColor': '#b44dff', 'secondaryColor': '#0c0c18', 'tertiaryColor': '#080810', 'edgeLabelBackground': '#080810'}}}%%\nflowchart TD\n    START([Plan approved]):::start --&gt; IMPL[IMPLEMENT]:::step\n    IMPL --&gt; VERIFY[VERIFY: compile, render, check]:::step\n    VERIFY --&gt; REVIEW[REVIEW: worker-critic pairs]:::step\n    REVIEW --&gt; FIX[FIX: critical then major then minor]:::step\n    FIX --&gt; REVERIFY[RE-VERIFY: confirm fixes]:::step\n    REVERIFY --&gt; SCORE[SCORE: weighted aggregate]:::step\n    SCORE --&gt;|score &gt;= threshold| DONE([Present summary]):::approved\n    SCORE --&gt;|score &lt; threshold| REVIEW\n    SCORE -.-&gt;|max 5 rounds| DONE\n\n    classDef start fill:#14142a,stroke:#ff2d7b,color:#ff2d7b,stroke-width:2px\n    classDef step fill:#14142a,stroke:#b44dff,color:#b44dff,stroke-width:2px\n    classDef approved fill:#14142a,stroke:#00cc66,color:#00cc66,stroke-width:2px\n\n\n\n\n\n\n\nThree-Strikes Escalation\nIf a worker-critic pair can’t resolve after 3 rounds:\n\n\n\n\n\n\n\nPair\nEscalation Target\n\n\n\n\nCoder + coder-critic\n→ Strategist (design may be wrong)\n\n\nWriter + writer-critic\n→ domain-referee (framing may need rethinking)\n\n\nStrategist + strategist-critic\n→ User (fundamental design disagreement)\n\n\nStoryteller + storyteller-critic\n→ Writer (paper content may need revision)\n\n\n\n\n\n“Just Do It” Mode\nWhen you say “just do it”, the orchestrator still runs the full verify-review-fix loop, but skips the final approval pause and auto-commits if the score is &gt;= 80."
   },
   {
-    "objectID": "user-guide.html#presentations",
-    "href": "user-guide.html#presentations",
-    "title": "User Guide",
-    "section": "Presentations",
-    "text": "Presentations\n\n/talk [format]\nDispatches the Storyteller (creator) and storyteller-critic (talk reviewer). Generates talks derived from your paper in 4 formats:\n\n\n\n\n\n\n\n\n\nFormat\nSlides\nDuration\nContent\n\n\n\n\nJob Market\n40–50\n45–60 min\nFull story, all results, mechanism, robustness\n\n\nSeminar\n25–35\n30–45 min\nMotivation, main result, 2 robustness checks\n\n\nShort\n10–15\n15 min\nQuestion, method, key result, implication\n\n\nLightning\n3–5\n5 min\nHook, result, so-what\n\n\n\nTalk scores are advisory (non-blocking).\nSubcommands: /talk create [format], /talk audit [file], /talk compile [file].\nBeamer (default): Outputs to paper/talks/. Use /talk create [format].\nQuarto RevealJS: Outputs to paper/quarto/. Use /talk create [format] --quarto for web-native slides with interactive features."
+    "objectID": "architecture.html#the-protocol",
+    "href": "architecture.html#the-protocol",
+    "title": "Architecture Reference",
+    "section": "The Protocol",
+    "text": "The Protocol\nNon-trivial task arrives\n  │\n  Step 1: Enter Plan Mode\n  Step 2: Draft plan (approach, files, verification)\n  Step 3: Save to quality_reports/plans/YYYY-MM-DD_description.md\n  Step 4: Present plan to user\n  Step 5: User approves (or revises)\n  Step 6: Save initial session log\n  Step 7: Orchestrator takes over (dependency-driven dispatch)\n  Step 8: Update session log + plan status to COMPLETED\nPlans are saved to disk so they survive context compression. The rule: avoid /clear — prefer auto-compression."
   },
   {
-    "objectID": "user-guide.html#submission-phase",
-    "href": "user-guide.html#submission-phase",
-    "title": "User Guide",
-    "section": "Submission Phase",
-    "text": "Submission Phase\n\n/submit --target\nJournal targeting. Produces ranked journal list using domain-profile tiers, formatting requirements, and submission strategy.\n\n\n/submit --package\nBuild replication package: AEA-format README, master script, numbered script order, deposit checklist.\n\n\n/submit --audit\nDispatches the Verifier in submission mode (all 10 checks):\n\nLaTeX compilation\nScript execution\nFile integrity\nOutput freshness\nPackage inventory\nDependency verification\nData provenance\nEnd-to-end execution\nOutput cross-reference\nREADME completeness (AEA format)\n\n\n\n/submit --final\nFinal submission gate. Requires aggregate score &gt;= 95 with all components &gt;= 80. Generates cover letter draft and submission checklist."
+    "objectID": "architecture.html#session-logging-3-triggers",
+    "href": "architecture.html#session-logging-3-triggers",
+    "title": "Architecture Reference",
+    "section": "Session Logging (3 Triggers)",
+    "text": "Session Logging (3 Triggers)\n\nAfter plan approval — create the log with goal, plan summary, rationale\nDuring implementation — append 1–3 lines as design decisions happen\nAt session end — add what was accomplished, open questions, unresolved issues"
   },
   {
-    "objectID": "user-guide.html#utilities",
-    "href": "user-guide.html#utilities",
-    "title": "User Guide",
-    "section": "Utilities",
-    "text": "Utilities\n\n/tools [subcommand]\n\n\n\nSubcommand\nWhat It Does\n\n\n\n\n/tools commit [msg]\nStage, commit, PR, merge\n\n\n/tools compile [file]\n3-pass XeLaTeX + BibTeX\n\n\n/tools validate-bib\nCross-reference citations\n\n\n/tools journal\nResearch journal timeline\n\n\n/tools learn\nExtract session discoveries into persistent skills\n\n\n/tools deploy\nBuild and deploy to GitHub Pages"
+    "objectID": "architecture.html#when-to-use",
+    "href": "architecture.html#when-to-use",
+    "title": "Architecture Reference",
+    "section": "When to Use",
+    "text": "When to Use\n\n\n\n\n\n\n\n\nScenario\nSequential (slow)\nParallel (fast)\n\n\n\n\nPaper review\nRun each agent sequentially\nRun strategist-critic + coder-critic + writer-critic + Verifier simultaneously\n\n\nLiterature search\nSearch one database at a time\nSpawn agents for journals, NBER, SSRN\n\n\nData exploration\nCheck one source at a time\nSpawn agents for each data category\n\n\n\nThe orchestrator recognizes independent subtasks and spawns parallel agents automatically."
   },
   {
-    "objectID": "user-guide.html#auto-memory",
-    "href": "user-guide.html#auto-memory",
-    "title": "User Guide",
-    "section": "Auto-Memory",
-    "text": "Auto-Memory\nClaude Code has a built-in memory system that automatically saves corrections and preferences across sessions. No manual tagging needed — when you correct Claude (“that’s UAB, not Emory”), it saves the correction and applies it in future conversations.\nMemory is stored in .claude/projects/.../memory/ and persists across sessions. You can also explicitly ask Claude to remember or forget something."
+    "objectID": "architecture.html#practical-limits",
+    "href": "architecture.html#practical-limits",
+    "title": "Architecture Reference",
+    "section": "Practical Limits",
+    "text": "Practical Limits\n\n3–4 agents is the sweet spot. More increases overhead without proportional speedup.\nAgents are independent — they cannot see each other’s work. Dependent tasks run sequentially.\nParallel agents multiply token usage."
   },
   {
-    "objectID": "user-guide.html#skill-extraction-tools-learn",
-    "href": "user-guide.html#skill-extraction-tools-learn",
-    "title": "User Guide",
-    "section": "Skill Extraction: /tools learn",
-    "text": "Skill Extraction: /tools learn\nFor discoveries that deserve a reusable workflow (not just a one-liner correction), use /tools learn to create a full skill.\n\n\n\nSituation\nUse\n\n\n\n\nCorrection or preference\nAuto-memory (automatic)\n\n\nMulti-step workflow\n/tools learn to create full skill"
+    "objectID": "architecture.html#creating-talks-from-papers",
+    "href": "architecture.html#creating-talks-from-papers",
+    "title": "Architecture Reference",
+    "section": "Creating Talks from Papers",
+    "text": "Creating Talks from Papers\nThe /talk skill dispatches the Storyteller (creator) and storyteller-critic (reviewer) to generate presentations in 4 formats (job market, seminar, short, lightning). Supports both Beamer (output to paper/talks/) and Quarto RevealJS (output to paper/quarto/ via --quarto flag). All content derives from paper/main.tex."
   },
   {
-    "objectID": "user-guide.html#domain-profile",
-    "href": "user-guide.html#domain-profile",
-    "title": "User Guide",
-    "section": "Domain Profile",
-    "text": "Domain Profile\nThe domain profile (.claude/references/domain-profile.md) calibrates all agents to your field. Agents read their discipline from this file; the default is economics if not specified. Fill it in manually or use /discover (interactive interview) to populate it:\n\nField & adjacent subfields — inferred from your topic\nTarget journals — ranked by tier\nCommon data sources — datasets typical for your area\nCommon identification strategies — designs used in your literature\nField conventions — estimation quirks, clustering norms\nSeminal references — papers every referee expects you to cite\nReferee concerns — the “gotcha” questions referees always ask"
+    "objectID": "architecture.html#replication-first-coding",
+    "href": "architecture.html#replication-first-coding",
+    "title": "Architecture Reference",
+    "section": "Replication-First Coding",
+    "text": "Replication-First Coding\nWhen working with papers that have replication packages:\nPhase 1: Inventory original code → record \"gold standard\" numbers\nPhase 2: Translate (e.g., Stata → R) → match original spec EXACTLY\nPhase 3: Verify match → tolerance &lt; 0.01 for estimates, &lt; 0.05 for SEs\nPhase 4: Only then extend with new estimators and specifications"
   },
   {
-    "objectID": "user-guide.html#how-to-upgrade-2.x-3.0",
-    "href": "user-guide.html#how-to-upgrade-2.x-3.0",
-    "title": "User Guide",
-    "section": "How to Upgrade (2.x → 3.0)",
-    "text": "How to Upgrade (2.x → 3.0)\n\nDownload the latest release or clone clo-author 3.0 into a temporary folder\nDelete your old .claude/ directory\nCopy the new .claude/ into your project\nDone — your paper, scripts, data, CLAUDE.md, bibliography are all untouched\n\nThat’s it. No git merge, no upstream remote, no conflicts. The infrastructure is entirely inside .claude/; your research content lives in separate directories that clo-author never touches.\nOptional: also copy the new templates/ directory if you want updated templates.\nYour CLAUDE.md stays yours. You already customized it with your project name, institution, field, and folder paths. Don’t overwrite it — the 3.0 infrastructure reads whatever paths you have there."
+    "objectID": "architecture.html#cross-language-replication",
+    "href": "architecture.html#cross-language-replication",
+    "title": "Architecture Reference",
+    "section": "Cross-Language Replication",
+    "text": "Cross-Language Replication\nRun the same analysis in two languages simultaneously to catch implementation bugs:\n\n/analyze --dual r,python dispatches two Coder agents in parallel with the same strategy memo\n/review --replicate python re-implements existing R code in Python and compares outputs\nTolerances come from .claude/references/domain-profile.md — divergence beyond tolerance is flagged as a bug\n\nInspired by Scott Cunningham’s approach: if two independent implementations produce the same estimates, neither has a bug. If they diverge, you’ve caught something before it reaches the paper."
   },
   {
-    "objectID": "user-guide.html#future-upgrades-3.x-4.0",
-    "href": "user-guide.html#future-upgrades-3.x-4.0",
-    "title": "User Guide",
-    "section": "Future Upgrades (3.x → 4.0+)",
-    "text": "Future Upgrades (3.x → 4.0+)\nOnce you’re on 3.0, run /tools upgrade for future versions. It automates the same process: replace .claude/, preserve your content, report what changed."
-  },
-  {
-    "objectID": "user-guide.html#what-changed-in-3.0",
-    "href": "user-guide.html#what-changed-in-3.0",
-    "title": "User Guide",
-    "section": "What Changed in 3.0",
-    "text": "What Changed in 3.0\n\n\n\n\n\n\n\n\nComponent\n2.x\n3.0\n\n\n\n\nScope\nEconomics only\nEconomics (adaptable to adjacent fields)\n\n\nPeer review\nScore averaging\nEditor + dispositions + desk reject\n\n\nJournal profiles\n15 (economics)\n35+ across 5 fields\n\n\nProfile location\n.claude/rules/\n.claude/references/ (on-demand)\n\n\nFolder structure\nPaper/, Figures/, Tables/, Talks/\npaper/ (self-contained), scripts/\n\n\nPresentations\nBeamer only\nBeamer + Quarto RevealJS\n\n\nMemory\n[LEARN] tags\nAuto-memory (built-in)\n\n\nContext overhead\n~3,500 lines/session\n~1,000 lines/session\n\n\nAgent prompts\nEconomics-specific\nField-neutral (read from domain profile)\n\n\n\nKey principle: The upgrade adapts to your project. It never renames folders with content or overwrites filled-in profiles."
-  },
-  {
-    "objectID": "user-guide.html#sec-create-skills",
-    "href": "user-guide.html#sec-create-skills",
-    "title": "User Guide",
-    "section": "Creating Custom Skills",
-    "text": "Creating Custom Skills\nCreate a skill when you repeatedly explain the same 3+ step workflow to Claude. Each skill lives in .claude/skills/[name]/SKILL.md:\n---\nname: your-skill-name\ndescription: [What it does] + [When to use] + [Key capabilities]\nargument-hint: \"[brief hint for user]\"\nallowed-tools: [\"Read\", \"Write\", \"Edit\", \"Bash\", \"Task\"]\n---\nQuick start: Copy templates/skill-template.md to .claude/skills/your-skill-name/SKILL.md and customize.\n\nSee the full command reference in the Customization Guide."
+    "objectID": "architecture.html#branch-isolation-with-git-worktrees",
+    "href": "architecture.html#branch-isolation-with-git-worktrees",
+    "title": "Architecture Reference",
+    "section": "Branch Isolation with Git Worktrees",
+    "text": "Branch Isolation with Git Worktrees\nGit worktrees create a separate working directory linked to the same repository. Useful for major translations, risky refactors, or multi-day projects.\n\n\n\nSituation\nUse Worktree?\n\n\n\n\nQuick fix to one file\nNo\n\n\nMajor refactor\nYes\n\n\nExperimenting with new approach\nYes\n\n\n\nFor most users, working directly on main with frequent commits is simpler and sufficient."
   }
 ]

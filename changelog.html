@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Customization Guide – The Clo-Author</title>
+<title>What’s New – The Clo-Author</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,10 +69,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-<meta name="mermaid-theme" content="dark">
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -111,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Architecture</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./customization.html" aria-current="page"> 
+    <a class="nav-link" href="./customization.html"> 
 <span class="menu-text">Customization</span></a>
   </li>  
   <li class="nav-item">
@@ -119,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Reference</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./changelog.html"> 
+    <a class="nav-link active" href="./changelog.html" aria-current="page"> 
 <span class="menu-text">What’s New</span></a>
   </li>  
 </ul>
@@ -145,21 +141,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#claude.md-the-project-constitution" id="toc-claude.md-the-project-constitution" class="nav-link" data-scroll-target="#claude.md-the-project-constitution">CLAUDE.md — The Project Constitution</a></li>
-  <li><a href="#rules-auto-loading-domain-knowledge" id="toc-rules-auto-loading-domain-knowledge" class="nav-link" data-scroll-target="#rules-auto-loading-domain-knowledge">Rules — Auto-Loading Domain Knowledge</a></li>
-  <li><a href="#domain-profile" id="toc-domain-profile" class="nav-link" data-scroll-target="#domain-profile">Domain Profile</a>
+  <li><a href="#v4" id="toc-v4" class="nav-link active" data-scroll-target="#v4">v4.0.0 — Paper-Type Architecture</a>
   <ul class="collapse">
-  <li><a href="#journal-profiles" id="toc-journal-profiles" class="nav-link" data-scroll-target="#journal-profiles">Journal Profiles</a></li>
+  <li><a href="#agents-rewritten" id="toc-agents-rewritten" class="nav-link" data-scroll-target="#agents-rewritten">7 Agents Rewritten</a></li>
+  <li><a href="#numerical-discipline" id="toc-numerical-discipline" class="nav-link" data-scroll-target="#numerical-discipline">Numerical Discipline</a></li>
+  <li><a href="#scope-back-to-economics" id="toc-scope-back-to-economics" class="nav-link" data-scroll-target="#scope-back-to-economics">Scope: Back to Economics</a></li>
+  <li><a href="#profile-aware-table-standards" id="toc-profile-aware-table-standards" class="nav-link" data-scroll-target="#profile-aware-table-standards">Profile-Aware Table Standards</a></li>
+  <li><a href="#working-paper-format-required-vs.-recommended" id="toc-working-paper-format-required-vs.-recommended" class="nav-link" data-scroll-target="#working-paper-format-required-vs.-recommended">Working Paper Format: Required vs.&nbsp;Recommended</a></li>
+  <li><a href="#compilation-alignment" id="toc-compilation-alignment" class="nav-link" data-scroll-target="#compilation-alignment">Compilation Alignment</a></li>
+  <li><a href="#dead-code-removal" id="toc-dead-code-removal" class="nav-link" data-scroll-target="#dead-code-removal">Dead Code Removal</a></li>
+  <li><a href="#readme-honesty" id="toc-readme-honesty" class="nav-link" data-scroll-target="#readme-honesty">README Honesty</a></li>
   </ul></li>
-  <li><a href="#skills-10-core-commands" id="toc-skills-10-core-commands" class="nav-link" data-scroll-target="#skills-10-core-commands">Skills — Available Commands</a></li>
-  <li><a href="#hooks-smart-defaults" id="toc-hooks-smart-defaults" class="nav-link" data-scroll-target="#hooks-smart-defaults">Hooks — Smart Defaults</a>
-  <ul class="collapse">
-  <li><a href="#design-principles" id="toc-design-principles" class="nav-link" data-scroll-target="#design-principles">Design Principles</a></li>
-  <li><a href="#all-4-hooks" id="toc-all-4-hooks" class="nav-link" data-scroll-target="#all-4-hooks">All 4 Hooks</a></li>
-  </ul></li>
-  <li><a href="#memory-system" id="toc-memory-system" class="nav-link" data-scroll-target="#memory-system">Memory System</a></li>
-  <li><a href="#context-survival-system" id="toc-context-survival-system" class="nav-link" data-scroll-target="#context-survival-system">Context Survival System</a></li>
+  <li><a href="#v3.1.1-2026-03-24" id="toc-v3.1.1-2026-03-24" class="nav-link" data-scroll-target="#v3.1.1-2026-03-24">v3.1.1 — 2026-03-24</a></li>
+  <li><a href="#v3.1.0-2026-03-23" id="toc-v3.1.0-2026-03-23" class="nav-link" data-scroll-target="#v3.1.0-2026-03-23">v3.1.0 — 2026-03-23</a></li>
+  <li><a href="#v3.0.0-2026-03-20" id="toc-v3.0.0-2026-03-20" class="nav-link" data-scroll-target="#v3.0.0-2026-03-20">v3.0.0 — 2026-03-20</a></li>
   </ul>
 </nav>
     </div>
@@ -168,8 +163,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Customization Guide</h1>
-<p class="subtitle lead">Make the Clo-Author Yours</p>
+<h1 class="title">What’s New</h1>
+<p class="subtitle lead">Release History</p>
 </div>
 
 
@@ -186,319 +181,139 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="overview" class="level1">
-<h1>Overview</h1>
-<p>The Clo-Author works out of the box, but it’s designed to be customized. Six configuration layers control how Claude behaves in your project — from the high-level project constitution to low-level event hooks.</p>
+<section id="v4" class="level1">
+<h1>v4.0.0 — Paper-Type Architecture</h1>
+<p><em>Released 2026-04-08</em></p>
+<p>Every agent now knows whether it’s working on a <strong>reduced-form</strong>, <strong>structural</strong>, <strong>theory+empirics</strong>, or <strong>descriptive</strong> paper — and adapts accordingly.</p>
+<section id="agents-rewritten" class="level2">
+<h2 class="anchored" data-anchor-id="agents-rewritten">7 Agents Rewritten</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 23%">
-<col style="width: 33%">
-<col style="width: 43%">
+<col style="width: 31%">
+<col style="width: 36%">
+<col style="width: 31%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Layer</th>
-<th>Location</th>
-<th>Loaded When</th>
+<th>Agent</th>
+<th>Before</th>
+<th>After</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>CLAUDE.md</strong></td>
-<td>Project root</td>
-<td>Every session</td>
+<td><strong>Writer</strong></td>
+<td>Humanizer-first, one template</td>
+<td>Paragraph-level argument moves, 4 paper-type section templates</td>
 </tr>
 <tr class="even">
-<td><strong>Rules</strong></td>
-<td><code>.claude/rules/</code></td>
-<td>Always-on or path-scoped</td>
+<td><strong>Writer-critic</strong></td>
+<td>6 checks, format-focused</td>
+<td>8 checks: structure, coherence, design-specific completeness</td>
 </tr>
 <tr class="odd">
-<td><strong>References</strong></td>
-<td><code>.claude/references/</code></td>
-<td>On demand (agents read when needed)</td>
+<td><strong>Strategist</strong></td>
+<td>Reduced-form only</td>
+<td>4 paper types: reduced-form, structural, theory+empirics, descriptive</td>
 </tr>
 <tr class="even">
-<td><strong>Skills</strong></td>
-<td><code>.claude/skills/</code></td>
-<td>On demand (slash commands)</td>
+<td><strong>Strategist-critic</strong></td>
+<td>DiD/IV/RDD checklists</td>
+<td>+ structural model checks, prediction sharpness, construct validity</td>
 </tr>
 <tr class="odd">
-<td><strong>Agents</strong></td>
-<td><code>.claude/agents/</code></td>
-<td>On demand (via skills or orchestrator)</td>
+<td><strong>Coder</strong></td>
+<td>Basic script standards</td>
+<td>Engineering discipline: naming maps, numerical guards, function-per-file</td>
 </tr>
 <tr class="even">
-<td><strong>Hooks</strong></td>
-<td><code>.claude/settings.json</code></td>
-<td>On events (automatic)</td>
+<td><strong>Coder-critic</strong></td>
+<td>12 checks</td>
+<td>16 checks: + numerical discipline, prohibited patterns</td>
+</tr>
+<tr class="odd">
+<td><strong>Methods-referee</strong></td>
+<td>Reduced-form evaluation only</td>
+<td>Paper-type-specific dimensions and scoring rubrics</td>
 </tr>
 </tbody>
 </table>
-<p>Claude reliably follows about <strong>100–150 custom instructions</strong>. Your system prompt uses ~50, leaving ~100 for your project. CLAUDE.md and always-on rules share this budget. Path-scoped rules, references, skills, and agents load on demand — they don’t count against the limit.</p>
-<hr>
 </section>
-<section id="claude.md-the-project-constitution" class="level1">
-<h1>CLAUDE.md — The Project Constitution</h1>
-<p><code>CLAUDE.md</code> is the single most important file. Claude reads it at the start of every session. It should be a <strong>slim constitution</strong> — short directives and pointers, not comprehensive documentation. Aim for ~120 lines:</p>
+<section id="numerical-discipline" class="level2">
+<h2 class="anchored" data-anchor-id="numerical-discipline">Numerical Discipline</h2>
+<p>New in the Coder and Coder-critic, derived from C++ Core Guidelines:</p>
 <ul>
-<li><strong>Core principles</strong> — 5–6 bullets (plan-first, verify-after, quality gates, worker-critic pairs, LEARN tags)</li>
-<li><strong>Folder structure</strong> — where everything lives</li>
-<li><strong>Commands</strong> — compilation, deployment</li>
-<li><strong>Skill quick reference</strong> — table of 10 available commands</li>
-<li><strong>Customization tables</strong> — Beamer environments, notation</li>
-<li><strong>Current state</strong> — what’s done, what’s in progress</li>
-</ul>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Keep It Lean
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If CLAUDE.md exceeds ~150 lines, Claude starts ignoring rules silently. Put detailed standards in path-scoped rules instead.</p>
-</div>
-</div>
-<hr>
-</section>
-<section id="rules-auto-loading-domain-knowledge" class="level1">
-<h1>Rules — Auto-Loading Domain Knowledge</h1>
-<p>Rules are markdown files in <code>.claude/rules/</code> that Claude loads automatically. Consolidated into <strong>11 focused files</strong> for clarity.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 40%">
-<col style="width: 60%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Rule</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>workflow.md</code></td>
-<td>Plan-first protocol, orchestrator loop, dependency graph, standalone access</td>
-</tr>
-<tr class="even">
-<td><code>quality.md</code></td>
-<td>Weighted scoring formula, severity gradient by phase, quality gates</td>
-</tr>
-<tr class="odd">
-<td><code>agents.md</code></td>
-<td>Worker-critic pairs, separation of powers, three-strikes escalation</td>
-</tr>
-<tr class="even">
-<td><code>logging.md</code></td>
-<td>Session logging, session reporting, research journal</td>
-</tr>
-<tr class="odd">
-<td><code>content-standards.md</code></td>
-<td>Table generation, PDF processing, exploration workflow</td>
-</tr>
-<tr class="even">
-<td><code>figures.md</code></td>
-<td>No embedded titles, serif fonts, publication-quality axis labels, full year axes</td>
-</tr>
-<tr class="odd">
-<td><code>tables.md</code></td>
-<td>No embedded titles, booktabs, threeparttable, notes in paper not R output</td>
-</tr>
-<tr class="even">
-<td><code>working-paper-format.md</code></td>
-<td>Working paper layout: 12pt, 1in margins, titling fonts, abstract format</td>
-</tr>
-<tr class="odd">
-<td><code>revision.md</code></td>
-<td>R&amp;R cycle comment classification and routing</td>
-</tr>
-<tr class="even">
-<td><code>meta-governance.md</code></td>
-<td>Template vs working project distinction</td>
-</tr>
-<tr class="odd">
-<td><code>domain-profile.md</code></td>
-<td>Field-specific calibration (moved to <code>.claude/references/</code> in v3.0)</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-<section id="domain-profile" class="level1">
-<h1>Domain Profile</h1>
-<p>The domain profile (<code>.claude/references/domain-profile.md</code>) calibrates all agents to your specific research field. The default is economics. It can be adapted to adjacent fields (finance, accounting, marketing, management) by editing the profile. It can be populated two ways:</p>
-<ol type="1">
-<li><strong><code>/discover</code></strong> (interactive interview) — generates it automatically</li>
-<li><strong>Manual editing</strong> — fill in the template directly</li>
-</ol>
-<p>All agents read this file for:</p>
-<ul>
-<li>Target journal tiers (for Orchestrator, Editor, and referees)</li>
-<li>Common data sources (for Explorer)</li>
-<li>Identification strategies (for Strategist and strategist-critic)</li>
-<li>Field conventions (for Coder and Writer)</li>
-<li>Seminal references (for Librarian)</li>
-<li>Referee concerns (for domain-referee and methods-referee)</li>
-</ul>
-<section id="journal-profiles" class="level2">
-<h2 class="anchored" data-anchor-id="journal-profiles">Journal Profiles</h2>
-<p>The journal profiles (<code>.claude/references/journal-profiles.md</code>) calibrate the <strong>Editor</strong>, <strong>domain-referee</strong>, and <strong>methods-referee</strong> to a specific journal’s review culture when you run <code>/review --peer [journal]</code>.</p>
-<p>30 journals are pre-populated across multiple fields:</p>
-<ul>
-<li><strong>Economics:</strong> AER, Econometrica, JPE, QJE, REStud, AEJ:Applied, AEJ:Policy, JHR, JHE, RAND, JPubE, JLE, JDE, RESTAT, AER:Insights</li>
-<li><strong>Finance:</strong> JF, JFE, RFS, JFQA</li>
-<li><strong>Accounting:</strong> JAR, JAE, TAR, CAR</li>
-<li><strong>Marketing:</strong> JMR, Marketing Science, JCR</li>
-<li><strong>Management:</strong> Management Science, SMJ, ASQ</li>
-</ul>
-<p>Each profile describes the journal’s bar, what its referees prioritize, and typical concerns — in plain language that the LLM interprets naturally.</p>
-<p>For journals not in the list, referees still adapt using the journal name + your domain profile. You can add your own profiles using the template at the bottom of the file.</p>
-<hr>
-</section>
-</section>
-<section id="skills-10-core-commands" class="level1">
-<h1>Skills — Available Commands</h1>
-<p>Skills are multi-step workflows invoked with <code>/command</code>. Each skill lives in <code>.claude/skills/[name]/SKILL.md</code> and dispatches the appropriate agents.</p>
-<p>There are <strong>10 skills</strong> covering the full research pipeline: <code>/new-project</code>, <code>/discover</code>, <code>/strategize</code>, <code>/analyze</code>, <code>/write</code>, <code>/review</code>, <code>/revise</code>, <code>/talk</code>, <code>/submit</code>, and <code>/tools</code>.</p>
-<p>Skills can be invoked two ways: <strong>explicitly</strong> (you type <code>/review paper/main.tex</code>) or <strong>automatically</strong> (Claude invokes them when relevant). Most of the time, you just describe what you want.</p>
-<p>See the <a href="./reference.html">Command Reference</a> for every command, flag, and subcommand. See the <a href="./user-guide.html">User Guide</a> for detailed workflow descriptions.</p>
-<hr>
-</section>
-<section id="hooks-smart-defaults" class="level1">
-<h1>Hooks — Smart Defaults</h1>
-<p>Hooks live in <code>.claude/settings.json</code> and fire on events, regardless of context state. Reduced to <strong>4 essential hooks</strong> that stay out of the way.</p>
-<section id="design-principles" class="level2">
-<h2 class="anchored" data-anchor-id="design-principles">Design Principles</h2>
-<ul>
-<li>Use <strong>command-based hooks</strong> for fast, mechanical checks</li>
-<li>Use <strong>rules</strong> for nuanced judgment</li>
-<li>Avoid prompt-based hooks that trigger LLM calls on every response</li>
+<li>Float comparison guards (no <code>==</code> on floats)</li>
+<li>CDF clamping to [0, 1], inverse link protection</li>
+<li>Integer literals (<code>1L</code>, <code>seq_len(n)</code>)</li>
+<li>Pre-allocation (no growing lists in loops)</li>
+<li>Bootstrap/parallel patterns with proper seed handling</li>
+<li>Language-specific coding standards: <code>.claude/references/coding-standards-{r,python,julia}.md</code></li>
 </ul>
 </section>
-<section id="all-4-hooks" class="level2">
-<h2 class="anchored" data-anchor-id="all-4-hooks">All 4 Hooks</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 23%">
-<col style="width: 26%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Hook</th>
-<th>Event</th>
-<th>What It Does</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>File protection</td>
-<td><code>PreToolUse</code></td>
-<td>Blocks edits to bibliography and settings</td>
-</tr>
-<tr class="even">
-<td>Context state capture</td>
-<td><code>PreCompact</code></td>
-<td>Saves plan state + context survival checklist</td>
-</tr>
-<tr class="odd">
-<td>Context restoration</td>
-<td><code>SessionStart[compact\|resume]</code></td>
-<td>Restores context after compaction</td>
-</tr>
-<tr class="even">
-<td>Post-merge reminder</td>
-<td>Git post-merge</td>
-<td>Reminds to run <code>/tools learn</code> after merges</td>
-</tr>
-</tbody>
-</table>
+<section id="scope-back-to-economics" class="level2">
+<h2 class="anchored" data-anchor-id="scope-back-to-economics">Scope: Back to Economics</h2>
+<p>The v3.0 release claimed to serve “all empirical social science.” That was too broad — the pipeline’s agents, rules, and section templates are built for economics.</p>
+<p>v4.0 is honest about this: <strong>built for economics, adaptable to adjacent fields.</strong> Finance, accounting, marketing, and management researchers can customize the domain profile and journal profiles. The 30 journal profiles across these fields are retained as useful reference data.</p>
+</section>
+<section id="profile-aware-table-standards" class="level2">
+<h2 class="anchored" data-anchor-id="profile-aware-table-standards">Profile-Aware Table Standards</h2>
+<p>Significance stars are now journal-dependent:</p>
+<ul>
+<li><strong>Working papers (default):</strong> Stars OK</li>
+<li><strong>AEA journals</strong> (AER, AEJ:Applied, AEJ:Policy, AER:Insights): No stars, per current AEA style guide</li>
+<li><strong>All others:</strong> Stars acceptable</li>
+</ul>
+<p>Journal profiles now include a <code>Table format</code> field for overrides.</p>
+</section>
+<section id="working-paper-format-required-vs.-recommended" class="level2">
+<h2 class="anchored" data-anchor-id="working-paper-format-required-vs.-recommended">Working Paper Format: Required vs.&nbsp;Recommended</h2>
+<p>The preamble standard now distinguishes:</p>
+<ul>
+<li><strong>Required</strong> (blocking): document class, margins, double-spacing, biblatex+biber, booktabs, hyperref last</li>
+<li><strong>Recommended</strong> (advisory): lmodern, microtype, citation color, captionsetup, hidelinks</li>
+</ul>
+<p>Writer-critic deductions adjusted accordingly — recommended items are reported but don’t cost points.</p>
+</section>
+<section id="compilation-alignment" class="level2">
+<h2 class="anchored" data-anchor-id="compilation-alignment">Compilation Alignment</h2>
+<ul>
+<li>Fixed bibtex → biber mismatch across CLAUDE.md and tools/SKILL.md</li>
+<li>Fixed remaining uppercase paths (Paper → paper, Talks → paper/talks)</li>
+</ul>
+</section>
+<section id="dead-code-removal" class="level2">
+<h2 class="anchored" data-anchor-id="dead-code-removal">Dead Code Removal</h2>
+<ul>
+<li>Deleted <code>scripts/quality_score.py</code> (761 lines targeting nonexistent directories)</li>
+<li>Deleted <code>scripts/sync_to_docs.sh</code> (92 lines targeting nonexistent deployment structure)</li>
+</ul>
+</section>
+<section id="readme-honesty" class="level2">
+<h2 class="anchored" data-anchor-id="readme-honesty">README Honesty</h2>
+<ul>
+<li>“turns your terminal into a research assistant” → “scaffold for empirical economics research”</li>
+<li>“works autonomously” → removed</li>
+<li>“Realistic Peer Review” → “Simulated Peer Review”</li>
+<li>“calibrated referee pools” → “configured referee pools”</li>
+<li>Added <a href="../README.md">Limitations</a> section</li>
+</ul>
 <hr>
 </section>
 </section>
-<section id="memory-system" class="level1">
-<h1>Memory System</h1>
-<p>Four persistent layers plus ephemeral conversation:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 19%">
-<col style="width: 16%">
-<col style="width: 38%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Layer</th>
-<th>File</th>
-<th>Updated When</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Project context</td>
-<td><code>CLAUDE.md</code></td>
-<td>Rarely</td>
-<td>Project rules, folder structure</td>
-</tr>
-<tr class="even">
-<td>Corrections</td>
-<td><code>MEMORY.md</code></td>
-<td>On <code>[LEARN]</code> tag</td>
-<td>Prevent repeating mistakes</td>
-</tr>
-<tr class="odd">
-<td>Task strategy</td>
-<td><code>quality_reports/plans/</code></td>
-<td>Once per task</td>
-<td>Plan survives handoff</td>
-</tr>
-<tr class="even">
-<td>Decision reasoning</td>
-<td><code>quality_reports/session_logs/</code></td>
-<td>Incrementally</td>
-<td>Record <em>why</em> decisions were made</td>
-</tr>
-<tr class="odd">
-<td>Conversation</td>
-<td>Context window</td>
-<td>Every response</td>
-<td>Current working memory (<strong>not</strong> persistent)</td>
-</tr>
-</tbody>
-</table>
+<section id="v3.1.1-2026-03-24" class="level1">
+<h1>v3.1.1 — 2026-03-24</h1>
+<p>Output organization setting (by-script default). Bug fixes for Paper/ → paper/ path migration, domain-profile path, plan mode in /new-project.</p>
 <hr>
 </section>
-<section id="context-survival-system" class="level1">
-<h1>Context Survival System</h1>
-<p>When context compaction happens, two hooks preserve and restore state:</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#14142a', 'primaryTextColor': '#d0d0e0', 'primaryBorderColor': '#b44dff', 'lineColor': '#b44dff', 'secondaryColor': '#0c0c18', 'tertiaryColor': '#080810', 'edgeLabelBackground': '#080810'}}}%%
-flowchart TD
-    RUN[Session running]:::step --&gt;|context fills up| PRE[PreCompact fires]:::hook
-    PRE --&gt; SAVE[Saves plan, task, decisions]:::step
-    SAVE --&gt; COMPACT[Auto-compaction happens]:::event
-    COMPACT --&gt; POST[SessionStart fires]:::hook
-    POST --&gt; RESTORE[Restores context summary]:::step
-    RESTORE --&gt; RESUME[Claude knows where it left off]:::approved
-
-    classDef step fill:#14142a,stroke:#b44dff,color:#b44dff,stroke-width:2px
-    classDef hook fill:#14142a,stroke:#00f0ff,color:#00f0ff,stroke-width:2px
-    classDef event fill:#14142a,stroke:#ff2d7b,color:#ff2d7b,stroke-width:2px
-    classDef approved fill:#14142a,stroke:#00cc66,color:#00cc66,stroke-width:2px
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
+<section id="v3.1.0-2026-03-23" class="level1">
+<h1>v3.1.0 — 2026-03-23</h1>
+<p>Skill detail restoration — 22 items lost in the v2→v3 consolidation were restored while keeping v3 structure.</p>
+<hr>
+</section>
+<section id="v3.0.0-2026-03-20" class="level1">
+<h1>v3.0.0 — 2026-03-20</h1>
+<p>Major architecture redesign. Peer review simulation with Editor + dispositions + desk reject. 30 journal profiles. Demand-loaded references. Skill consolidation (26 → 10 commands). Scope clarification to economics.</p>
 
 
 </section>
