@@ -336,8 +336,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="analyze" class="level1">
 <h1><code>/analyze</code></h1>
 <pre><code>/analyze [dataset path or goal]
-/analyze --dual r,python        Parallel analysis in two languages
-/analyze --dual r,stata         Same, with Stata as second language</code></pre>
+/analyze --dual r,python        Parallel analysis in two languages</code></pre>
 <p>End-to-end analysis: data cleaning → main specification → robustness → publication tables and figures. Reads the strategy memo (if it exists) and implements it faithfully.</p>
 <table class="caption-top table">
 <colgroup>
@@ -365,7 +364,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p><strong>Languages:</strong> R, Stata, Python, Julia <strong>Saves to:</strong> <code>scripts/</code>, <code>paper/tables/</code>, <code>paper/figures/</code>, <code>Output/cross_language_comparison.md</code></p>
+<p><strong>Languages:</strong> R, Python, Julia <strong>Saves to:</strong> <code>scripts/</code>, <code>paper/tables/</code>, <code>paper/figures/</code>, <code>Output/cross_language_comparison.md</code></p>
 <p><strong>Cross-language replication:</strong> When <code>--dual</code> is used, both implementations run the same specification independently. Results are compared against tolerances in <code>domain-profile.md</code>. Divergences are flagged. Inspired by Scott Cunningham’s approach: if two independent implementations agree, neither has a bug.</p>
 <hr>
 </section>
