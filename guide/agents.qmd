@@ -11,8 +11,8 @@ The key pattern: every agent that creates something (a literature review, analys
 
 This is what prevents Claude from saying "looks good" about its own work.
 
-::: {.callout-note title="Honest Take"}
-These agents are tools, not colleagues. They follow templates well but don't have the judgment of an experienced researcher. You should expect to revise everything they produce. The critics catch structural problems (wrong clustering, missing citations, broken LaTeX) reliably. They are weaker at catching subtle issues that require field expertise or taste. The honest limitations of each agent are noted below.
+::: {.callout-note title="What to Expect"}
+The critics catch structural problems reliably — wrong clustering, missing citations, broken LaTeX, design-specific gaps. The creators produce solid first drafts that follow economics conventions. You bring the field knowledge and editorial judgment. Notes on each agent's strengths and limits are below.
 :::
 
 ---
@@ -37,10 +37,8 @@ Searches for public, administrative, and survey datasets that could answer your 
 
 Reviews the Explorer's data assessment with a skeptical eye. Checks whether the recommended datasets actually measure what you need, whether the sample is representative enough for your question, and whether the data limitations would threaten your identification strategy.
 
-::: {.callout-warning title="Honest Take: Discovery Agents"}
-The Librarian finds papers that exist online and match keywords well. It misses working papers not yet indexed, papers behind paywalls it can't access, and papers in adjacent fields that use different terminology for the same concept. It does not replace knowing your literature --- it gives you a starting list to build on.
-
-The Explorer knows about commonly used public datasets (Census, ACS, CPS, NLSY, etc.) but has no way to verify current access status, check whether a dataset has been updated, or assess restricted-use application timelines. Treat its output as a lead list, not a confirmed data plan.
+::: {.callout-note title="What to Expect"}
+Good starting lists for literature and data. Verify access status and check for recent working papers yourself.
 :::
 
 ---
@@ -57,10 +55,8 @@ Given your research question, literature, and available data, designs the empiri
 
 The toughest reviewer in the system. **Paper-type aware** --- uses different checklists per type. For reduced-form: design-specific assumption checks (parallel trends for DiD, exclusion restriction for IV, manipulation test for RDD), sanity checks (sign, magnitude, dynamics), inference (clustering, multiple testing), package-specific code checks. For structural: model specification, parameter identification (data variation vs. functional form), estimation convergence, model fit, counterfactual credibility. For theory+empirics: prediction sharpness (do they rule things out?), test power, honesty about failures. Sends it back with specific objections until the design is sound.
 
-::: {.callout-warning title="Honest Take: Strategy Agents"}
-The Strategist proposes designs by pattern-matching against known identification strategies. It is good at assembling the right checklist (parallel trends for DiD, exclusion restriction for IV) and recommending modern estimators. It is weaker at evaluating whether the *institutional story* behind your variation is convincing --- that requires field knowledge it doesn't have. It cannot tell you whether your instrument is actually exogenous; it can only tell you what to check.
-
-The strategist-critic is the strongest agent in the system for reduced-form designs. Its structural and theory+empirics checklists are newer and less battle-tested. For structural papers, have someone who works with structural models review the strategy memo alongside the critic's report.
+::: {.callout-note title="What to Expect"}
+Strong on checklists and modern estimator recommendations. The institutional story behind your variation is yours to evaluate --- the Strategist tells you what to check, not whether your setting is convincing.
 :::
 
 ---
@@ -89,14 +85,8 @@ Drafts paper sections using **paragraph-level argument moves** --- each paragrap
 
 **8 check categories** including argument structure (each paragraph has identifiable purpose, findings lead sentences), claims-evidence alignment, paper-type coherence (does the introduction promise match the strategy delivery?), design-specific completeness (DiD must have parallel trends discussion, IV must have LATE interpretation, structural must estimate and simulate), results narration quality, notation consistency, and LaTeX compilation. Sends it back for fixes.
 
-::: {.callout-warning title="Honest Take: Execution Agents"}
-**Coder:** Good at translating a clear strategy memo into working code with proper structure. It knows the right R packages and follows engineering discipline. It is weaker at debugging subtle numerical issues (convergence failures in structural estimation, edge cases in bootstrap), and it cannot tell you if your results are *interesting* --- only if the code runs and matches the memo. Always inspect the output yourself.
-
-**Writer:** This was the weakest agent and has been substantially rewritten. The argument-move templates produce better-structured drafts than the old approach (which was basically "write, then strip AI tells"). But it still produces *drafts*, not finished prose. The output will sound competent but generic. Your voice, your judgment about what to emphasize, and your knowledge of the field are what turn it into a paper. Expect to rewrite substantially, not just edit.
-
-**coder-critic:** Catches reproducibility issues (paths, seeds, packages) and code-strategy mismatches reliably. The numerical discipline checks are new. It cannot run code --- it reads it. So it catches logical errors in code structure but misses runtime bugs.
-
-**writer-critic:** Good at catching mechanical problems (broken citations, notation inconsistency, hedging language, LaTeX issues). Weaker at evaluating whether the argument *persuades* --- it checks structure, not substance. A paper can pass all 8 checks and still be unconvincing.
+::: {.callout-note title="What to Expect"}
+The Coder produces well-structured, reproducible scripts. The Writer produces structured first drafts using argument moves --- your voice and field knowledge turn them into a paper. Both critics catch mechanical issues reliably; you bring the substance.
 :::
 
 ---
@@ -119,12 +109,8 @@ The **empirical methods expert**. **Paper-type aware** with separate evaluation 
 
 **R&R memory:** When invoked with `--peer --r2`, referees remember their prior reports and check whether their concerns were addressed. Max 3 rounds.
 
-::: {.callout-warning title="Honest Take: Peer Review Agents"}
-The simulated peer review catches real problems --- missing robustness checks, weak identification arguments, literature gaps, notation issues. The disposition system (Structuralist, Skeptic, etc.) creates useful variation in what gets flagged. The "what would change my mind" requirement on every major comment is genuinely helpful for revision planning.
-
-What it can't do: replicate actual referee expertise. A real JHR referee knows the labor literature at a depth this system doesn't. A real Econometrica referee has intuitions about which proofs matter that come from decades of reading the journal. The simulated review catches structural problems; it does not replace field-specific judgment.
-
-The Editor is the best-designed agent in the review pipeline. Its FATAL/ADDRESSABLE/TASTE classification is usually right. But its desk-reject decisions depend on web search for novelty verification, which can miss unpublished working papers or papers with different keywords for the same idea.
+::: {.callout-note title="What to Expect"}
+Catches real structural problems and produces actionable revision plans. The disposition system creates useful reviewer variation. Not a substitute for actual field referees --- use it for pre-submission stress testing.
 :::
 
 ---
@@ -141,12 +127,8 @@ Runs in two modes. **Standard mode** (4 checks): does the paper compile? Do the 
 
 The general contractor. Manages the entire pipeline: dispatches worker-critic pairs based on what phase you're in, enforces quality gates (80 to commit, 90 for PRs, 95 for submission), escalates when pairs can't converge, synthesizes referee reports into editorial decisions, and recommends target journals at submission time. You rarely interact with it directly --- it works behind the scenes when you run `/new-project` or when Claude plans a complex task.
 
-::: {.callout-warning title="Honest Take: Infrastructure"}
-The Verifier checks whether things compile and whether files exist. It does not check whether results are correct. A paper with fabricated numbers passes the Verifier if the LaTeX compiles and the table files exist.
-
-The Orchestrator follows dependency rules mechanically. It is good at dispatching the right agents in the right order and enforcing quality gates. It does not have judgment about when to skip a phase, when a score is misleading, or when a paper needs a completely different approach. For non-standard projects, you'll want to invoke agents directly rather than relying on the orchestrator's routing.
-
-Quality scores are heuristic deduction rubrics. A score of 85 means "the critic found 15 points worth of deductions." It does not mean "this is 85% ready to publish." Use scores to track whether issues are being resolved, not as absolute quality measures.
+::: {.callout-note title="What to Expect"}
+The Verifier checks compilation and file integrity. The Orchestrator dispatches agents and enforces quality gates. Scores track issue resolution --- use them directionally, not as absolute quality measures. For non-standard projects, invoke agents directly.
 :::
 
 ---
@@ -204,6 +186,6 @@ Creates presentations from `paper/main.tex` in 4 formats: **job market talk** (4
 
 Reviews the talk for narrative flow (does the argument build?), visual quality (readable slides, not text walls), content fidelity (does the talk match the paper?), and format appropriateness (is a 15-min talk actually 15 minutes?). Scored as advisory --- talks don't block the pipeline.
 
-::: {.callout-warning title="Honest Take: Talks"}
-The Storyteller produces slide decks that follow a reasonable narrative arc and derive content from the paper. It is better at structure (what goes on which slide, how to sequence the argument) than at visual design (it tends toward text-heavy slides). Expect to cut content and add whitespace. It has no sense of what will look good projected --- it optimizes for completeness, which is the opposite of what makes a good talk.
+::: {.callout-note title="What to Expect"}
+Good narrative structure derived from the paper. Expect to cut content and add whitespace --- talks need less on each slide than the Storyteller tends to produce.
 :::

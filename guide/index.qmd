@@ -1,5 +1,5 @@
 ---
-title: "The Clo-Author 3.0"
+title: "The Clo-Author 4.0"
 subtitle: "AI Research Architecture for Economics"
 ---
 
