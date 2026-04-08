@@ -321,7 +321,7 @@ Phase 3: Execution
   /write                → Paper Sections (Writer + humanizer pass)
 
 Phase 4: Peer Review
-  /review Paper/main.tex    → Weighted Score (multi-agent parallel)
+  /review paper/main.tex    → Weighted Score (multi-agent parallel)
   /review --peer [journal]  → Editor desk review → Referee dispatch
                             → domain-referee + methods-referee (blind)
                             → Editorial decision (FATAL/ADDRESSABLE/TASTE)
@@ -371,14 +371,14 @@ Phase 5: Submission
 </section>
 <section id="write-section" class="level3">
 <h3 class="anchored" data-anchor-id="write-section"><code>/write [section]</code></h3>
-<p>Dispatches the <strong>Writer</strong> agent. Drafts paper sections with proper empirical paper structure:</p>
+<p>Dispatches the <strong>Writer</strong> agent. First identifies the paper type (reduced-form, structural, theory+empirics, descriptive), then drafts using <strong>paragraph-level argument moves</strong> — each paragraph has one job (motivation, result, mechanism, qualification):</p>
 <ul>
-<li><strong>Introduction</strong>: contribution paragraph within first 2 pages, effect sizes stated, clear identification preview</li>
-<li><strong>Empirical Strategy</strong>: per-design template (DiD, IV, RDD, etc.) with assumption discussion</li>
-<li><strong>Results</strong>: proper table/figure references, statistical vs economic significance</li>
+<li><strong>Introduction</strong>: paper-type-specific sequence — reduced-form leads with identification preview + result; structural leads with model preview + counterfactual; descriptive leads with data innovation + key fact</li>
+<li><strong>Strategy/Model</strong>: design-specific templates (DiD parallel trends, IV exclusion restriction, RDD manipulation) or structural (environment, identification of parameters, estimation, counterfactuals)</li>
+<li><strong>Results</strong>: narration adapts to output type — regression tables, event study figures, IV first stage + 2SLS, counterfactual simulations, descriptive facts</li>
 <li><strong>Notation protocol</strong>: consistent notation throughout, calibrated to your field via domain profile</li>
 </ul>
-<p>Anti-hedging rules enforced. <strong>Humanizer pass</strong> automatically strips 24 AI writing patterns.</p>
+<p>Anti-hedging rules enforced. <strong>Cleanup pass</strong> automatically strips 24 AI writing patterns after drafting.</p>
 </section>
 </section>
 <section id="review-phase" class="level2">
@@ -399,7 +399,7 @@ Phase 5: Submission
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>/review Paper/main.tex</code></td>
+<td><code>/review paper/main.tex</code></td>
 <td>writer-critic + strategist-critic + Verifier (comprehensive)</td>
 </tr>
 <tr class="even">
@@ -415,11 +415,11 @@ Phase 5: Submission
 <td>Same, calibrated to JHR’s review culture</td>
 </tr>
 <tr class="odd">
-<td><code>/review --methods Paper/main.tex</code></td>
+<td><code>/review --methods paper/main.tex</code></td>
 <td>strategist-critic standalone</td>
 </tr>
 <tr class="even">
-<td><code>/review --proofread Paper/main.tex</code></td>
+<td><code>/review --proofread paper/main.tex</code></td>
 <td>writer-critic standalone</td>
 </tr>
 <tr class="odd">
@@ -448,7 +448,7 @@ Phase 5: Submission
 <p>Both referees are independent (neither sees the other’s report). Each referee gets a <strong>disposition</strong> (Structuralist, Credibility, Measurement, Policy, Theory, or Skeptic) and <strong>pet peeves</strong> (1 critical + 1 constructive) that shape their review personality. Every major comment includes a “what would change my mind” statement. The Editor synthesizes the editorial decision, classifying each issue as FATAL, ADDRESSABLE, or TASTE.</p>
 <p><strong>R&amp;R memory:</strong> Use <code>--peer --r2</code> for round 2 reviews — referees remember their prior reports and check whether their concerns were addressed.</p>
 <p><strong>Stress test:</strong> Use <code>--stress [journal]</code> for maximum-severity review (max 3 rounds).</p>
-<p><strong>Journal calibration:</strong> Add a journal name to calibrate both referees to that journal’s review culture. For example, <code>/review --peer JHR</code> makes the referees prioritize policy relevance and clean identification (what JHR referees actually care about). 30 journals are pre-populated in <code>.claude/references/journal-profiles.md</code> (economics, finance, accounting, marketing, management); you can add your own. Without a journal name, referees review as generic top-field reviewers.</p>
+<p><strong>Journal calibration:</strong> Add a journal name to calibrate both referees to that journal’s review culture. For example, <code>/review --peer JHR</code> makes the referees prioritize policy relevance and clean identification (what JHR referees actually care about). 30 journals are pre-populated in <code>.claude/references/journal-profiles.md</code> (economics and adjacent fields); you can add your own. Without a journal name, referees review as generic top-field reviewers.</p>
 <p>See the full <a href="./reference.html">command reference</a> for all flags and subcommands.</p>
 </section>
 </section>
@@ -545,8 +545,8 @@ Phase 5: Submission
 </table>
 <p>Talk scores are <strong>advisory</strong> (non-blocking).</p>
 <p>Subcommands: <code>/talk create [format]</code>, <code>/talk audit [file]</code>, <code>/talk compile [file]</code>.</p>
-<p><strong>Beamer</strong> (default): Outputs to <code>Paper/talks/</code>. Use <code>/talk create [format]</code>.</p>
-<p><strong>Quarto RevealJS</strong>: Outputs to <code>Paper/quarto/</code>. Use <code>/talk create [format] --quarto</code> for web-native slides with interactive features.</p>
+<p><strong>Beamer</strong> (default): Outputs to <code>paper/talks/</code>. Use <code>/talk create [format]</code>.</p>
+<p><strong>Quarto RevealJS</strong>: Outputs to <code>paper/quarto/</code>. Use <code>/talk create [format] --quarto</code> for web-native slides with interactive features.</p>
 </section>
 </section>
 <section id="submission-phase" class="level2">
@@ -807,7 +807,7 @@ Note
 <tr class="odd">
 <td>Scope</td>
 <td>Economics only</td>
-<td>All empirical social science</td>
+<td>Economics (adaptable to adjacent fields)</td>
 </tr>
 <tr class="even">
 <td>Peer review</td>
@@ -827,7 +827,7 @@ Note
 <tr class="odd">
 <td>Folder structure</td>
 <td><code>Paper/</code>, <code>Figures/</code>, <code>Tables/</code>, <code>Talks/</code></td>
-<td><code>paper/</code> (self-contained)</td>
+<td><code>paper/</code> (self-contained), <code>scripts/</code></td>
 </tr>
 <tr class="even">
 <td>Presentations</td>

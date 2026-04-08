@@ -363,9 +363,9 @@ flowchart LR
 <tbody>
 <tr class="odd">
 <td><strong>Strategist</strong></td>
-<td>DiD/IV/RDD/SC design, strategy memo</td>
+<td>Strategy memo (4 paper types)</td>
 <td><strong>strategist-critic</strong></td>
-<td>Assumptions, inference, sanity</td>
+<td>Assumptions, inference, sanity (type-specific)</td>
 </tr>
 </tbody>
 </table>
@@ -396,15 +396,15 @@ flowchart LR
 </tr>
 <tr class="even">
 <td><strong>Coder</strong></td>
-<td>Analysis scripts, tables</td>
+<td>Analysis scripts, tables (numerical discipline)</td>
 <td><strong>coder-critic</strong></td>
-<td>Strategy alignment, correctness</td>
+<td>Strategy alignment, 16 checks incl.&nbsp;numerical discipline</td>
 </tr>
 <tr class="odd">
 <td><strong>Writer</strong></td>
-<td>Paper sections, humanizer pass</td>
+<td>Paper sections (argument moves, 4 types)</td>
 <td><strong>writer-critic</strong></td>
-<td>Notation, hedging, claims vs evidence</td>
+<td>8 checks: structure, coherence, design completeness</td>
 </tr>
 </tbody>
 </table>
@@ -807,7 +807,7 @@ flowchart TD
 <p>The Clo-Author inherits a lecture production pipeline from <a href="https://github.com/pedrohcgs/claude-code-my-workflow">its origin</a>. These workflows are available for users who also produce course materials.</p>
 <section id="creating-talks-from-papers" class="level2">
 <h2 class="anchored" data-anchor-id="creating-talks-from-papers">Creating Talks from Papers</h2>
-<p>The <code>/talk</code> skill dispatches the Storyteller (creator) and storyteller-critic (reviewer) to generate presentations in 4 formats (job market, seminar, short, lightning). Supports both Beamer (output to <code>Paper/talks/</code>) and Quarto RevealJS (output to <code>Paper/quarto/</code> via <code>--quarto</code> flag). All content derives from <code>Paper/main.tex</code>.</p>
+<p>The <code>/talk</code> skill dispatches the Storyteller (creator) and storyteller-critic (reviewer) to generate presentations in 4 formats (job market, seminar, short, lightning). Supports both Beamer (output to <code>paper/talks/</code>) and Quarto RevealJS (output to <code>paper/quarto/</code> via <code>--quarto</code> flag). All content derives from <code>paper/main.tex</code>.</p>
 </section>
 <section id="replication-first-coding" class="level2">
 <h2 class="anchored" data-anchor-id="replication-first-coding">Replication-First Coding</h2>

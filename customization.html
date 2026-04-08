@@ -325,7 +325,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="domain-profile" class="level1">
 <h1>Domain Profile</h1>
-<p>The domain profile (<code>.claude/references/domain-profile.md</code>) calibrates all agents to your specific research field. Agents read their discipline from this file; the default is economics if not specified. It supports any empirical social science: economics, finance, marketing, management, accounting, and public policy. It can be populated two ways:</p>
+<p>The domain profile (<code>.claude/references/domain-profile.md</code>) calibrates all agents to your specific research field. The default is economics. It can be adapted to adjacent fields (finance, accounting, marketing, management) by editing the profile. It can be populated two ways:</p>
 <ol type="1">
 <li><strong><code>/discover</code></strong> (interactive interview) — generates it automatically</li>
 <li><strong>Manual editing</strong> — fill in the template directly</li>
@@ -359,7 +359,7 @@ ul.task-list li input[type="checkbox"] {
 <h1>Skills — Available Commands</h1>
 <p>Skills are multi-step workflows invoked with <code>/command</code>. Each skill lives in <code>.claude/skills/[name]/SKILL.md</code> and dispatches the appropriate agents.</p>
 <p>There are <strong>10 skills</strong> covering the full research pipeline: <code>/new-project</code>, <code>/discover</code>, <code>/strategize</code>, <code>/analyze</code>, <code>/write</code>, <code>/review</code>, <code>/revise</code>, <code>/talk</code>, <code>/submit</code>, and <code>/tools</code>.</p>
-<p>Skills can be invoked two ways: <strong>explicitly</strong> (you type <code>/review Paper/main.tex</code>) or <strong>automatically</strong> (Claude invokes them when relevant). Most of the time, you just describe what you want.</p>
+<p>Skills can be invoked two ways: <strong>explicitly</strong> (you type <code>/review paper/main.tex</code>) or <strong>automatically</strong> (Claude invokes them when relevant). Most of the time, you just describe what you want.</p>
 <p>See the <a href="./reference.html">Command Reference</a> for every command, flag, and subcommand. See the <a href="./user-guide.html">User Guide</a> for detailed workflow descriptions.</p>
 <hr>
 </section>

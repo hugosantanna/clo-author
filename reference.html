@@ -203,7 +203,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><code>/strategize</code></td>
 <td><code>--pap</code></td>
-<td>Identification strategy or pre-analysis plan</td>
+<td>Empirical strategy (4 paper types) or pre-analysis plan</td>
 </tr>
 <tr class="even">
 <td><code>/analyze [dataset]</code></td>
@@ -213,7 +213,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><code>/write [section]</code></td>
 <td><code>--humanize</code></td>
-<td>Draft paper sections or strip AI patterns</td>
+<td>Draft sections (argument moves, 4 paper types) or strip AI patterns</td>
 </tr>
 <tr class="even">
 <td><code>/review [file]</code></td>
@@ -317,12 +317,12 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><em>(default)</em></td>
 <td>Strategist → strategist-critic</td>
-<td>Strategy memo + robustness plan + falsification tests</td>
+<td>Strategy memo (paper-type aware) + robustness plan + falsification tests</td>
 </tr>
 <tr class="even">
 <td><code>--pap</code></td>
 <td>Strategist (PAP mode)</td>
-<td>Pre-analysis plan in AEA/OSF/EGAP format <em>(experimental/RCT only)</em></td>
+<td>Pre-analysis plan in AEA/OSF/EGAP format <em>(primarily experimental/RCT)</em></td>
 </tr>
 </tbody>
 </table>
@@ -361,16 +361,18 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p><strong>Languages:</strong> R, Stata, Python, Julia <strong>Saves to:</strong> <code>scripts/</code>, <code>Paper/tables/</code>, <code>Paper/figures/</code>, <code>Output/cross_language_comparison.md</code></p>
+<p><strong>Languages:</strong> R, Stata, Python, Julia <strong>Saves to:</strong> <code>scripts/</code>, <code>paper/tables/</code>, <code>paper/figures/</code>, <code>Output/cross_language_comparison.md</code></p>
 <p><strong>Cross-language replication:</strong> When <code>--dual</code> is used, both implementations run the same specification independently. Results are compared against tolerances in <code>domain-profile.md</code>. Divergences are flagged. Inspired by Scott Cunningham’s approach: if two independent implementations agree, neither has a bug.</p>
 <hr>
 </section>
 <section id="write" class="level1">
 <h1><code>/write</code></h1>
-<pre><code>/write intro                    Introduction (contribution in first 2 pages)
-/write strategy                 Empirical strategy (design-templated)
-/write results                  Results (effect sizes in economic terms)
-/write conclusion               Conclusion (restate with magnitude)
+<pre><code>/write intro                    Introduction (paper-type-specific moves)
+/write strategy                 Empirical strategy / Model (design-specific)
+/write results                  Results (narration by output type)
+/write conclusion               Conclusion (type-specific ending)
+/write data                     Data section (expanded for descriptive papers)
+/write model                    Model section (structural / theory+empirics only)
 /write abstract                 Abstract (100-150 words)
 /write full                     All sections
 /write --humanize [file]        Strip AI writing patterns only</code></pre>
@@ -391,21 +393,21 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><code>[section]</code></td>
 <td>Writer</td>
-<td>LaTeX section in <code>Paper/sections/</code></td>
+<td>LaTeX section in <code>paper/sections/</code></td>
 </tr>
 <tr class="even">
 <td><code>--humanize</code></td>
-<td>Writer (humanizer mode)</td>
+<td>Writer (cleanup mode)</td>
 <td>Edited file with 24 AI patterns stripped</td>
 </tr>
 </tbody>
 </table>
-<p>Every draft gets an automatic humanizer pass before finalizing.</p>
+<p>The Writer first identifies the paper type (reduced-form, structural, theory+empirics, descriptive), then drafts using paragraph-level argument moves with type-specific section templates. Cleanup pass runs automatically after drafting.</p>
 <hr>
 </section>
 <section id="review" class="level1">
 <h1><code>/review</code></h1>
-<pre><code>/review Paper/main.tex          Comprehensive (auto-detect paper)
+<pre><code>/review paper/main.tex          Comprehensive (auto-detect paper)
 /review scripts/R/analysis.R    Code review (auto-detect script)
 /review --peer                  Blind peer review (generic)
 /review --peer JHR              Blind peer review (calibrated to JHR)
@@ -489,7 +491,7 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p><strong>Referee dispositions:</strong> Each referee is assigned one of 6 dispositions (Structuralist, Credibility, Measurement, Policy, Theory, Skeptic) plus pet peeves (1 critical + 1 constructive). Every major comment includes “what would change my mind.”</p>
 <p><strong>Editorial decision:</strong> The Editor classifies each issue as FATAL (rejection-worthy), ADDRESSABLE (fixable in revision), or TASTE (referee preference, not binding).</p>
-<p><strong>Journal calibration:</strong> When a journal name is provided with <code>--peer</code>, the Editor and both referees read <code>.claude/references/journal-profiles.md</code> and adapt their priorities, bar, and checklist to that journal. 30 journals are pre-populated (economics, finance, accounting, marketing, management); unknown journals still get adapted review using the journal name + your domain profile. You can add custom profiles.</p>
+<p><strong>Journal calibration:</strong> When a journal name is provided with <code>--peer</code>, the Editor and both referees read <code>.claude/references/journal-profiles.md</code> and adapt their priorities, bar, and checklist to that journal. 30 journals are pre-populated (economics and adjacent fields); unknown journals still get adapted review using the journal name + your domain profile. You can add custom profiles.</p>
 <p><strong>Saves to:</strong> <code>quality_reports/</code></p>
 <hr>
 </section>
@@ -547,7 +549,7 @@ ul.task-list li input[type="checkbox"] {
 /talk create seminar             Standard seminar (30-45 min, 25-35 slides)
 /talk create short               Conference session (15 min, 10-15 slides)
 /talk create lightning           Elevator pitch (5 min, 3-5 slides)
-/talk create [format] --quarto   Quarto RevealJS version (output to Paper/quarto/)
+/talk create [format] --quarto   Quarto RevealJS version (output to paper/quarto/)
 /talk audit [file]               Visual layout check
 /talk compile [file]             XeLaTeX or Quarto compilation</code></pre>
 <table class="caption-top table">
@@ -567,12 +569,12 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><code>create</code></td>
 <td>Storyteller → storyteller-critic</td>
-<td>Beamer <code>.tex</code> in <code>Paper/talks/</code></td>
+<td>Beamer <code>.tex</code> in <code>paper/talks/</code></td>
 </tr>
 <tr class="even">
 <td><code>create --quarto</code></td>
 <td>Storyteller → storyteller-critic</td>
-<td>Quarto <code>.qmd</code> in <code>Paper/quarto/</code></td>
+<td>Quarto <code>.qmd</code> in <code>paper/quarto/</code></td>
 </tr>
 <tr class="odd">
 <td><code>audit</code></td>

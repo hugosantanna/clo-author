@@ -70,35 +70,6 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -236,6 +207,19 @@ window.Quarto = {
 <p>When you ask Claude to analyze data or draft a paper, it doesn’t do everything itself. It dispatches <strong>specialized agents</strong> — think of them as 17 different research assistants, each with a specific skill.</p>
 <p>The key pattern: every agent that creates something (a literature review, analysis code, paper text) has a <strong>paired critic</strong> that checks its work. The critic can read but never edit — so it has no reason to go easy. If the critic finds problems, the worker fixes them. If they can’t agree after 3 rounds, you get asked to decide.</p>
 <p>This is what prevents Claude from saying “looks good” about its own work.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Honest Take">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Honest Take
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These agents are tools, not colleagues. They follow templates well but don’t have the judgment of an experienced researcher. You should expect to revise everything they produce. The critics catch structural problems (wrong clustering, missing citations, broken LaTeX) reliably. They are weaker at catching subtle issues that require field expertise or taste. The honest limitations of each agent are noted below.</p>
+</div>
+</div>
 <hr>
 </section>
 <section id="the-researchers-discovery-phase" class="level1">
@@ -256,6 +240,20 @@ window.Quarto = {
 <section id="explorer-critic" class="level2">
 <h2 class="anchored" data-anchor-id="explorer-critic">explorer-critic</h2>
 <p>Reviews the Explorer’s data assessment with a skeptical eye. Checks whether the recommended datasets actually measure what you need, whether the sample is representative enough for your question, and whether the data limitations would threaten your identification strategy.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Honest Take: Discovery Agents">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Honest Take: Discovery Agents
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Librarian finds papers that exist online and match keywords well. It misses working papers not yet indexed, papers behind paywalls it can’t access, and papers in adjacent fields that use different terminology for the same concept. It does not replace knowing your literature — it gives you a starting list to build on.</p>
+<p>The Explorer knows about commonly used public datasets (Census, ACS, CPS, NLSY, etc.) but has no way to verify current access status, check whether a dataset has been updated, or assess restricted-use application timelines. Treat its output as a lead list, not a confirmed data plan.</p>
+</div>
+</div>
 <hr>
 </section>
 </section>
@@ -264,11 +262,25 @@ window.Quarto = {
 <p>These agents design and validate your empirical approach before you write a single line of code.</p>
 <section id="strategist" class="level2">
 <h2 class="anchored" data-anchor-id="strategist">Strategist</h2>
-<p>Given your research question, literature, and available data, designs the identification strategy. Produces a strategy memo covering: the estimand (what you’re trying to measure), the estimator (DiD, IV, RDD, synthetic control), the key assumptions, a robustness plan, and falsification tests. Can also draft Pre-Analysis Plans in AEA/OSF/EGAP format.</p>
+<p>Given your research question, literature, and available data, designs the empirical strategy. <strong>Paper-type aware</strong> — first classifies the paper as reduced-form, structural, theory+empirics, or descriptive, then applies the right strategy template. For reduced-form: estimand, estimator (DiD, IV, RDD, synthetic control), assumptions, robustness plan, falsification tests. For structural: model environment, parameter identification (which moments pin down which parameters), estimation method, counterfactual design. For theory+empirics: testable predictions, mapping to data, test power. For descriptive: construct definition, validation plan, decomposition strategy. Can also draft Pre-Analysis Plans in AEA/OSF/EGAP format.</p>
 </section>
 <section id="strategist-critic" class="level2">
 <h2 class="anchored" data-anchor-id="strategist-critic">strategist-critic</h2>
-<p>The toughest reviewer in the system. Reads the strategy memo and stress-tests it: Are the identifying assumptions defensible? Is the estimator appropriate for this design? Are there threats to inference (clustering, multiple testing, weak instruments)? Would a skeptical referee accept this? Sends it back with specific objections until the design is sound.</p>
+<p>The toughest reviewer in the system. <strong>Paper-type aware</strong> — uses different checklists per type. For reduced-form: design-specific assumption checks (parallel trends for DiD, exclusion restriction for IV, manipulation test for RDD), sanity checks (sign, magnitude, dynamics), inference (clustering, multiple testing), package-specific code checks. For structural: model specification, parameter identification (data variation vs.&nbsp;functional form), estimation convergence, model fit, counterfactual credibility. For theory+empirics: prediction sharpness (do they rule things out?), test power, honesty about failures. Sends it back with specific objections until the design is sound.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Honest Take: Strategy Agents">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Honest Take: Strategy Agents
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Strategist proposes designs by pattern-matching against known identification strategies. It is good at assembling the right checklist (parallel trends for DiD, exclusion restriction for IV) and recommending modern estimators. It is weaker at evaluating whether the <em>institutional story</em> behind your variation is convincing — that requires field knowledge it doesn’t have. It cannot tell you whether your instrument is actually exogenous; it can only tell you what to check.</p>
+<p>The strategist-critic is the strongest agent in the system for reduced-form designs. Its structural and theory+empirics checklists are newer and less battle-tested. For structural papers, have someone who works with structural models review the strategy memo alongside the critic’s report.</p>
+</div>
+</div>
 <hr>
 </section>
 </section>
@@ -281,19 +293,35 @@ window.Quarto = {
 </section>
 <section id="coder" class="level2">
 <h2 class="anchored" data-anchor-id="coder">Coder</h2>
-<p>Translates the strategy memo into working analysis scripts. Implements the main specification, robustness checks, and produces publication-ready tables. Supports R, Stata, Python, and Julia. If you’re replicating someone else’s work first, it matches the original results before extending.</p>
+<p>Translates the strategy memo into working analysis scripts. <strong>Paper-type aware</strong> — implements reduced-form estimation (DiD/IV/RDD with design-specific packages), structural models (MLE/GMM/SMM/BLP with convergence diagnostics and counterfactual simulation), theory+empirics (prediction-by-prediction tests), or descriptive analysis (construction, validation, decomposition). Enforces engineering discipline: paper-to-code naming maps, numbered script structure with master runner, function-per-file, numerical guards (float comparison, CDF clamping, inverse link protection), and bootstrap/parallel patterns. Supports R, Stata, Python, and Julia.</p>
 </section>
 <section id="coder-critic" class="level2">
 <h2 class="anchored" data-anchor-id="coder-critic">coder-critic</h2>
-<p>Reviews all code — from both the Data-engineer and the Coder. Checks that scripts are reproducible (no hardcoded paths, packages loaded at top, seeds set for stochastic processes), that the code actually implements what the strategy memo says, and that results are numerically sensible.</p>
+<p>Reviews all code — from both the Data-engineer and the Coder. <strong>16 check categories</strong> including strategy alignment, numerical discipline (float guards, CDF clamping, pre-allocation, NaN/Inf checks), paper-to-code naming map, function design, reproducibility, and paper-type-specific checks (convergence for structural, seed handling for simulations). Also enforces prohibited patterns (<code>setwd()</code>, <code>sapply()</code>, <code>&lt;&lt;-</code>, <code>T</code>/<code>F</code>, hardcoded paths).</p>
 </section>
 <section id="writer" class="level2">
 <h2 class="anchored" data-anchor-id="writer">Writer</h2>
-<p>Drafts paper sections with proper empirical paper structure: an introduction that states the contribution within the first two pages, an empirical strategy section templated to your design (DiD, IV, RDD), and results that distinguish statistical from economic significance. Runs an automatic <strong>humanizer pass</strong> that strips common AI writing patterns (inflated symbolism, rule-of-three lists, hedging language).</p>
+<p>Drafts paper sections using <strong>paragraph-level argument moves</strong> — each paragraph has one job (motivation, result statement, mechanism, robustness narration, qualification). <strong>Paper-type aware</strong> with full section templates for reduced-form (design-specific: DiD parallel trends, IV exclusion restriction, RDD manipulation), structural (model environment, estimation, counterfactual simulations, welfare), theory+empirics (model predictions, empirical tests, honest assessment), and descriptive (data construction, validation, key facts). Results narration adapts to output type (regression table, event study figure, IV first stage + 2SLS, counterfactual simulation). Cleanup pass strips AI writing patterns after drafting.</p>
 </section>
 <section id="writer-critic" class="level2">
 <h2 class="anchored" data-anchor-id="writer-critic">writer-critic</h2>
-<p>Reads the manuscript looking for problems a referee would catch: inconsistent notation (<span class="math inline">\(Y_{it}\)</span> in one place, <span class="math inline">\(y_i\)</span> in another), hedging language (“it could potentially suggest”), claims not supported by the evidence shown, and LaTeX issues (overfull hboxes, broken references). Sends it back for fixes.</p>
+<p><strong>8 check categories</strong> including argument structure (each paragraph has identifiable purpose, findings lead sentences), claims-evidence alignment, paper-type coherence (does the introduction promise match the strategy delivery?), design-specific completeness (DiD must have parallel trends discussion, IV must have LATE interpretation, structural must estimate and simulate), results narration quality, notation consistency, and LaTeX compilation. Sends it back for fixes.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Honest Take: Execution Agents">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Honest Take: Execution Agents
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Coder:</strong> Good at translating a clear strategy memo into working code with proper structure. It knows the right R packages and follows engineering discipline. It is weaker at debugging subtle numerical issues (convergence failures in structural estimation, edge cases in bootstrap), and it cannot tell you if your results are <em>interesting</em> — only if the code runs and matches the memo. Always inspect the output yourself.</p>
+<p><strong>Writer:</strong> This was the weakest agent and has been substantially rewritten. The argument-move templates produce better-structured drafts than the old approach (which was basically “write, then strip AI tells”). But it still produces <em>drafts</em>, not finished prose. The output will sound competent but generic. Your voice, your judgment about what to emphasize, and your knowledge of the field are what turn it into a paper. Expect to rewrite substantially, not just edit.</p>
+<p><strong>coder-critic:</strong> Catches reproducibility issues (paths, seeds, packages) and code-strategy mismatches reliably. The numerical discipline checks are new. It cannot run code — it reads it. So it catches logical errors in code structure but misses runtime bugs.</p>
+<p><strong>writer-critic:</strong> Good at catching mechanical problems (broken citations, notation inconsistency, hedging language, LaTeX issues). Weaker at evaluating whether the argument <em>persuades</em> — it checks structure, not substance. A paper can pass all 8 checks and still be unconvincing.</p>
+</div>
+</div>
 <hr>
 </section>
 </section>
@@ -310,8 +338,23 @@ window.Quarto = {
 </section>
 <section id="methods-referee" class="level2">
 <h2 class="anchored" data-anchor-id="methods-referee">methods-referee</h2>
-<p>The <strong>empirical methods expert</strong>. Evaluates whether your identification strategy is valid, whether the estimation is appropriate, whether inference is correct (clustering, standard errors, multiple testing), whether the robustness checks are sufficient, and whether another researcher could replicate your results. Also calibrates to a target journal when specified. Like the domain-referee, includes “what would change my mind” on every major comment.</p>
+<p>The <strong>empirical methods expert</strong>. <strong>Paper-type aware</strong> with separate evaluation dimensions per type. Reduced-form: identification strategy, estimation, inference, robustness, replication. Structural: model specification, parameter identification, estimation and computation, model fit, counterfactual credibility. Theory+empirics: model quality, prediction sharpness, test design and power, honesty of assessment. Descriptive: construct validity, construction replicability, validation, analysis quality. Calibrates to target journal when specified. Like the domain-referee, includes “what would change my mind” on every major comment.</p>
 <p><strong>R&amp;R memory:</strong> When invoked with <code>--peer --r2</code>, referees remember their prior reports and check whether their concerns were addressed. Max 3 rounds.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Honest Take: Peer Review Agents">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Honest Take: Peer Review Agents
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The simulated peer review catches real problems — missing robustness checks, weak identification arguments, literature gaps, notation issues. The disposition system (Structuralist, Skeptic, etc.) creates useful variation in what gets flagged. The “what would change my mind” requirement on every major comment is genuinely helpful for revision planning.</p>
+<p>What it can’t do: replicate actual referee expertise. A real JHR referee knows the labor literature at a depth this system doesn’t. A real Econometrica referee has intuitions about which proofs matter that come from decades of reading the journal. The simulated review catches structural problems; it does not replace field-specific judgment.</p>
+<p>The Editor is the best-designed agent in the review pipeline. Its FATAL/ADDRESSABLE/TASTE classification is usually right. But its desk-reject decisions depend on web search for novelty verification, which can miss unpublished working papers or papers with different keywords for the same idea.</p>
+</div>
+</div>
 <hr>
 </section>
 </section>
@@ -325,6 +368,21 @@ window.Quarto = {
 <section id="orchestrator" class="level2">
 <h2 class="anchored" data-anchor-id="orchestrator">Orchestrator</h2>
 <p>The general contractor. Manages the entire pipeline: dispatches worker-critic pairs based on what phase you’re in, enforces quality gates (80 to commit, 90 for PRs, 95 for submission), escalates when pairs can’t converge, synthesizes referee reports into editorial decisions, and recommends target journals at submission time. You rarely interact with it directly — it works behind the scenes when you run <code>/new-project</code> or when Claude plans a complex task.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Honest Take: Infrastructure">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Honest Take: Infrastructure
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Verifier checks whether things compile and whether files exist. It does not check whether results are correct. A paper with fabricated numbers passes the Verifier if the LaTeX compiles and the table files exist.</p>
+<p>The Orchestrator follows dependency rules mechanically. It is good at dispatching the right agents in the right order and enforcing quality gates. It does not have judgment about when to skip a phase, when a score is misleading, or when a paper needs a completely different approach. For non-standard projects, you’ll want to invoke agents directly rather than relying on the orchestrator’s routing.</p>
+<p>Quality scores are heuristic deduction rubrics. A score of 85 means “the critic found 15 points worth of deductions.” It does not mean “this is 85% ready to publish.” Use scores to track whether issues are being resolved, not as absolute quality measures.</p>
+</div>
+</div>
 <hr>
 </section>
 </section>
@@ -368,12 +426,12 @@ window.Quarto = {
 <tr class="odd">
 <td>Strategist</td>
 <td><code>strategist.md</code></td>
-<td>Identification strategy design, Pre-Analysis Plans</td>
+<td>Empirical strategy (4 paper types), Pre-Analysis Plans</td>
 </tr>
 <tr class="even">
 <td>strategist-critic</td>
 <td><code>strategist-critic.md</code></td>
-<td>Validates assumptions, inference, robustness</td>
+<td>Validates assumptions, inference, robustness (4 paper types)</td>
 </tr>
 <tr class="odd">
 <td>Data-engineer</td>
@@ -383,22 +441,22 @@ window.Quarto = {
 <tr class="even">
 <td>Coder</td>
 <td><code>coder.md</code></td>
-<td>Analysis implementation (R/Stata/Python/Julia)</td>
+<td>Analysis implementation (4 paper types, numerical discipline)</td>
 </tr>
 <tr class="odd">
 <td>coder-critic</td>
 <td><code>coder-critic.md</code></td>
-<td>Code quality, reproducibility, strategy alignment</td>
+<td>16 checks: code quality, numerical discipline, strategy alignment</td>
 </tr>
 <tr class="even">
 <td>Writer</td>
 <td><code>writer.md</code></td>
-<td>Paper drafting, humanizer pass</td>
+<td>Argument-move drafting (4 paper types, design-specific)</td>
 </tr>
 <tr class="odd">
 <td>writer-critic</td>
 <td><code>writer-critic.md</code></td>
-<td>Notation, hedging, LaTeX, claims vs evidence</td>
+<td>8 checks: structure, coherence, design completeness, LaTeX</td>
 </tr>
 <tr class="even">
 <td>Editor</td>
@@ -413,7 +471,7 @@ window.Quarto = {
 <tr class="even">
 <td>methods-referee</td>
 <td><code>methods-referee.md</code></td>
-<td>Blind peer review (empirical methods)</td>
+<td>Blind peer review (methods, 4 paper types)</td>
 </tr>
 <tr class="odd">
 <td>Storyteller</td>
@@ -481,11 +539,24 @@ window.Quarto = {
 <p>These agents create and review Beamer presentations derived from your paper.</p>
 <section id="storyteller" class="level2">
 <h2 class="anchored" data-anchor-id="storyteller">Storyteller</h2>
-<p>Creates presentations from <code>Paper/main.tex</code> in 4 formats: <strong>job market talk</strong> (45–60 min, full results), <strong>seminar</strong> (30–45 min, standard format), <strong>short talk</strong> (15 min, conference session), and <strong>lightning</strong> (5 min, elevator pitch). Supports both <strong>Beamer</strong> (output to <code>Paper/talks/</code>) and <strong>Quarto RevealJS</strong> (output to <code>Paper/quarto/</code> via <code>--quarto</code> flag). All content derives from the paper — the Storyteller never invents results.</p>
+<p>Creates presentations from <code>paper/main.tex</code> in 4 formats: <strong>job market talk</strong> (45–60 min, full results), <strong>seminar</strong> (30–45 min, standard format), <strong>short talk</strong> (15 min, conference session), and <strong>lightning</strong> (5 min, elevator pitch). Supports both <strong>Beamer</strong> (output to <code>paper/talks/</code>) and <strong>Quarto RevealJS</strong> (output to <code>paper/quarto/</code> via <code>--quarto</code> flag). All content derives from the paper — the Storyteller never invents results.</p>
 </section>
 <section id="storyteller-critic" class="level2">
 <h2 class="anchored" data-anchor-id="storyteller-critic">storyteller-critic</h2>
 <p>Reviews the talk for narrative flow (does the argument build?), visual quality (readable slides, not text walls), content fidelity (does the talk match the paper?), and format appropriateness (is a 15-min talk actually 15 minutes?). Scored as advisory — talks don’t block the pipeline.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Honest Take: Talks">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Honest Take: Talks
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Storyteller produces slide decks that follow a reasonable narrative arc and derive content from the paper. It is better at structure (what goes on which slide, how to sequence the argument) than at visual design (it tends toward text-heavy slides). Expect to cut content and add whitespace. It has no sense of what will look good projected — it optimizes for completeness, which is the opposite of what makes a good talk.</p>
+</div>
+</div>
 
 
 </section>

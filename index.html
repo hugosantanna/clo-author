@@ -192,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">The Clo-Author 3.0</h1>
-<p class="subtitle lead">AI Research Architecture for Empirical Social Science</p>
+<p class="subtitle lead">AI Research Architecture for Economics</p>
 </div>
 
 
@@ -209,9 +209,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>An open-source <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a> workflow that turns your terminal into a full-service empirical research assistant — from literature review to journal submission. Built for empirical social science: economics, finance, marketing, management, accounting, and public policy.</p>
+<p>An open-source <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a> scaffold for empirical economics research — from literature review to journal submission. Can be adapted to adjacent fields (finance, accounting, marketing, management) by customizing the domain profile and journal profiles.</p>
 <p><strong>Built on</strong> <a href="https://github.com/pedrohcgs/claude-code-my-workflow">Pedro Sant’Anna’s claude-code-my-workflow</a>, reoriented for empirical research publication.</p>
-<p>You describe a task in plain English. Claude plans the approach, dispatches specialized agents, reviews quality, fixes issues, and presents results. Like a contractor who manages the entire job — 17 agents, 10 commands, all running behind the scenes.</p>
+<p>You describe a task in plain English. Claude plans the approach (you approve), dispatches specialized agents, reviews quality, fixes issues, and presents results — 17 agents, 10 commands, all running behind the scenes. You review the output at each stage.</p>
 <section id="get-started-in-5-minutes" class="level2">
 <h2 class="anchored" data-anchor-id="get-started-in-5-minutes">Get Started in 5 Minutes</h2>
 <section id="step-1-fork-clone" class="level3">
@@ -237,7 +237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Once setup is done, just describe what you need:</p>
 <ul>
 <li>“Review my paper” — checks your identification strategy, code, writing, and LaTeX in parallel</li>
-<li><code>/review --methods Paper/main.tex</code> — validates your causal design assumptions, clustering, and inference</li>
+<li><code>/review --methods paper/main.tex</code> — validates your causal design assumptions, clustering, and inference</li>
 <li><code>/analyze Data/cleaned/survey.csv</code> — cleans data, runs your specification, produces tables and figures</li>
 <li><code>/new-project health insurance</code> — walks you through the full pipeline from literature review to submission</li>
 </ul>
@@ -288,8 +288,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p><strong>Configure permissions</strong> — Review <code>.claude/settings.json</code>. The template includes permissions for git, LaTeX, R, and utility scripts.</p>
 <p><strong>Test it:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/tools</span> compile Paper/main.tex</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">/review</span> <span class="at">--proofread</span> Paper/main.tex</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/tools</span> compile paper/main.tex</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">/review</span> <span class="at">--proofread</span> paper/main.tex</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -331,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="origin" class="level2">
 <h2 class="anchored" data-anchor-id="origin">Origin</h2>
-<p>This project is a fork of <a href="https://github.com/pedrohcgs/claude-code-my-workflow">Pedro Sant’Anna’s claude-code-my-workflow</a>, which was built for Econ 730 at Emory University (6 lectures, 800+ slides). The Clo-Author reorients that infrastructure from lecture production to empirical research publication across the social sciences.</p>
+<p>This project is a fork of <a href="https://github.com/pedrohcgs/claude-code-my-workflow">Pedro Sant’Anna’s claude-code-my-workflow</a>, which was built for Econ 730 at Emory University (6 lectures, 800+ slides). The Clo-Author reorients that infrastructure from lecture production to empirical economics research.</p>
 <p>The <code>/humanizer</code> skill is by <a href="https://github.com/blader/humanizer">Siqi Chen</a>, adapted here for academic writing.</p>
 <p>Maintained by <a href="https://hsantanna.org">Hugo Sant’Anna</a>. MIT License — fork it, customize it, make it yours.</p>
 
