@@ -41,7 +41,7 @@ Claude reads the configuration, fills in your project details, and enters contra
 Once setup is done, just describe what you need:
 
 - "Review my paper" --- checks your identification strategy, code, writing, and LaTeX in parallel
-- `/review --methods Paper/main.tex` --- validates your causal design assumptions, clustering, and inference
+- `/review --methods paper/main.tex` --- validates your causal design assumptions, clustering, and inference
 - `/analyze Data/cleaned/survey.csv` --- cleans data, runs your specification, produces tables and figures
 - `/new-project health insurance` --- walks you through the full pipeline from literature review to submission
 
@@ -86,8 +86,8 @@ If you prefer to configure things yourself instead of letting Claude handle it:
 **Test it:**
 
 ```bash
-/tools compile Paper/main.tex
-/review --proofread Paper/main.tex
+/tools compile paper/main.tex
+/review --proofread paper/main.tex
 ```
 :::
 

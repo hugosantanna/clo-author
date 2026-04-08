@@ -99,7 +99,7 @@ Skills are multi-step workflows invoked with `/command`. Each skill lives in `.c
 
 There are **10 skills** covering the full research pipeline: `/new-project`, `/discover`, `/strategize`, `/analyze`, `/write`, `/review`, `/revise`, `/talk`, `/submit`, and `/tools`.
 
-Skills can be invoked two ways: **explicitly** (you type `/review Paper/main.tex`) or **automatically** (Claude invokes them when relevant). Most of the time, you just describe what you want.
+Skills can be invoked two ways: **explicitly** (you type `/review paper/main.tex`) or **automatically** (Claude invokes them when relevant). Most of the time, you just describe what you want.
 
 See the [Command Reference](reference.qmd) for every command, flag, and subcommand. See the [User Guide](user-guide.qmd) for detailed workflow descriptions.
 

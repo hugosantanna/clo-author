@@ -71,15 +71,15 @@ Each phase dispatches **worker → critic** pairs. The worker creates; the criti
 
 | Worker | What it creates | Critic | What it checks |
 |--------|----------------|--------|----------------|
-| **Strategist** | DiD/IV/RDD/SC design, strategy memo | **strategist-critic** | Assumptions, inference, sanity |
+| **Strategist** | Strategy memo (4 paper types) | **strategist-critic** | Assumptions, inference, sanity (type-specific) |
 
 ### Phase 3: Execution
 
 | Worker | What it creates | Critic | What it checks |
 |--------|----------------|--------|----------------|
 | **Data-engineer** | Cleaning scripts, figures | **coder-critic** | Code quality, reproducibility |
-| **Coder** | Analysis scripts, tables | **coder-critic** | Strategy alignment, correctness |
-| **Writer** | Paper sections, humanizer pass | **writer-critic** | Notation, hedging, claims vs evidence |
+| **Coder** | Analysis scripts, tables (numerical discipline) | **coder-critic** | Strategy alignment, 16 checks incl. numerical discipline |
+| **Writer** | Paper sections (argument moves, 4 types) | **writer-critic** | 8 checks: structure, coherence, design completeness |
 
 ### Phase 4: Peer Review
 
@@ -317,7 +317,7 @@ The Clo-Author inherits a lecture production pipeline from [its origin](https://
 
 ## Creating Talks from Papers
 
-The `/talk` skill dispatches the Storyteller (creator) and storyteller-critic (reviewer) to generate presentations in 4 formats (job market, seminar, short, lightning). Supports both Beamer (output to `Paper/talks/`) and Quarto RevealJS (output to `Paper/quarto/` via `--quarto` flag). All content derives from `Paper/main.tex`.
+The `/talk` skill dispatches the Storyteller (creator) and storyteller-critic (reviewer) to generate presentations in 4 formats (job market, seminar, short, lightning). Supports both Beamer (output to `paper/talks/`) and Quarto RevealJS (output to `paper/quarto/` via `--quarto` flag). All content derives from `paper/main.tex`.
 
 ## Replication-First Coding
 

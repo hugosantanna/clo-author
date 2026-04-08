@@ -37,7 +37,7 @@ Phase 3: Execution
   /write                → Paper Sections (Writer + humanizer pass)
 
 Phase 4: Peer Review
-  /review Paper/main.tex    → Weighted Score (multi-agent parallel)
+  /review paper/main.tex    → Weighted Score (multi-agent parallel)
   /review --peer [journal]  → Editor desk review → Referee dispatch
                             → domain-referee + methods-referee (blind)
                             → Editorial decision (FATAL/ADDRESSABLE/TASTE)
@@ -89,14 +89,14 @@ Use `--dual r,python` to run the same analysis in two languages simultaneously. 
 
 ### `/write [section]`
 
-Dispatches the **Writer** agent. Drafts paper sections with proper empirical paper structure:
+Dispatches the **Writer** agent. First identifies the paper type (reduced-form, structural, theory+empirics, descriptive), then drafts using **paragraph-level argument moves** --- each paragraph has one job (motivation, result, mechanism, qualification):
 
-- **Introduction**: contribution paragraph within first 2 pages, effect sizes stated, clear identification preview
-- **Empirical Strategy**: per-design template (DiD, IV, RDD, etc.) with assumption discussion
-- **Results**: proper table/figure references, statistical vs economic significance
+- **Introduction**: paper-type-specific sequence --- reduced-form leads with identification preview + result; structural leads with model preview + counterfactual; descriptive leads with data innovation + key fact
+- **Strategy/Model**: design-specific templates (DiD parallel trends, IV exclusion restriction, RDD manipulation) or structural (environment, identification of parameters, estimation, counterfactuals)
+- **Results**: narration adapts to output type --- regression tables, event study figures, IV first stage + 2SLS, counterfactual simulations, descriptive facts
 - **Notation protocol**: consistent notation throughout, calibrated to your field via domain profile
 
-Anti-hedging rules enforced. **Humanizer pass** automatically strips 24 AI writing patterns.
+Anti-hedging rules enforced. **Cleanup pass** automatically strips 24 AI writing patterns after drafting.
 
 ## Review Phase
 
@@ -106,12 +106,12 @@ Smart routing based on file type and flags:
 
 | Input | What Runs |
 |-------|-----------|
-| `/review Paper/main.tex` | writer-critic + strategist-critic + Verifier (comprehensive) |
+| `/review paper/main.tex` | writer-critic + strategist-critic + Verifier (comprehensive) |
 | `/review scripts/R/analysis.R` | coder-critic standalone |
 | `/review --peer` | domain-referee + methods-referee (simulated peer review) |
 | `/review --peer JHR` | Same, calibrated to JHR's review culture |
-| `/review --methods Paper/main.tex` | strategist-critic standalone |
-| `/review --proofread Paper/main.tex` | writer-critic standalone |
+| `/review --methods paper/main.tex` | strategist-critic standalone |
+| `/review --proofread paper/main.tex` | writer-critic standalone |
 | `/review --code scripts/R/` | coder-critic standalone (code quality only) |
 | `/review --replicate python` | Re-implement existing R code in Python, compare outputs |
 | `/review --all` | All critics in parallel + weighted aggregate score |
@@ -166,9 +166,9 @@ Talk scores are **advisory** (non-blocking).
 
 Subcommands: `/talk create [format]`, `/talk audit [file]`, `/talk compile [file]`.
 
-**Beamer** (default): Outputs to `Paper/talks/`. Use `/talk create [format]`.
+**Beamer** (default): Outputs to `paper/talks/`. Use `/talk create [format]`.
 
-**Quarto RevealJS**: Outputs to `Paper/quarto/`. Use `/talk create [format] --quarto` for web-native slides with interactive features.
+**Quarto RevealJS**: Outputs to `paper/quarto/`. Use `/talk create [format] --quarto` for web-native slides with interactive features.
 
 ## Submission Phase
 
@@ -327,7 +327,7 @@ Once you're on 3.0, run `/tools upgrade` for future versions. It automates the s
 | Peer review | Score averaging | Editor + dispositions + desk reject |
 | Journal profiles | 15 (economics) | 35+ across 5 fields |
 | Profile location | `.claude/rules/` | `.claude/references/` (on-demand) |
-| Folder structure | `Paper/`, `Figures/`, `Tables/`, `Talks/` | `paper/` (self-contained) |
+| Folder structure | `Paper/`, `Figures/`, `Tables/`, `Talks/` | `paper/` (self-contained), `scripts/` |
 | Presentations | Beamer only | Beamer + Quarto RevealJS |
 | Memory | `[LEARN]` tags | Auto-memory (built-in) |
 | Context overhead | ~3,500 lines/session | ~1,000 lines/session |

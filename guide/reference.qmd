@@ -9,9 +9,9 @@ subtitle: "Every Command, Flag, and Subcommand"
 |---------|--------------|-------------|
 | `/new-project [topic]` | --- | Full orchestrated pipeline: idea to paper |
 | `/discover` | `--lit`, `--data`, `--ideate` | Discovery phase: interview, literature, data |
-| `/strategize` | `--pap` | Identification strategy or pre-analysis plan |
+| `/strategize` | `--pap` | Empirical strategy (4 paper types) or pre-analysis plan |
 | `/analyze [dataset]` | `--dual [langs]` | End-to-end data analysis (single or parallel language) |
-| `/write [section]` | `--humanize` | Draft paper sections or strip AI patterns |
+| `/write [section]` | `--humanize` | Draft sections (argument moves, 4 paper types) or strip AI patterns |
 | `/review [file]` | `--peer [journal]`, `--peer --r2`, `--stress [journal]`, `--methods`, `--proofread`, `--code`, `--replicate [lang]`, `--all` | Quality reviews (routes by target + flags) |
 | `/revise [report]` | --- | R&R cycle: classify + route referee comments |
 | `/talk` | `create`, `audit`, `compile` | Beamer presentations |
@@ -62,8 +62,8 @@ Launches the full orchestrated pipeline. Claude conducts a research interview, b
 
 | Mode | Agents | Output |
 |------|--------|--------|
-| *(default)* | Strategist → strategist-critic | Strategy memo + robustness plan + falsification tests |
-| `--pap` | Strategist (PAP mode) | Pre-analysis plan in AEA/OSF/EGAP format *(experimental/RCT only)* |
+| *(default)* | Strategist → strategist-critic | Strategy memo (paper-type aware) + robustness plan + falsification tests |
+| `--pap` | Strategist (PAP mode) | Pre-analysis plan in AEA/OSF/EGAP format *(primarily experimental/RCT)* |
 
 **Saves to:** `quality_reports/strategy_memo_[topic].md`
 
@@ -85,7 +85,7 @@ End-to-end analysis: data cleaning → main specification → robustness → pub
 | `--dual [langs]` | Data-engineer + 2 Coders in parallel → 2 coder-critics + comparison | Same outputs in both languages + convergence report |
 
 **Languages:** R, Stata, Python, Julia
-**Saves to:** `scripts/`, `Paper/tables/`, `Paper/figures/`, `Output/cross_language_comparison.md`
+**Saves to:** `scripts/`, `paper/tables/`, `paper/figures/`, `Output/cross_language_comparison.md`
 
 **Cross-language replication:** When `--dual` is used, both implementations run the same specification independently. Results are compared against tolerances in `domain-profile.md`. Divergences are flagged. Inspired by Scott Cunningham's approach: if two independent implementations agree, neither has a bug.
 
@@ -94,10 +94,12 @@ End-to-end analysis: data cleaning → main specification → robustness → pub
 # `/write`
 
 ```
-/write intro                    Introduction (contribution in first 2 pages)
-/write strategy                 Empirical strategy (design-templated)
-/write results                  Results (effect sizes in economic terms)
-/write conclusion               Conclusion (restate with magnitude)
+/write intro                    Introduction (paper-type-specific moves)
+/write strategy                 Empirical strategy / Model (design-specific)
+/write results                  Results (narration by output type)
+/write conclusion               Conclusion (type-specific ending)
+/write data                     Data section (expanded for descriptive papers)
+/write model                    Model section (structural / theory+empirics only)
 /write abstract                 Abstract (100-150 words)
 /write full                     All sections
 /write --humanize [file]        Strip AI writing patterns only
@@ -105,17 +107,17 @@ End-to-end analysis: data cleaning → main specification → robustness → pub
 
 | Mode | Agent | Output |
 |------|-------|--------|
-| `[section]` | Writer | LaTeX section in `Paper/sections/` |
-| `--humanize` | Writer (humanizer mode) | Edited file with 24 AI patterns stripped |
+| `[section]` | Writer | LaTeX section in `paper/sections/` |
+| `--humanize` | Writer (cleanup mode) | Edited file with 24 AI patterns stripped |
 
-Every draft gets an automatic humanizer pass before finalizing.
+The Writer first identifies the paper type (reduced-form, structural, theory+empirics, descriptive), then drafts using paragraph-level argument moves with type-specific section templates. Cleanup pass runs automatically after drafting.
 
 ---
 
 # `/review`
 
 ```
-/review Paper/main.tex          Comprehensive (auto-detect paper)
+/review paper/main.tex          Comprehensive (auto-detect paper)
 /review scripts/R/analysis.R    Code review (auto-detect script)
 /review --peer                  Blind peer review (generic)
 /review --peer JHR              Blind peer review (calibrated to JHR)
@@ -180,15 +182,15 @@ For **real** R&R responses (not the simulated `/review --peer`). Give it your ac
 /talk create seminar             Standard seminar (30-45 min, 25-35 slides)
 /talk create short               Conference session (15 min, 10-15 slides)
 /talk create lightning           Elevator pitch (5 min, 3-5 slides)
-/talk create [format] --quarto   Quarto RevealJS version (output to Paper/quarto/)
+/talk create [format] --quarto   Quarto RevealJS version (output to paper/quarto/)
 /talk audit [file]               Visual layout check
 /talk compile [file]             XeLaTeX or Quarto compilation
 ```
 
 | Mode | Agents | Output |
 |------|--------|--------|
-| `create` | Storyteller → storyteller-critic | Beamer `.tex` in `Paper/talks/` |
-| `create --quarto` | Storyteller → storyteller-critic | Quarto `.qmd` in `Paper/quarto/` |
+| `create` | Storyteller → storyteller-critic | Beamer `.tex` in `paper/talks/` |
+| `create --quarto` | Storyteller → storyteller-critic | Quarto `.qmd` in `paper/quarto/` |
 | `audit` | Visual checks | Layout issues report |
 | `compile` | XeLaTeX or Quarto | Compiled PDF or HTML |
 

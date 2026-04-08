@@ -41,11 +41,11 @@ These agents design and validate your empirical approach before you write a sing
 
 ## Strategist
 
-Given your research question, literature, and available data, designs the identification strategy. Produces a strategy memo covering: the estimand (what you're trying to measure), the estimator (DiD, IV, RDD, synthetic control), the key assumptions, a robustness plan, and falsification tests. Can also draft Pre-Analysis Plans in AEA/OSF/EGAP format.
+Given your research question, literature, and available data, designs the empirical strategy. **Paper-type aware** --- first classifies the paper as reduced-form, structural, theory+empirics, or descriptive, then applies the right strategy template. For reduced-form: estimand, estimator (DiD, IV, RDD, synthetic control), assumptions, robustness plan, falsification tests. For structural: model environment, parameter identification (which moments pin down which parameters), estimation method, counterfactual design. For theory+empirics: testable predictions, mapping to data, test power. For descriptive: construct definition, validation plan, decomposition strategy. Can also draft Pre-Analysis Plans in AEA/OSF/EGAP format.
 
 ## strategist-critic
 
-The toughest reviewer in the system. Reads the strategy memo and stress-tests it: Are the identifying assumptions defensible? Is the estimator appropriate for this design? Are there threats to inference (clustering, multiple testing, weak instruments)? Would a skeptical referee accept this? Sends it back with specific objections until the design is sound.
+The toughest reviewer in the system. **Paper-type aware** --- uses different checklists per type. For reduced-form: design-specific assumption checks (parallel trends for DiD, exclusion restriction for IV, manipulation test for RDD), sanity checks (sign, magnitude, dynamics), inference (clustering, multiple testing), package-specific code checks. For structural: model specification, parameter identification (data variation vs. functional form), estimation convergence, model fit, counterfactual credibility. For theory+empirics: prediction sharpness (do they rule things out?), test power, honesty about failures. Sends it back with specific objections until the design is sound.
 
 ---
 
@@ -59,19 +59,19 @@ Handles the unglamorous but critical work: data cleaning, variable construction,
 
 ## Coder
 
-Translates the strategy memo into working analysis scripts. Implements the main specification, robustness checks, and produces publication-ready tables. Supports R, Stata, Python, and Julia. If you're replicating someone else's work first, it matches the original results before extending.
+Translates the strategy memo into working analysis scripts. **Paper-type aware** --- implements reduced-form estimation (DiD/IV/RDD with design-specific packages), structural models (MLE/GMM/SMM/BLP with convergence diagnostics and counterfactual simulation), theory+empirics (prediction-by-prediction tests), or descriptive analysis (construction, validation, decomposition). Enforces engineering discipline: paper-to-code naming maps, numbered script structure with master runner, function-per-file, numerical guards (float comparison, CDF clamping, inverse link protection), and bootstrap/parallel patterns. Supports R, Stata, Python, and Julia.
 
 ## coder-critic
 
-Reviews all code --- from both the Data-engineer and the Coder. Checks that scripts are reproducible (no hardcoded paths, packages loaded at top, seeds set for stochastic processes), that the code actually implements what the strategy memo says, and that results are numerically sensible.
+Reviews all code --- from both the Data-engineer and the Coder. **16 check categories** including strategy alignment, numerical discipline (float guards, CDF clamping, pre-allocation, NaN/Inf checks), paper-to-code naming map, function design, reproducibility, and paper-type-specific checks (convergence for structural, seed handling for simulations). Also enforces prohibited patterns (`setwd()`, `sapply()`, `<<-`, `T`/`F`, hardcoded paths).
 
 ## Writer
 
-Drafts paper sections with proper empirical paper structure: an introduction that states the contribution within the first two pages, an empirical strategy section templated to your design (DiD, IV, RDD), and results that distinguish statistical from economic significance. Runs an automatic **humanizer pass** that strips common AI writing patterns (inflated symbolism, rule-of-three lists, hedging language).
+Drafts paper sections using **paragraph-level argument moves** --- each paragraph has one job (motivation, result statement, mechanism, robustness narration, qualification). **Paper-type aware** with full section templates for reduced-form (design-specific: DiD parallel trends, IV exclusion restriction, RDD manipulation), structural (model environment, estimation, counterfactual simulations, welfare), theory+empirics (model predictions, empirical tests, honest assessment), and descriptive (data construction, validation, key facts). Results narration adapts to output type (regression table, event study figure, IV first stage + 2SLS, counterfactual simulation). Cleanup pass strips AI writing patterns after drafting.
 
 ## writer-critic
 
-Reads the manuscript looking for problems a referee would catch: inconsistent notation ($Y_{it}$ in one place, $y_i$ in another), hedging language ("it could potentially suggest"), claims not supported by the evidence shown, and LaTeX issues (overfull hboxes, broken references). Sends it back for fixes.
+**8 check categories** including argument structure (each paragraph has identifiable purpose, findings lead sentences), claims-evidence alignment, paper-type coherence (does the introduction promise match the strategy delivery?), design-specific completeness (DiD must have parallel trends discussion, IV must have LATE interpretation, structural must estimate and simulate), results narration quality, notation consistency, and LaTeX compilation. Sends it back for fixes.
 
 ---
 
@@ -89,7 +89,7 @@ The **subject expert**. Evaluates whether your paper makes a real contribution t
 
 ## methods-referee
 
-The **empirical methods expert**. Evaluates whether your identification strategy is valid, whether the estimation is appropriate, whether inference is correct (clustering, standard errors, multiple testing), whether the robustness checks are sufficient, and whether another researcher could replicate your results. Also calibrates to a target journal when specified. Like the domain-referee, includes "what would change my mind" on every major comment.
+The **empirical methods expert**. **Paper-type aware** with separate evaluation dimensions per type. Reduced-form: identification strategy, estimation, inference, robustness, replication. Structural: model specification, parameter identification, estimation and computation, model fit, counterfactual credibility. Theory+empirics: model quality, prediction sharpness, test design and power, honesty of assessment. Descriptive: construct validity, construction replicability, validation, analysis quality. Calibrates to target journal when specified. Like the domain-referee, includes "what would change my mind" on every major comment.
 
 **R&R memory:** When invoked with `--peer --r2`, referees remember their prior reports and check whether their concerns were addressed. Max 3 rounds.
 
@@ -119,16 +119,16 @@ All 17 agents at a glance:
 | librarian-critic | `librarian-critic.md` | Reviews bibliography for coverage, gaps, recency |
 | Explorer | `explorer.md` | Data source discovery, feasibility scoring |
 | explorer-critic | `explorer-critic.md` | Reviews data for measurement validity, ID fit |
-| Strategist | `strategist.md` | Identification strategy design, Pre-Analysis Plans |
-| strategist-critic | `strategist-critic.md` | Validates assumptions, inference, robustness |
+| Strategist | `strategist.md` | Empirical strategy (4 paper types), Pre-Analysis Plans |
+| strategist-critic | `strategist-critic.md` | Validates assumptions, inference, robustness (4 paper types) |
 | Data-engineer | `data-engineer.md` | Data cleaning, wrangling, publication figures |
-| Coder | `coder.md` | Analysis implementation (R/Stata/Python/Julia) |
-| coder-critic | `coder-critic.md` | Code quality, reproducibility, strategy alignment |
-| Writer | `writer.md` | Paper drafting, humanizer pass |
-| writer-critic | `writer-critic.md` | Notation, hedging, LaTeX, claims vs evidence |
+| Coder | `coder.md` | Analysis implementation (4 paper types, numerical discipline) |
+| coder-critic | `coder-critic.md` | 16 checks: code quality, numerical discipline, strategy alignment |
+| Writer | `writer.md` | Argument-move drafting (4 paper types, design-specific) |
+| writer-critic | `writer-critic.md` | 8 checks: structure, coherence, design completeness, LaTeX |
 | Editor | `editor.md` | Desk review, referee dispatch, editorial decision |
 | domain-referee | `domain-referee.md` | Blind peer review (subject expertise) |
-| methods-referee | `methods-referee.md` | Blind peer review (empirical methods) |
+| methods-referee | `methods-referee.md` | Blind peer review (methods, 4 paper types) |
 | Storyteller | `storyteller.md` | Beamer + Quarto talk creation (4 formats) |
 | storyteller-critic | `storyteller-critic.md` | Talk narrative, visuals, content fidelity |
 | Verifier | `verifier.md` | Compilation + AEA replication audit |
@@ -156,7 +156,7 @@ These agents create and review Beamer presentations derived from your paper.
 
 ## Storyteller
 
-Creates presentations from `Paper/main.tex` in 4 formats: **job market talk** (45--60 min, full results), **seminar** (30--45 min, standard format), **short talk** (15 min, conference session), and **lightning** (5 min, elevator pitch). Supports both **Beamer** (output to `Paper/talks/`) and **Quarto RevealJS** (output to `Paper/quarto/` via `--quarto` flag). All content derives from the paper --- the Storyteller never invents results.
+Creates presentations from `paper/main.tex` in 4 formats: **job market talk** (45--60 min, full results), **seminar** (30--45 min, standard format), **short talk** (15 min, conference session), and **lightning** (5 min, elevator pitch). Supports both **Beamer** (output to `paper/talks/`) and **Quarto RevealJS** (output to `paper/quarto/` via `--quarto` flag). All content derives from the paper --- the Storyteller never invents results.
 
 ## storyteller-critic
 
