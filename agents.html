@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -40,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-be788d54854417ccf85972ce5a1e216a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2ed217316077e1b63917f5fed0b8555e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-4a343adb3e348b0dfb90aadcb4eb116e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -158,7 +193,10 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#data-engineer" id="toc-data-engineer" class="nav-link" data-scroll-target="#data-engineer">Data-engineer</a></li>
   <li><a href="#coder" id="toc-coder" class="nav-link" data-scroll-target="#coder">Coder</a></li>
-  <li><a href="#coder-critic" id="toc-coder-critic" class="nav-link" data-scroll-target="#coder-critic">coder-critic</a></li>
+  <li><a href="#coder-critic" id="toc-coder-critic" class="nav-link" data-scroll-target="#coder-critic">coder-critic</a>
+  <ul class="collapse">
+  <li><a href="#score-breakdown-example" id="toc-score-breakdown-example" class="nav-link" data-scroll-target="#score-breakdown-example">Score Breakdown Example</a></li>
+  </ul></li>
   <li><a href="#writer" id="toc-writer" class="nav-link" data-scroll-target="#writer">Writer</a></li>
   <li><a href="#writer-critic" id="toc-writer-critic" class="nav-link" data-scroll-target="#writer-critic">writer-critic</a></li>
   </ul></li>
@@ -265,11 +303,73 @@ ul.task-list li input[type="checkbox"] {
 <p>These agents design and validate your empirical approach before you write a single line of code.</p>
 <section id="strategist" class="level2">
 <h2 class="anchored" data-anchor-id="strategist">Strategist</h2>
-<p>Given your research question, literature, and available data, designs the empirical strategy. <strong>Paper-type aware</strong> — first classifies the paper as reduced-form, structural, theory+empirics, or descriptive, then applies the right strategy template. For reduced-form: estimand, estimator (DiD, IV, RDD, synthetic control), assumptions, robustness plan, falsification tests. For structural: model environment, parameter identification (which moments pin down which parameters), estimation method, counterfactual design. For theory+empirics: testable predictions, mapping to data, test power. For descriptive: construct definition, validation plan, decomposition strategy. Can also draft Pre-Analysis Plans in AEA/OSF/EGAP format.</p>
+<p>Given your research question, literature, and available data, designs the empirical strategy. <strong>Paper-type aware</strong> — first classifies the paper, then applies the right strategy template:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Paper Type</th>
+<th>Strategy Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Reduced-form</td>
+<td>Estimand, estimator (DiD/IV/RDD/SC), assumptions, robustness, falsification</td>
+</tr>
+<tr class="even">
+<td>Structural</td>
+<td>Model environment, parameter identification, estimation method, counterfactuals</td>
+</tr>
+<tr class="odd">
+<td>Theory+empirics</td>
+<td>Testable predictions, mapping to data, test power</td>
+</tr>
+<tr class="even">
+<td>Descriptive</td>
+<td>Construct definition, validation plan, decomposition</td>
+</tr>
+</tbody>
+</table>
+<p>Can also draft Pre-Analysis Plans in AEA/OSF/EGAP format (<code>/strategize --pap</code>).</p>
 </section>
 <section id="strategist-critic" class="level2">
 <h2 class="anchored" data-anchor-id="strategist-critic">strategist-critic</h2>
-<p>The toughest reviewer in the system. <strong>Paper-type aware</strong> — uses different checklists per type. For reduced-form: design-specific assumption checks (parallel trends for DiD, exclusion restriction for IV, manipulation test for RDD), sanity checks (sign, magnitude, dynamics), inference (clustering, multiple testing), package-specific code checks. For structural: model specification, parameter identification (data variation vs.&nbsp;functional form), estimation convergence, model fit, counterfactual credibility. For theory+empirics: prediction sharpness (do they rule things out?), test power, honesty about failures. Sends it back with specific objections until the design is sound.</p>
+<p>The toughest reviewer in the system. <strong>Paper-type aware</strong> — uses different checklists per type:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Paper Type</th>
+<th>Critic Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Reduced-form</td>
+<td>Design-specific assumptions (parallel trends, exclusion restriction, manipulation test), sanity checks, inference, package-specific code</td>
+</tr>
+<tr class="even">
+<td>Structural</td>
+<td>Model specification, parameter identification (data variation vs.&nbsp;functional form), convergence, model fit, counterfactual credibility</td>
+</tr>
+<tr class="odd">
+<td>Theory+empirics</td>
+<td>Prediction sharpness (do they rule things out?), test power, honesty about failures</td>
+</tr>
+<tr class="even">
+<td>Descriptive</td>
+<td>Construct validity, measurement error, representativeness, decomposition assumptions</td>
+</tr>
+</tbody>
+</table>
+<p>Sends it back with specific objections until the design is sound.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="What to Expect">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -295,15 +395,86 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="coder" class="level2">
 <h2 class="anchored" data-anchor-id="coder">Coder</h2>
-<p>Translates the strategy memo into working analysis scripts. <strong>Paper-type aware</strong> — implements reduced-form estimation (DiD/IV/RDD with design-specific packages), structural models (MLE/GMM/SMM/BLP with convergence diagnostics and counterfactual simulation), theory+empirics (prediction-by-prediction tests), or descriptive analysis (construction, validation, decomposition). Enforces engineering discipline: paper-to-code naming maps, numbered script structure with master runner, function-per-file, numerical guards (float comparison, CDF clamping, inverse link protection), and bootstrap/parallel patterns. Supports R, Python, and Julia.</p>
+<p>Translates the strategy memo into working analysis scripts. <strong>Paper-type aware:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Paper Type</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Reduced-form</td>
+<td>DiD/IV/RDD with design-specific packages</td>
+</tr>
+<tr class="even">
+<td>Structural</td>
+<td>MLE/GMM/SMM/BLP with convergence diagnostics and counterfactual simulation</td>
+</tr>
+<tr class="odd">
+<td>Theory+empirics</td>
+<td>Prediction-by-prediction tests</td>
+</tr>
+<tr class="even">
+<td>Descriptive</td>
+<td>Construction, validation, decomposition</td>
+</tr>
+</tbody>
+</table>
+<p>Enforces engineering discipline: paper-to-code naming maps, numbered script structure with master runner, function-per-file, numerical guards (float comparison, CDF clamping, inverse link protection), and bootstrap/parallel patterns. Supports R, Python, and Julia.</p>
 </section>
 <section id="coder-critic" class="level2">
 <h2 class="anchored" data-anchor-id="coder-critic">coder-critic</h2>
-<p>Reviews all code — from both the Data-engineer and the Coder. <strong>16 check categories</strong> including strategy alignment, numerical discipline (float guards, CDF clamping, pre-allocation, NaN/Inf checks), paper-to-code naming map, function design, reproducibility, and paper-type-specific checks (convergence for structural, seed handling for simulations). Also enforces prohibited patterns (<code>setwd()</code>, <code>sapply()</code>, <code>&lt;&lt;-</code>, <code>T</code>/<code>F</code>, hardcoded paths).</p>
+<p>Reviews all code — from both the Data-engineer and the Coder. When invoked via <code>/review --code</code>, a mechanical <strong>grep-based linter</strong> runs first (Step 1) to catch prohibited patterns and style violations before the full review. <strong>16 check categories</strong> including strategy alignment, numerical discipline (float guards, CDF clamping, pre-allocation, NaN/Inf checks), paper-to-code naming map, function design, reproducibility, and paper-type-specific checks (convergence for structural, seed handling for simulations). Also enforces prohibited patterns (<code>setwd()</code>, <code>sapply()</code>, <code>&lt;&lt;-</code>, <code>T</code>/<code>F</code>, hardcoded paths).</p>
+<section id="score-breakdown-example" class="level3">
+<h3 class="anchored" data-anchor-id="score-breakdown-example">Score Breakdown Example</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Starting: 100</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Code-strategy alignment: OK</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Numerical discipline: -10 (float comparison with == on line 47)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Reproducibility: -10 (no set.seed() found)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Console hygiene: -3 (print() on lines 23, 89)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Final: 77/100** --- Below commit threshold (80). Fix numerical discipline and reproducibility.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
 </section>
 <section id="writer" class="level2">
 <h2 class="anchored" data-anchor-id="writer">Writer</h2>
-<p>Drafts paper sections using <strong>paragraph-level argument moves</strong> — each paragraph has one job (motivation, result statement, mechanism, robustness narration, qualification). <strong>Paper-type aware</strong> with full section templates for reduced-form (design-specific: DiD parallel trends, IV exclusion restriction, RDD manipulation), structural (model environment, estimation, counterfactual simulations, welfare), theory+empirics (model predictions, empirical tests, honest assessment), and descriptive (data construction, validation, key facts). Results narration adapts to output type (regression table, event study figure, IV first stage + 2SLS, counterfactual simulation). Cleanup pass strips AI writing patterns after drafting.</p>
+<p>Drafts paper sections using <strong>paragraph-level argument moves</strong> — each paragraph has one job (motivation, result statement, mechanism, robustness narration, qualification). <strong>Paper-type aware</strong> with full section templates:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 39%">
+<col style="width: 60%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Paper Type</th>
+<th>Section Templates</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Reduced-form</td>
+<td>DiD parallel trends, IV exclusion restriction, RDD manipulation</td>
+</tr>
+<tr class="even">
+<td>Structural</td>
+<td>Model environment, estimation, counterfactual simulations, welfare</td>
+</tr>
+<tr class="odd">
+<td>Theory+empirics</td>
+<td>Model predictions, empirical tests, honest assessment</td>
+</tr>
+<tr class="even">
+<td>Descriptive</td>
+<td>Data construction, validation, key facts</td>
+</tr>
+</tbody>
+</table>
+<p>Results narration adapts to output type (regression table, event study figure, IV first stage + 2SLS, counterfactual simulation). Cleanup pass strips AI writing patterns after drafting.</p>
 </section>
 <section id="writer-critic" class="level2">
 <h2 class="anchored" data-anchor-id="writer-critic">writer-critic</h2>

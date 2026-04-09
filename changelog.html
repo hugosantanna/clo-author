@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-be788d54854417ccf85972ce5a1e216a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2ed217316077e1b63917f5fed0b8555e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-4a343adb3e348b0dfb90aadcb4eb116e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -141,7 +141,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#v4" id="toc-v4" class="nav-link active" data-scroll-target="#v4">v4.0.0 — Paper-Type Architecture</a>
+  <li><a href="#v41" id="toc-v41" class="nav-link active" data-scroll-target="#v41">v4.1.0 — Enforcement Layer</a>
+  <ul class="collapse">
+  <li><a href="#content-invariants" id="toc-content-invariants" class="nav-link" data-scroll-target="#content-invariants">Content Invariants</a></li>
+  <li><a href="#pre-flight-reports" id="toc-pre-flight-reports" class="nav-link" data-scroll-target="#pre-flight-reports">Pre-Flight Reports</a></li>
+  <li><a href="#grep-based-linter" id="toc-grep-based-linter" class="nav-link" data-scroll-target="#grep-based-linter">Grep-Based Linter</a></li>
+  <li><a href="#decision-records" id="toc-decision-records" class="nav-link" data-scroll-target="#decision-records">Decision Records</a></li>
+  <li><a href="#posttooluse-lint-hook" id="toc-posttooluse-lint-hook" class="nav-link" data-scroll-target="#posttooluse-lint-hook">PostToolUse Lint Hook</a></li>
+  </ul></li>
+  <li><a href="#v4" id="toc-v4" class="nav-link" data-scroll-target="#v4">v4.0.0 — Paper-Type Architecture</a>
   <ul class="collapse">
   <li><a href="#agents-rewritten" id="toc-agents-rewritten" class="nav-link" data-scroll-target="#agents-rewritten">7 Agents Rewritten</a></li>
   <li><a href="#numerical-discipline" id="toc-numerical-discipline" class="nav-link" data-scroll-target="#numerical-discipline">Numerical Discipline</a></li>
@@ -181,6 +189,36 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="v41" class="level1">
+<h1>v4.1.0 — Enforcement Layer</h1>
+<p><em>Released 2026-04-09</em></p>
+<p>Adds mechanical enforcement, structured pre-flight reporting, and decision traceability across the pipeline.</p>
+<section id="content-invariants" class="level2">
+<h2 class="anchored" data-anchor-id="content-invariants">Content Invariants</h2>
+<p>21 numbered rules (INV-1 through INV-21) in <code>.claude/rules/content-invariants.md</code>. Non-negotiable standards for paper, code, and talks — critics now cite violations by invariant number. Covers table format, figure notes, notation consistency, anti-hedging, reproducibility requirements, and more.</p>
+</section>
+<section id="pre-flight-reports" class="level2">
+<h2 class="anchored" data-anchor-id="pre-flight-reports">Pre-Flight Reports</h2>
+<p>Two new structured reports that agents produce before doing work:</p>
+<ul>
+<li><strong>Pre-Strategy Report</strong> (Strategist): documents paper type classification, available data, and candidate designs before proposing a strategy</li>
+<li><strong>Pre-Code Report</strong> (Coder): documents naming map, script structure, and numerical guards before writing code</li>
+</ul>
+</section>
+<section id="grep-based-linter" class="level2">
+<h2 class="anchored" data-anchor-id="grep-based-linter">Grep-Based Linter</h2>
+<p><code>/tools lint [file|dir]</code> runs mechanical checks on R, Python, and Julia scripts — prohibited patterns, style violations, reproducibility issues. <code>/review --code</code> now runs lint as Step 1 before dispatching coder-critic. Fast, deterministic, no LLM calls.</p>
+</section>
+<section id="decision-records" class="level2">
+<h2 class="anchored" data-anchor-id="decision-records">Decision Records</h2>
+<p>ADR-style records at discovery and strategy stages. Template: <code>templates/decision-record.md</code>. Saved to <code>quality_reports/decisions/</code>. Each record captures the decision, alternatives considered, rationale, and status.</p>
+</section>
+<section id="posttooluse-lint-hook" class="level2">
+<h2 class="anchored" data-anchor-id="posttooluse-lint-hook">PostToolUse Lint Hook</h2>
+<p>Auto-lints R, Python, and Julia files on every Edit or Write operation. Advisory only — reports issues but does not block. Catches problems at write time instead of review time.</p>
+<hr>
+</section>
+</section>
 <section id="v4" class="level1">
 <h1>v4.0.0 — Paper-Type Architecture</h1>
 <p><em>Released 2026-04-08</em></p>

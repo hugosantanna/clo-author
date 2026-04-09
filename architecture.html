@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-be788d54854417ccf85972ce5a1e216a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2ed217316077e1b63917f5fed0b8555e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-4a343adb3e348b0dfb90aadcb4eb116e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -181,14 +181,6 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#practical-limits" id="toc-practical-limits" class="nav-link" data-scroll-target="#practical-limits">Practical Limits</a></li>
   </ul></li>
   <li><a href="#scoring-protocol" id="toc-scoring-protocol" class="nav-link" data-scroll-target="#scoring-protocol">Scoring Protocol</a></li>
-  <li><a href="#additional-workflows-slides-lectures" id="toc-additional-workflows-slides-lectures" class="nav-link" data-scroll-target="#additional-workflows-slides-lectures">Additional Workflows: Slides &amp; Lectures</a>
-  <ul class="collapse">
-  <li><a href="#creating-talks-from-papers" id="toc-creating-talks-from-papers" class="nav-link" data-scroll-target="#creating-talks-from-papers">Creating Talks from Papers</a></li>
-  <li><a href="#replication-first-coding" id="toc-replication-first-coding" class="nav-link" data-scroll-target="#replication-first-coding">Replication-First Coding</a></li>
-  <li><a href="#cross-language-replication" id="toc-cross-language-replication" class="nav-link" data-scroll-target="#cross-language-replication">Cross-Language Replication</a></li>
-  <li><a href="#branch-isolation-with-git-worktrees" id="toc-branch-isolation-with-git-worktrees" class="nav-link" data-scroll-target="#branch-isolation-with-git-worktrees">Branch Isolation with Git Worktrees</a></li>
-  </ul></li>
-  <li><a href="#sec-constitutional" id="toc-sec-constitutional" class="nav-link" data-scroll-target="#sec-constitutional">Constitutional Governance (Optional)</a></li>
   </ul>
 </nav>
     </div>
@@ -217,54 +209,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="system-overview" class="level1">
 <h1>System Overview</h1>
-<p>Claude Code’s power comes from six configuration layers that work together. For details on each layer, see the <a href="./customization.html">Customization Guide</a>.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 23%">
-<col style="width: 33%">
-<col style="width: 43%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Layer</th>
-<th>Location</th>
-<th>Loaded When</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>CLAUDE.md</strong></td>
-<td>Project root</td>
-<td>Every session</td>
-</tr>
-<tr class="even">
-<td><strong>Rules</strong></td>
-<td><code>.claude/rules/</code></td>
-<td>Always-on or path-scoped</td>
-</tr>
-<tr class="odd">
-<td><strong>References</strong></td>
-<td><code>.claude/references/</code></td>
-<td>On demand (agents read when needed)</td>
-</tr>
-<tr class="even">
-<td><strong>Skills</strong></td>
-<td><code>.claude/skills/</code></td>
-<td>On demand (slash commands)</td>
-</tr>
-<tr class="odd">
-<td><strong>Agents</strong></td>
-<td><code>.claude/agents/</code></td>
-<td>On demand (via skills or orchestrator)</td>
-</tr>
-<tr class="even">
-<td><strong>Hooks</strong></td>
-<td><code>.claude/settings.json</code></td>
-<td>On events (automatic)</td>
-</tr>
-</tbody>
-</table>
-<p>Claude reliably follows about <strong>100–150 custom instructions</strong>. Your system prompt uses ~50, leaving ~100 for your project. CLAUDE.md and always-on rules share this budget. Path-scoped rules, references, skills, and agents load on demand — they don’t count against the limit.</p>
+<p>Six configuration layers control behavior — from CLAUDE.md (loaded every session) to hooks (event-driven). See the <a href="./customization.html">Customization Guide</a> for the full breakdown.</p>
 <hr>
 </section>
 <section id="agent-workflow-diagram" class="level1">
@@ -804,70 +749,7 @@ flowchart TD
 </table>
 <p><strong>Missing components:</strong> If a component hasn’t been scored (e.g., no literature review yet), its weight is redistributed proportionally across available components.</p>
 <p><strong>Submission gate:</strong> Aggregate &gt;= 95 AND every individual component &gt;= 80.</p>
-<hr>
-</section>
-<section id="additional-workflows-slides-lectures" class="level1">
-<h1>Additional Workflows: Slides &amp; Lectures</h1>
-<p>The Clo-Author inherits a lecture production pipeline from <a href="https://github.com/pedrohcgs/claude-code-my-workflow">its origin</a>. These workflows are available for users who also produce course materials.</p>
-<section id="creating-talks-from-papers" class="level2">
-<h2 class="anchored" data-anchor-id="creating-talks-from-papers">Creating Talks from Papers</h2>
-<p>The <code>/talk</code> skill dispatches the Storyteller (creator) and storyteller-critic (reviewer) to generate presentations in 4 formats (job market, seminar, short, lightning). Supports both Beamer (output to <code>paper/talks/</code>) and Quarto RevealJS (output to <code>paper/quarto/</code> via <code>--quarto</code> flag). All content derives from <code>paper/main.tex</code>.</p>
-</section>
-<section id="replication-first-coding" class="level2">
-<h2 class="anchored" data-anchor-id="replication-first-coding">Replication-First Coding</h2>
-<p>When working with papers that have replication packages:</p>
-<pre><code>Phase 1: Inventory original code → record "gold standard" numbers
-Phase 2: Translate (e.g., Python → R) → match original spec EXACTLY
-Phase 3: Verify match → tolerance &lt; 0.01 for estimates, &lt; 0.05 for SEs
-Phase 4: Only then extend with new estimators and specifications</code></pre>
-</section>
-<section id="cross-language-replication" class="level2">
-<h2 class="anchored" data-anchor-id="cross-language-replication">Cross-Language Replication</h2>
-<p>Run the same analysis in two languages simultaneously to catch implementation bugs:</p>
-<ul>
-<li><code>/analyze --dual r,python</code> dispatches two Coder agents in parallel with the same strategy memo</li>
-<li><code>/review --replicate python</code> re-implements existing R code in Python and compares outputs</li>
-<li>Tolerances come from <code>.claude/references/domain-profile.md</code> — divergence beyond tolerance is flagged as a bug</li>
-</ul>
-<p>Inspired by Scott Cunningham’s approach: if two independent implementations produce the same estimates, neither has a bug. If they diverge, you’ve caught something before it reaches the paper.</p>
-</section>
-<section id="branch-isolation-with-git-worktrees" class="level2">
-<h2 class="anchored" data-anchor-id="branch-isolation-with-git-worktrees">Branch Isolation with Git Worktrees</h2>
-<p>Git worktrees create a separate working directory linked to the same repository. Useful for major translations, risky refactors, or multi-day projects.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Situation</th>
-<th>Use Worktree?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Quick fix to one file</td>
-<td>No</td>
-</tr>
-<tr class="even">
-<td>Major refactor</td>
-<td>Yes</td>
-</tr>
-<tr class="odd">
-<td>Experimenting with new approach</td>
-<td>Yes</td>
-</tr>
-</tbody>
-</table>
-<p>For most users, working directly on main with frequent commits is simpler and sufficient.</p>
-<hr>
-</section>
-</section>
-<section id="sec-constitutional" class="level1">
-<h1>Constitutional Governance (Optional)</h1>
-<p>As your project grows, some decisions become non-negotiable. The <code>templates/constitutional-governance.md</code> template helps you distinguish between:</p>
-<ul>
-<li><strong>Immutable principles</strong> (Articles I–V): Non-negotiable rules</li>
-<li><strong>User preferences</strong>: Flexible patterns that can vary</li>
-</ul>
-<p>Use it <strong>after</strong> you’ve established 3–7 recurring patterns.</p>
+<p>These numbers run in the background. They prevent broken work from shipping — you rarely need to think about them directly.</p>
 
 
 </section>

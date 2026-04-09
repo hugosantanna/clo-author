@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>The Clo-Author 4.0 – The Clo-Author</title>
+<title>The Clo-Author</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-be788d54854417ccf85972ce5a1e216a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2ed217316077e1b63917f5fed0b8555e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-4a343adb3e348b0dfb90aadcb4eb116e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -184,7 +184,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#step-4-start-working" id="toc-step-4-start-working" class="nav-link" data-scroll-target="#step-4-start-working">Step 4: Start Working</a></li>
   </ul></li>
   <li><a href="#what-happens-behind-the-scenes" id="toc-what-happens-behind-the-scenes" class="nav-link" data-scroll-target="#what-happens-behind-the-scenes">What Happens Behind the Scenes</a></li>
-  <li><a href="#day-1-checklist" id="toc-day-1-checklist" class="nav-link" data-scroll-target="#day-1-checklist">Day 1 Checklist</a></li>
   <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
   <li><a href="#origin" id="toc-origin" class="nav-link" data-scroll-target="#origin">Origin</a></li>
   </ul>
@@ -195,7 +194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">The Clo-Author 4.0</h1>
+<h1 class="title">The Clo-Author</h1>
 <p class="subtitle lead">AI Research Architecture for Economics</p>
 </div>
 
@@ -245,15 +244,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>/analyze Data/cleaned/survey.csv</code> — cleans data, runs your specification, produces tables and figures</li>
 <li><code>/new-project health insurance</code> — walks you through the full pipeline from literature review to submission</li>
 </ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="Just Want to Try 2 Commands?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Just Want to Try 2 Commands?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Already have a paper? <code>/review paper/main.tex</code> checks your identification, code, writing, and LaTeX. Want to draft a section? <code>/write intro</code> produces a structured first draft adapted to your paper type. Everything else is optional — explore when you’re ready.</p>
+</div>
+</div>
 </section>
 </section>
 <section id="what-happens-behind-the-scenes" class="level2">
 <h2 class="anchored" data-anchor-id="what-happens-behind-the-scenes">What Happens Behind the Scenes</h2>
-<p>You talk, Claude orchestrates. The 17 agents work in <strong>worker-critic pairs</strong> — every creator has a paired critic who can’t edit files, only review. An <strong>Editor</strong> does desk review before dispatching two specialized referees (domain + methods) who simulate real journal peer review with dispositions and pet peeves. The orchestrator dispatches agents based on a dependency graph, enforces quality gates (80/90/95), and routes escalations when critics and creators can’t agree after 3 rounds.</p>
-<p>For the full picture: <a href="./user-guide.html">User Guide</a> (what you can do), <a href="./agents.html">Meet the Agents</a> (who does the work), <a href="./architecture.html">Architecture</a> (how the system works), <a href="./customization.html">Customization</a> (how to make it yours), and <a href="./reference.html">Command Reference</a> (every flag and subcommand).</p>
-</section>
-<section id="day-1-checklist" class="level2">
-<h2 class="anchored" data-anchor-id="day-1-checklist">Day 1 Checklist</h2>
+<p>You describe tasks in plain English. Claude dispatches specialized agents — one creates, another reviews — and presents results for your approval. Quality gates run in the background so broken work never ships. For the full picture: <a href="./user-guide.html">Walkthrough</a>, <a href="./agents.html">Agents</a>, <a href="./architecture.html">Architecture</a>, <a href="./reference.html">Commands</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Day 1 Checklist">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Day 1 Checklist
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ul class="task-list">
 <li><label><input type="checkbox">Fork the repo and clone it locally</label></li>
 <li><label><input type="checkbox">Run <code>claude</code> in the project directory</label></li>
@@ -264,8 +284,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><label><input type="checkbox">Approve the task plan, watch it work, review the output</label></li>
 </ul>
 <p>That’s it. Everything else — agents, hooks, rules — runs automatically in the background.</p>
+</div>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -274,7 +297,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>If you prefer to configure things yourself instead of letting Claude handle it:</p>
 <p><strong>Customize CLAUDE.md</strong> — Open <code>CLAUDE.md</code> and replace all <code>[BRACKETED PLACEHOLDERS]</code>:</p>

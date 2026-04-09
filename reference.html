@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-be788d54854417ccf85972ce5a1e216a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2ed217316077e1b63917f5fed0b8555e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-4a343adb3e348b0dfb90aadcb4eb116e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -241,7 +241,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td><code>/tools</code></td>
-<td><code>commit</code>, <code>compile</code>, <code>validate-bib</code>, <code>journal</code>, <code>context</code>, <code>deploy</code>, <code>learn</code></td>
+<td><code>commit</code>, <code>compile</code>, <code>validate-bib</code>, <code>journal</code>, <code>context</code>, <code>deploy</code>, <code>learn</code>, <code>lint</code>, <code>upgrade</code></td>
 <td>Utilities</td>
 </tr>
 </tbody>
@@ -364,7 +364,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p><strong>Languages:</strong> R, Python, Julia <strong>Saves to:</strong> <code>scripts/</code>, <code>paper/tables/</code>, <code>paper/figures/</code>, <code>Output/cross_language_comparison.md</code></p>
+<p><strong>Languages:</strong> R, Python, Julia <strong>Saves to:</strong> <code>scripts/</code>, <code>paper/tables/</code>, <code>paper/figures/</code>, <code>quality_reports/cross_language_comparison.md</code></p>
 <p><strong>Cross-language replication:</strong> When <code>--dual</code> is used, both implementations run the same specification independently. Results are compared against tolerances in <code>domain-profile.md</code>. Divergences are flagged. Inspired by Scott Cunningham’s approach: if two independent implementations agree, neither has a bug.</p>
 <hr>
 </section>
@@ -646,7 +646,9 @@ ul.task-list li input[type="checkbox"] {
 /tools journal                   Research journal timeline
 /tools context                   Context status + session health
 /tools deploy                    Render guide + push to GitHub Pages
-/tools learn                     Extract session discoveries to MEMORY.md</code></pre>
+/tools learn                     Extract session discoveries to MEMORY.md
+/tools lint [file|dir]           Mechanical code linting for R/Python/Julia
+/tools upgrade                   Upgrade clo-author infrastructure</code></pre>
 <p>Each subcommand is lightweight — no multi-agent orchestration.</p>
 
 

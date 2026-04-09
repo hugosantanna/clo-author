@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-be788d54854417ccf85972ce5a1e216a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2ed217316077e1b63917f5fed0b8555e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-4a343adb3e348b0dfb90aadcb4eb116e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -104,6 +104,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<meta name="mermaid-theme" content="dark">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -177,71 +181,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link active" data-scroll-target="#how-it-works">How It Works</a></li>
-  <li><a href="#research-workflow" id="toc-research-workflow" class="nav-link" data-scroll-target="#research-workflow">Research Workflow</a>
+  <li><a href="#a-typical-workflow" id="toc-a-typical-workflow" class="nav-link" data-scroll-target="#a-typical-workflow">A Typical Workflow</a></li>
+  <li><a href="#your-first-review" id="toc-your-first-review" class="nav-link" data-scroll-target="#your-first-review">Your First Review</a></li>
+  <li><a href="#your-first-draft" id="toc-your-first-draft" class="nav-link" data-scroll-target="#your-first-draft">Your First Draft</a></li>
+  <li><a href="#the-research-pipeline" id="toc-the-research-pipeline" class="nav-link" data-scroll-target="#the-research-pipeline">The Research Pipeline</a>
   <ul class="collapse">
-  <li><a href="#discovery-phase" id="toc-discovery-phase" class="nav-link" data-scroll-target="#discovery-phase">Discovery Phase</a>
-  <ul class="collapse">
-  <li><a href="#discover" id="toc-discover" class="nav-link" data-scroll-target="#discover"><code>/discover</code></a></li>
-  <li><a href="#discover---lit-topic" id="toc-discover---lit-topic" class="nav-link" data-scroll-target="#discover---lit-topic"><code>/discover --lit [topic]</code></a></li>
-  <li><a href="#discover---data-question" id="toc-discover---data-question" class="nav-link" data-scroll-target="#discover---data-question"><code>/discover --data [question]</code></a></li>
-  <li><a href="#discover---ideate-topic" id="toc-discover---ideate-topic" class="nav-link" data-scroll-target="#discover---ideate-topic"><code>/discover --ideate [topic]</code></a></li>
-  </ul></li>
-  <li><a href="#strategy-phase" id="toc-strategy-phase" class="nav-link" data-scroll-target="#strategy-phase">Strategy Phase</a>
-  <ul class="collapse">
-  <li><a href="#strategize" id="toc-strategize" class="nav-link" data-scroll-target="#strategize"><code>/strategize</code></a></li>
-  <li><a href="#strategize---pap" id="toc-strategize---pap" class="nav-link" data-scroll-target="#strategize---pap"><code>/strategize --pap</code></a></li>
-  </ul></li>
-  <li><a href="#execution-phase" id="toc-execution-phase" class="nav-link" data-scroll-target="#execution-phase">Execution Phase</a>
-  <ul class="collapse">
-  <li><a href="#analyze-dataset" id="toc-analyze-dataset" class="nav-link" data-scroll-target="#analyze-dataset"><code>/analyze [dataset]</code></a></li>
-  <li><a href="#write-section" id="toc-write-section" class="nav-link" data-scroll-target="#write-section"><code>/write [section]</code></a></li>
-  </ul></li>
-  <li><a href="#review-phase" id="toc-review-phase" class="nav-link" data-scroll-target="#review-phase">Review Phase</a>
-  <ul class="collapse">
-  <li><a href="#review-file" id="toc-review-file" class="nav-link" data-scroll-target="#review-file"><code>/review [file]</code></a></li>
-  <li><a href="#review---peer-journal" id="toc-review---peer-journal" class="nav-link" data-scroll-target="#review---peer-journal"><code>/review --peer [journal]</code></a></li>
-  </ul></li>
-  <li><a href="#revision-phase" id="toc-revision-phase" class="nav-link" data-scroll-target="#revision-phase">Revision Phase</a>
-  <ul class="collapse">
-  <li><a href="#revise-report" id="toc-revise-report" class="nav-link" data-scroll-target="#revise-report"><code>/revise [report]</code></a></li>
-  </ul></li>
-  <li><a href="#presentations" id="toc-presentations" class="nav-link" data-scroll-target="#presentations">Presentations</a>
-  <ul class="collapse">
-  <li><a href="#talk-format" id="toc-talk-format" class="nav-link" data-scroll-target="#talk-format"><code>/talk [format]</code></a></li>
-  </ul></li>
-  <li><a href="#submission-phase" id="toc-submission-phase" class="nav-link" data-scroll-target="#submission-phase">Submission Phase</a>
-  <ul class="collapse">
-  <li><a href="#submit---target" id="toc-submit---target" class="nav-link" data-scroll-target="#submit---target"><code>/submit --target</code></a></li>
-  <li><a href="#submit---package" id="toc-submit---package" class="nav-link" data-scroll-target="#submit---package"><code>/submit --package</code></a></li>
-  <li><a href="#submit---audit" id="toc-submit---audit" class="nav-link" data-scroll-target="#submit---audit"><code>/submit --audit</code></a></li>
-  <li><a href="#submit---final" id="toc-submit---final" class="nav-link" data-scroll-target="#submit---final"><code>/submit --final</code></a></li>
-  </ul></li>
-  <li><a href="#utilities" id="toc-utilities" class="nav-link" data-scroll-target="#utilities">Utilities</a>
-  <ul class="collapse">
-  <li><a href="#tools-subcommand" id="toc-tools-subcommand" class="nav-link" data-scroll-target="#tools-subcommand"><code>/tools [subcommand]</code></a></li>
-  </ul></li>
+  <li><a href="#discovery" id="toc-discovery" class="nav-link" data-scroll-target="#discovery">Discovery</a></li>
+  <li><a href="#strategy" id="toc-strategy" class="nav-link" data-scroll-target="#strategy">Strategy</a></li>
+  <li><a href="#execution" id="toc-execution" class="nav-link" data-scroll-target="#execution">Execution</a></li>
+  <li><a href="#review-and-revision" id="toc-review-and-revision" class="nav-link" data-scroll-target="#review-and-revision">Review and Revision</a></li>
+  <li><a href="#presentations" id="toc-presentations" class="nav-link" data-scroll-target="#presentations">Presentations</a></li>
+  <li><a href="#submission" id="toc-submission" class="nav-link" data-scroll-target="#submission">Submission</a></li>
+  <li><a href="#utilities" id="toc-utilities" class="nav-link" data-scroll-target="#utilities">Utilities</a></li>
   </ul></li>
   <li><a href="#quality-gates" id="toc-quality-gates" class="nav-link" data-scroll-target="#quality-gates">Quality Gates</a></li>
-  <li><a href="#sec-exploration" id="toc-sec-exploration" class="nav-link" data-scroll-target="#sec-exploration">Exploration Workflow</a>
-  <ul class="collapse">
-  <li><a href="#fast-track-vs-plan-first" id="toc-fast-track-vs-plan-first" class="nav-link" data-scroll-target="#fast-track-vs-plan-first">Fast-Track vs Plan-First</a></li>
-  </ul></li>
-  <li><a href="#self-improvement" id="toc-self-improvement" class="nav-link" data-scroll-target="#self-improvement">Self-Improvement</a>
-  <ul class="collapse">
-  <li><a href="#auto-memory" id="toc-auto-memory" class="nav-link" data-scroll-target="#auto-memory">Auto-Memory</a></li>
-  <li><a href="#skill-extraction-tools-learn" id="toc-skill-extraction-tools-learn" class="nav-link" data-scroll-target="#skill-extraction-tools-learn">Skill Extraction: /tools learn</a></li>
-  </ul></li>
-  <li><a href="#customizing-for-your-domain" id="toc-customizing-for-your-domain" class="nav-link" data-scroll-target="#customizing-for-your-domain">Customizing for Your Domain</a>
-  <ul class="collapse">
-  <li><a href="#domain-profile" id="toc-domain-profile" class="nav-link" data-scroll-target="#domain-profile">Domain Profile</a></li>
-  </ul></li>
-  <li><a href="#sec-upgrading" id="toc-sec-upgrading" class="nav-link" data-scroll-target="#sec-upgrading">Upgrading from 2.x</a>
-  <ul class="collapse">
-  <li><a href="#how-to-upgrade-2.x-3.0" id="toc-how-to-upgrade-2.x-3.0" class="nav-link" data-scroll-target="#how-to-upgrade-2.x-3.0">How to Upgrade (2.x → 3.0)</a></li>
-  <li><a href="#future-upgrades-3.x-4.0" id="toc-future-upgrades-3.x-4.0" class="nav-link" data-scroll-target="#future-upgrades-3.x-4.0">Future Upgrades (3.x → 4.0+)</a></li>
-  <li><a href="#what-changed-in-3.0" id="toc-what-changed-in-3.0" class="nav-link" data-scroll-target="#what-changed-in-3.0">What Changed in 3.0</a></li>
-  <li><a href="#sec-create-skills" id="toc-sec-create-skills" class="nav-link" data-scroll-target="#sec-create-skills">Creating Custom Skills</a></li>
-  </ul></li>
   <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a>
   <ul class="collapse">
   <li><a href="#latex-wont-compile" id="toc-latex-wont-compile" class="nav-link" data-scroll-target="#latex-wont-compile">LaTeX Won’t Compile</a></li>
@@ -250,6 +203,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#context-lost-after-compaction" id="toc-context-lost-after-compaction" class="nav-link" data-scroll-target="#context-lost-after-compaction">Context Lost After Compaction</a></li>
   <li><a href="#quality-score-too-low" id="toc-quality-score-too-low" class="nav-link" data-scroll-target="#quality-score-too-low">Quality Score Too Low</a></li>
   </ul></li>
+  <li><a href="#sec-upgrading" id="toc-sec-upgrading" class="nav-link" data-scroll-target="#sec-upgrading">Upgrading</a></li>
   </ul>
 </nav>
     </div>
@@ -308,322 +262,110 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>For complex or ambiguous tasks, Claude may ask 3–5 clarifying questions to create a <strong>requirements specification</strong> before planning. Each requirement is tagged MUST/SHOULD/MAY, and each aspect is marked CLEAR/ASSUMED/BLOCKED.</p>
 <hr>
 </section>
-<section id="research-workflow" class="level1">
-<h1>Research Workflow</h1>
-<p>A typical research project flows through these phases, driven by dependencies (not forced sequence):</p>
-<pre><code>Phase 1: Discovery
-  /discover             → Interactive interview → Research Spec
-  /discover --lit       → Literature Synthesis (Librarian + librarian-critic)
-  /discover --data      → Data Assessment (Explorer + explorer-critic)
+<section id="a-typical-workflow" class="level1">
+<h1>A Typical Workflow</h1>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#14142a', 'primaryTextColor': '#d0d0e0', 'primaryBorderColor': '#b44dff', 'lineColor': '#b44dff', 'secondaryColor': '#0c0c18', 'tertiaryColor': '#080810', 'edgeLabelBackground': '#080810'}}}%%
+flowchart LR
+    D(Discovery&lt;br/&gt;Literature + Data):::phase1 --&gt; S(Strategy&lt;br/&gt;Identification Design):::phase2
+    S --&gt; E(Execution&lt;br/&gt;Code + Paper):::phase3
+    E --&gt; R(Review&lt;br/&gt;Simulated Peer Review):::phase4
+    R --&gt;|score &gt;= 95| SUB(Submission&lt;br/&gt;Package + Gate):::phase5
 
-Phase 2: Strategy
-  /strategize           → Strategy Memo (Strategist + strategist-critic)
-
-Phase 3: Execution
-  /analyze              → Scripts + Output (Data-engineer + Coder + coder-critic)
-  /analyze --dual r,py  → Same in two languages + convergence check
-  /write                → Paper Sections (Writer + humanizer pass)
-
-Phase 4: Peer Review
-  /review paper/main.tex    → Weighted Score (multi-agent parallel)
-  /review --peer [journal]  → Editor desk review → Referee dispatch
-                            → domain-referee + methods-referee (blind)
-                            → Editorial decision (FATAL/ADDRESSABLE/TASTE)
-  /review --stress [journal] → Adversarial stress test
-  /review --peer --r2       → R&amp;R second round (referee memory)
-
-Phase 5: Submission
-  /submit --target      → Journal Recommendations
-  /submit --final       → Final Gate (score &gt;= 95)</code></pre>
-<p>You can enter at any stage. Use <code>/new-project</code> for the full pipeline. Each skill produces structured output and saves reports to <code>quality_reports/</code>.</p>
-<section id="discovery-phase" class="level2">
-<h2 class="anchored" data-anchor-id="discovery-phase">Discovery Phase</h2>
-<section id="discover" class="level3">
-<h3 class="anchored" data-anchor-id="discover"><code>/discover</code></h3>
-<p>Interactive research interview that builds your research specification and domain profile. Equivalent to sitting down with a mentor and sharpening your question.</p>
+    classDef phase1 fill:#14142a,stroke:#00f0ff,color:#00f0ff,stroke-width:2px
+    classDef phase2 fill:#14142a,stroke:#00cc66,color:#00cc66,stroke-width:2px
+    classDef phase3 fill:#14142a,stroke:#b44dff,color:#b44dff,stroke-width:2px
+    classDef phase4 fill:#14142a,stroke:#ff2d7b,color:#ff2d7b,stroke-width:2px
+    classDef phase5 fill:#14142a,stroke:#00f0ff,color:#00f0ff,stroke-width:2px
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>You can enter at any stage. Each phase produces structured output saved to <code>quality_reports/</code>.</p>
+<hr>
 </section>
-<section id="discover---lit-topic" class="level3">
-<h3 class="anchored" data-anchor-id="discover---lit-topic"><code>/discover --lit [topic]</code></h3>
-<p>Dispatches the <strong>Librarian</strong> (collector) and <strong>librarian-critic</strong> (coverage reviewer). Searches top-5 generals, NBER/SSRN/RePEc, and field journals. Produces annotated bibliography, BibTeX entries, frontier map, and positioning recommendation.</p>
+<section id="your-first-review" class="level1">
+<h1>Your First Review</h1>
+<p>Here is what happens when you run a simulated peer review.</p>
+<p><strong>Step 1.</strong> You type <code>/review --peer JHR paper/main.tex</code></p>
+<p><strong>Step 2.</strong> The <strong>Editor</strong> does a desk review — checks scope, assigns each referee a disposition (Credibility, Policy, Structuralist, etc.) and pet peeves that shape their personality.</p>
+<p><strong>Step 3.</strong> Two blind referees review independently — a <strong>domain-referee</strong> (subject expertise) and a <strong>methods-referee</strong> (empirical methods). Neither sees the other’s report.</p>
+<p><strong>Step 4.</strong> The editorial decision arrives, classifying every concern as FATAL, ADDRESSABLE, or TASTE:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Editorial Decision --- Journal of Human Resources</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>**Decision:** Major Revisions</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">## Referee 1 (domain-referee) --- Disposition: Policy</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>ADDRESSABLE: Missing discussion of policy implementation costs (Section 6)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>ADDRESSABLE: Literature review omits Garcia &amp; Santos (2024) on same population</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>TASTE: Prefer confidence intervals over p-values</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## Referee 2 (methods-referee) --- Disposition: Credibility</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>FATAL: Pre-trends test shows significant coefficient at t-2 (Figure 3)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>ADDRESSABLE: Clustering at state level with 12 states --- use wild bootstrap</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>ADDRESSABLE: No sensitivity analysis (Rambachan &amp; Roth 2023)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Action Items</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>MUST: Address pre-trends concern (fatal if unresolved)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>MUST: Add wild bootstrap standard errors</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SHOULD: Add sensitivity bounds</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SHOULD: Cite Garcia &amp; Santos (2024)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This is what you work with. Each concern has a classification and a specific fix. Use <code>/revise</code> to route each comment to the right agent — new analysis goes to the Coder, clarifications go to the Writer, disagreements get flagged for your review.</p>
+<p>For the full peer review architecture (dispositions, pet peeves, journal calibration), see <a href="./agents.html">Meet the Agents</a>.</p>
+<hr>
 </section>
-<section id="discover---data-question" class="level3">
-<h3 class="anchored" data-anchor-id="discover---data-question"><code>/discover --data [question]</code></h3>
-<p>Dispatches the <strong>Explorer</strong> (data finder) and <strong>explorer-critic</strong> (data quality reviewer). Searches public, administrative, survey, and novel data sources. Scores feasibility (A/B/C/D) and measurement quality.</p>
+<section id="your-first-draft" class="level1">
+<h1>Your First Draft</h1>
+<p>Here is what happens when you draft a paper section.</p>
+<p><strong>Step 1.</strong> You type <code>/write intro</code></p>
+<p><strong>Step 2.</strong> Claude reads your paper type (reduced-form, structural, descriptive, or theory+empirics), your strategy memo, and any existing sections.</p>
+<p><strong>Step 3.</strong> The Writer drafts using <strong>paragraph-level argument moves</strong> — each paragraph has one job:</p>
+<pre><code>Paragraph 1 [MOTIVATION]: Big question --- why this matters for policy
+Paragraph 2 [GAP]: What the literature hasn't answered
+Paragraph 3 [THIS PAPER]: "We estimate..." --- result preview with magnitude
+Paragraph 4 [IDENTIFICATION]: Source of variation, one-sentence design
+Paragraph 5 [PREVIEW]: Key finding with effect size
+Paragraph 6 [ROADMAP]: Section-by-section guide</code></pre>
+<p><strong>Step 4.</strong> A cleanup pass strips 24 known AI writing patterns (hedging, filler phrases, over-signposting).</p>
+<p>Each paragraph has one job. The Writer adapts this structure to your paper type — reduced-form leads with identification preview and result, structural leads with the model and counterfactual, descriptive leads with the data innovation and key fact.</p>
+<p>For all available sections and flags, see the <a href="./reference.html">Command Reference</a>.</p>
+<hr>
 </section>
-<section id="discover---ideate-topic" class="level3">
-<h3 class="anchored" data-anchor-id="discover---ideate-topic"><code>/discover --ideate [topic]</code></h3>
-<p>Generates research questions and identification strategies for a broad topic.</p>
+<section id="the-research-pipeline" class="level1">
+<h1>The Research Pipeline</h1>
+<section id="discovery" class="level2">
+<h2 class="anchored" data-anchor-id="discovery">Discovery</h2>
+<p><code>/discover</code> runs an interactive interview that builds your research specification and produces a <strong>decision record</strong> documenting alternatives considered. Use <code>/discover --lit</code> for literature synthesis (Librarian + librarian-critic) or <code>/discover --data</code> for data assessment (Explorer + explorer-critic). See the <a href="./reference.html">Command Reference</a> for all flags.</p>
 </section>
+<section id="strategy" class="level2">
+<h2 class="anchored" data-anchor-id="strategy">Strategy</h2>
+<p><code>/strategize</code> proposes your identification design via the Strategist + strategist-critic pair. It first produces a <strong>pre-strategy report</strong> (paper type classification, candidate designs), then the full strategy memo with robustness plan and falsification tests. Use <code>/strategize --pap</code> for Pre-Analysis Plans (RCT/experimental only). For how strategy adapts to paper types, see <a href="./agents.html">Meet the Agents</a>.</p>
 </section>
-<section id="strategy-phase" class="level2">
-<h2 class="anchored" data-anchor-id="strategy-phase">Strategy Phase</h2>
-<section id="strategize" class="level3">
-<h3 class="anchored" data-anchor-id="strategize"><code>/strategize</code></h3>
-<p>Dispatches the <strong>Strategist</strong> (proposer) and <strong>strategist-critic</strong> (reviewer). Produces strategy memo, pseudo-code, robustness plan, and falsification tests. The strategist-critic validates your assumptions, checks inference, and stress-tests the design.</p>
+<section id="execution" class="level2">
+<h2 class="anchored" data-anchor-id="execution">Execution</h2>
+<p><code>/analyze</code> handles end-to-end data analysis: cleaning, main specification, robustness, publication-ready tables and figures. The Coder produces a <strong>pre-code report</strong> (naming map, script structure, numerical guards) before writing any code. Use <code>/review --code</code> to run a mechanical lint pass before the full code review. <code>/write</code> drafts paper sections using argument moves (see “Your First Draft” above). Supports R, Python, and Julia.</p>
 </section>
-<section id="strategize---pap" class="level3">
-<h3 class="anchored" data-anchor-id="strategize---pap"><code>/strategize --pap</code></h3>
-<p><em>For experimental/RCT research only.</em> Dispatches the <strong>Strategist</strong> in Pre-Analysis Plan mode. Drafts in AEA/OSF/EGAP registry format with pre-specified outcomes, subgroups, multiple testing corrections, and power calculations. Not needed for observational quasi-experimental designs.</p>
-</section>
-</section>
-<section id="execution-phase" class="level2">
-<h2 class="anchored" data-anchor-id="execution-phase">Execution Phase</h2>
-<section id="analyze-dataset" class="level3">
-<h3 class="anchored" data-anchor-id="analyze-dataset"><code>/analyze [dataset]</code></h3>
-<p>Dispatches the <strong>Data-engineer</strong> (cleaning + visualization), <strong>Coder</strong> (analysis implementation), and <strong>coder-critic</strong> (reviewer). End-to-end analysis: data cleaning, main specification, robustness checks, publication-ready tables and figures. Supports R, Python, and Julia.</p>
-<p>Use <code>--dual r,python</code> to run the same analysis in two languages simultaneously. Both implementations follow the same strategy memo; results are compared within tolerance. Divergences are flagged. See the <a href="./reference.html">Command Reference</a> for details.</p>
-</section>
-<section id="write-section" class="level3">
-<h3 class="anchored" data-anchor-id="write-section"><code>/write [section]</code></h3>
-<p>Dispatches the <strong>Writer</strong> agent. First identifies the paper type (reduced-form, structural, theory+empirics, descriptive), then drafts using <strong>paragraph-level argument moves</strong> — each paragraph has one job (motivation, result, mechanism, qualification):</p>
-<ul>
-<li><strong>Introduction</strong>: paper-type-specific sequence — reduced-form leads with identification preview + result; structural leads with model preview + counterfactual; descriptive leads with data innovation + key fact</li>
-<li><strong>Strategy/Model</strong>: design-specific templates (DiD parallel trends, IV exclusion restriction, RDD manipulation) or structural (environment, identification of parameters, estimation, counterfactuals)</li>
-<li><strong>Results</strong>: narration adapts to output type — regression tables, event study figures, IV first stage + 2SLS, counterfactual simulations, descriptive facts</li>
-<li><strong>Notation protocol</strong>: consistent notation throughout, calibrated to your field via domain profile</li>
-</ul>
-<p>Anti-hedging rules enforced. <strong>Cleanup pass</strong> automatically strips 24 AI writing patterns after drafting.</p>
-</section>
-</section>
-<section id="review-phase" class="level2">
-<h2 class="anchored" data-anchor-id="review-phase">Review Phase</h2>
-<section id="review-file" class="level3">
-<h3 class="anchored" data-anchor-id="review-file"><code>/review [file]</code></h3>
-<p>Smart routing based on file type and flags:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 38%">
-<col style="width: 61%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Input</th>
-<th>What Runs</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>/review paper/main.tex</code></td>
-<td>writer-critic + strategist-critic + Verifier (comprehensive)</td>
-</tr>
-<tr class="even">
-<td><code>/review scripts/R/analysis.R</code></td>
-<td>coder-critic standalone</td>
-</tr>
-<tr class="odd">
-<td><code>/review --peer</code></td>
-<td>domain-referee + methods-referee (simulated peer review)</td>
-</tr>
-<tr class="even">
-<td><code>/review --peer JHR</code></td>
-<td>Same, calibrated to JHR’s review culture</td>
-</tr>
-<tr class="odd">
-<td><code>/review --methods paper/main.tex</code></td>
-<td>strategist-critic standalone</td>
-</tr>
-<tr class="even">
-<td><code>/review --proofread paper/main.tex</code></td>
-<td>writer-critic standalone</td>
-</tr>
-<tr class="odd">
-<td><code>/review --code scripts/R/</code></td>
-<td>coder-critic standalone (code quality only)</td>
-</tr>
-<tr class="even">
-<td><code>/review --replicate python</code></td>
-<td>Re-implement existing R code in Python, compare outputs</td>
-</tr>
-<tr class="odd">
-<td><code>/review --all</code></td>
-<td>All critics in parallel + weighted aggregate score</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="review---peer-journal" class="level3">
-<h3 class="anchored" data-anchor-id="review---peer-journal"><code>/review --peer [journal]</code></h3>
-<p>Dispatches the full peer review pipeline: <strong>Editor</strong> desk review, then two specialized <strong>blind referees</strong>.</p>
-<ol type="1">
-<li><strong>Editor</strong> does a desk review first — checks scope, minimum quality, and assigns referee dispositions</li>
-<li><strong>domain-referee</strong>: Expert in your paper’s subject literature. Checks contributions, positioning, missing citations, substantive arguments, external validity.</li>
-<li><strong>methods-referee</strong>: Expert in empirical methods. Checks identification strategy, estimation, inference, robustness, replication readiness.</li>
-</ol>
-<p>Both referees are independent (neither sees the other’s report). Each referee gets a <strong>disposition</strong> (Structuralist, Credibility, Measurement, Policy, Theory, or Skeptic) and <strong>pet peeves</strong> (1 critical + 1 constructive) that shape their review personality. Every major comment includes a “what would change my mind” statement. The Editor synthesizes the editorial decision, classifying each issue as FATAL, ADDRESSABLE, or TASTE.</p>
-<p><strong>R&amp;R memory:</strong> Use <code>--peer --r2</code> for round 2 reviews — referees remember their prior reports and check whether their concerns were addressed.</p>
-<p><strong>Stress test:</strong> Use <code>--stress [journal]</code> for maximum-severity review (max 3 rounds).</p>
-<p><strong>Journal calibration:</strong> Add a journal name to calibrate both referees to that journal’s review culture. For example, <code>/review --peer JHR</code> makes the referees prioritize policy relevance and clean identification (what JHR referees actually care about). 30 journals are pre-populated in <code>.claude/references/journal-profiles.md</code> (economics and adjacent fields); you can add your own. Without a journal name, referees review as generic top-field reviewers.</p>
-<p>See the full <a href="./reference.html">command reference</a> for all flags and subcommands.</p>
-</section>
-</section>
-<section id="revision-phase" class="level2">
-<h2 class="anchored" data-anchor-id="revision-phase">Revision Phase</h2>
-<section id="revise-report" class="level3">
-<h3 class="anchored" data-anchor-id="revise-report"><code>/revise [report]</code></h3>
-<p>Classifies each referee comment and routes to the right agent:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 29%">
-<col style="width: 37%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Class</th>
-<th>Routing</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>NEW ANALYSIS</strong></td>
-<td>→ Coder</td>
-<td>Flag for user, create analysis task</td>
-</tr>
-<tr class="even">
-<td><strong>CLARIFICATION</strong></td>
-<td>→ Writer</td>
-<td>Draft revised text</td>
-</tr>
-<tr class="odd">
-<td><strong>DISAGREE</strong></td>
-<td>→ User</td>
-<td>Draft diplomatic pushback (flagged for review)</td>
-</tr>
-<tr class="even">
-<td><strong>MINOR</strong></td>
-<td>→ Writer</td>
-<td>Draft fix directly</td>
-</tr>
-</tbody>
-</table>
-<p>Produces point-by-point response letter with diplomatic disagreement protocol.</p>
-</section>
+<section id="review-and-revision" class="level2">
+<h2 class="anchored" data-anchor-id="review-and-revision">Review and Revision</h2>
+<p><code>/review</code> routes automatically based on file type — paper files get writer-critic + strategist-critic + Verifier; scripts get coder-critic; <code>--peer</code> dispatches the full editorial pipeline (see “Your First Review” above). <code>/revise</code> classifies each referee comment as NEW ANALYSIS, CLARIFICATION, DISAGREE, or MINOR, and routes to the right agent. See <a href="./agents.html">Meet the Agents</a> for the peer review architecture and <a href="./reference.html">Command Reference</a> for all flags.</p>
 </section>
 <section id="presentations" class="level2">
 <h2 class="anchored" data-anchor-id="presentations">Presentations</h2>
-<section id="talk-format" class="level3">
-<h3 class="anchored" data-anchor-id="talk-format"><code>/talk [format]</code></h3>
-<p>Dispatches the <strong>Storyteller</strong> (creator) and <strong>storyteller-critic</strong> (talk reviewer). Generates talks derived from your paper in 4 formats:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 22%">
-<col style="width: 22%">
-<col style="width: 28%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Format</th>
-<th>Slides</th>
-<th>Duration</th>
-<th>Content</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Job Market</td>
-<td>40–50</td>
-<td>45–60 min</td>
-<td>Full story, all results, mechanism, robustness</td>
-</tr>
-<tr class="even">
-<td>Seminar</td>
-<td>25–35</td>
-<td>30–45 min</td>
-<td>Motivation, main result, 2 robustness checks</td>
-</tr>
-<tr class="odd">
-<td>Short</td>
-<td>10–15</td>
-<td>15 min</td>
-<td>Question, method, key result, implication</td>
-</tr>
-<tr class="even">
-<td>Lightning</td>
-<td>3–5</td>
-<td>5 min</td>
-<td>Hook, result, so-what</td>
-</tr>
-</tbody>
-</table>
-<p>Talk scores are <strong>advisory</strong> (non-blocking).</p>
-<p>Subcommands: <code>/talk create [format]</code>, <code>/talk audit [file]</code>, <code>/talk compile [file]</code>.</p>
-<p><strong>Beamer</strong> (default): Outputs to <code>paper/talks/</code>. Use <code>/talk create [format]</code>.</p>
-<p><strong>Quarto RevealJS</strong>: Outputs to <code>paper/quarto/</code>. Use <code>/talk create [format] --quarto</code> for web-native slides with interactive features.</p>
+<p><code>/talk create [format]</code> generates talks derived from your paper in 4 formats: job market (45–60 min), seminar (30–45 min), short (15 min), and lightning (5 min). Supports both <strong>Beamer</strong> (output to <code>paper/talks/</code>) and <strong>Quarto RevealJS</strong> (<code>--quarto</code>, output to <code>paper/quarto/</code>). Talk scores are advisory (non-blocking). See the <a href="./reference.html">Command Reference</a> for subcommands.</p>
 </section>
-</section>
-<section id="submission-phase" class="level2">
-<h2 class="anchored" data-anchor-id="submission-phase">Submission Phase</h2>
-<section id="submit---target" class="level3">
-<h3 class="anchored" data-anchor-id="submit---target"><code>/submit --target</code></h3>
-<p>Journal targeting. Produces ranked journal list using domain-profile tiers, formatting requirements, and submission strategy.</p>
-</section>
-<section id="submit---package" class="level3">
-<h3 class="anchored" data-anchor-id="submit---package"><code>/submit --package</code></h3>
-<p>Build replication package: AEA-format README, master script, numbered script order, deposit checklist.</p>
-</section>
-<section id="submit---audit" class="level3">
-<h3 class="anchored" data-anchor-id="submit---audit"><code>/submit --audit</code></h3>
-<p>Dispatches the <strong>Verifier</strong> in submission mode (all 10 checks):</p>
-<ol type="1">
-<li>LaTeX compilation</li>
-<li>Script execution</li>
-<li>File integrity</li>
-<li>Output freshness</li>
-<li>Package inventory</li>
-<li>Dependency verification</li>
-<li>Data provenance</li>
-<li>End-to-end execution</li>
-<li>Output cross-reference</li>
-<li>README completeness (AEA format)</li>
-</ol>
-</section>
-<section id="submit---final" class="level3">
-<h3 class="anchored" data-anchor-id="submit---final"><code>/submit --final</code></h3>
-<p>Final submission gate. Requires aggregate score &gt;= 95 with all components &gt;= 80. Generates cover letter draft and submission checklist.</p>
-</section>
+<section id="submission" class="level2">
+<h2 class="anchored" data-anchor-id="submission">Submission</h2>
+<p><code>/submit --target</code> recommends journals. <code>/submit --package</code> builds an AEA-format replication package. <code>/submit --audit</code> runs the Verifier’s 10-check audit. <code>/submit --final</code> enforces the submission gate (aggregate &gt;= 95, all components &gt;= 80). See the <a href="./reference.html">Command Reference</a> for details.</p>
 </section>
 <section id="utilities" class="level2">
 <h2 class="anchored" data-anchor-id="utilities">Utilities</h2>
-<section id="tools-subcommand" class="level3">
-<h3 class="anchored" data-anchor-id="tools-subcommand"><code>/tools [subcommand]</code></h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Subcommand</th>
-<th>What It Does</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>/tools commit [msg]</code></td>
-<td>Stage, commit, PR, merge</td>
-</tr>
-<tr class="even">
-<td><code>/tools compile [file]</code></td>
-<td>3-pass XeLaTeX + BibTeX</td>
-</tr>
-<tr class="odd">
-<td><code>/tools validate-bib</code></td>
-<td>Cross-reference citations</td>
-</tr>
-<tr class="even">
-<td><code>/tools journal</code></td>
-<td>Research journal timeline</td>
-</tr>
-<tr class="odd">
-<td><code>/tools learn</code></td>
-<td>Extract session discoveries into persistent skills</td>
-</tr>
-<tr class="even">
-<td><code>/tools deploy</code></td>
-<td>Build and deploy to GitHub Pages</td>
-</tr>
-</tbody>
-</table>
+<p><code>/tools</code> provides commit, compile, validate-bib, lint, journal, deploy, learn, and upgrade subcommands. Use <code>/tools lint</code> for mechanical code linting (R, Python, Julia) — runs prohibited-pattern checks before the full coder-critic review.</p>
 <hr>
-</section>
 </section>
 </section>
 <section id="quality-gates" class="level1">
@@ -665,213 +407,9 @@ Phase 5: Submission
 </tr>
 </tbody>
 </table>
+<p>These run in the background. You will rarely think about them — they just prevent broken work from being committed.</p>
 <p>See the full <a href="./architecture.html#scoring-protocol">scoring formula</a> in the Architecture Reference.</p>
 <hr>
-</section>
-<section id="sec-exploration" class="level1">
-<h1>Exploration Workflow</h1>
-<p>The <code>explorations/</code> folder provides a structured sandbox for experimental work.</p>
-<p><strong>The problem:</strong> Without structure, experimental code scatters across the repository.</p>
-<p><strong>The solution:</strong> All experimental work goes into <code>explorations/</code> first:</p>
-<pre><code>explorations/
-├── [active-project]/
-│   ├── README.md           # Goal, hypotheses, status
-│   ├── R/                  # Code iterations (_v1, _v2)
-│   └── output/             # Results
-└── ARCHIVE/
-    ├── completed_[name]/   # Graduated to production
-    └── abandoned_[name]/   # Documented why stopped</code></pre>
-<section id="fast-track-vs-plan-first" class="level3">
-<h3 class="anchored" data-anchor-id="fast-track-vs-plan-first">Fast-Track vs Plan-First</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Question</th>
-<th>Answer</th>
-<th>Workflow</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>“Will this ship?”</td>
-<td>YES</td>
-<td>Plan-First (80/100 quality)</td>
-</tr>
-<tr class="even">
-<td>“Am I testing an idea?”</td>
-<td>YES</td>
-<td>Fast-Track (60/100 quality)</td>
-</tr>
-<tr class="odd">
-<td>“Does this improve the project?”</td>
-<td>NO</td>
-<td>Don’t build it</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-</section>
-<section id="self-improvement" class="level1">
-<h1>Self-Improvement</h1>
-<section id="auto-memory" class="level2">
-<h2 class="anchored" data-anchor-id="auto-memory">Auto-Memory</h2>
-<p>Claude Code has a built-in memory system that automatically saves corrections and preferences across sessions. No manual tagging needed — when you correct Claude (“that’s UAB, not Emory”), it saves the correction and applies it in future conversations.</p>
-<p>Memory is stored in <code>.claude/projects/.../memory/</code> and persists across sessions. You can also explicitly ask Claude to remember or forget something.</p>
-</section>
-<section id="skill-extraction-tools-learn" class="level2">
-<h2 class="anchored" data-anchor-id="skill-extraction-tools-learn">Skill Extraction: /tools learn</h2>
-<p>For discoveries that deserve a reusable workflow (not just a one-liner correction), use <code>/tools learn</code> to create a full skill.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Situation</th>
-<th>Use</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Correction or preference</td>
-<td>Auto-memory (automatic)</td>
-</tr>
-<tr class="even">
-<td>Multi-step workflow</td>
-<td><code>/tools learn</code> to create full skill</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-</section>
-<section id="customizing-for-your-domain" class="level1">
-<h1>Customizing for Your Domain</h1>
-<section id="domain-profile" class="level2">
-<h2 class="anchored" data-anchor-id="domain-profile">Domain Profile</h2>
-<p>The domain profile (<code>.claude/references/domain-profile.md</code>) calibrates all agents to your field. Agents read their discipline from this file; the default is economics if not specified. Fill it in manually or use <code>/discover</code> (interactive interview) to populate it:</p>
-<ul>
-<li><strong>Field &amp; adjacent subfields</strong> — inferred from your topic</li>
-<li><strong>Target journals</strong> — ranked by tier</li>
-<li><strong>Common data sources</strong> — datasets typical for your area</li>
-<li><strong>Common identification strategies</strong> — designs used in your literature</li>
-<li><strong>Field conventions</strong> — estimation quirks, clustering norms</li>
-<li><strong>Seminal references</strong> — papers every referee expects you to cite</li>
-<li><strong>Referee concerns</strong> — the “gotcha” questions referees always ask</li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="sec-upgrading" class="level1">
-<h1>Upgrading from 2.x</h1>
-<p>If you have an existing project using clo-author 2.x, you can upgrade to 3.0 without losing any of your work.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Your files are safe.</strong> The upgrade only touches <code>.claude/</code> (the infrastructure). Your paper, scripts, data, bibliography, and all research content are never modified or deleted. Don’t use <code>git merge</code> — it creates unnecessary conflicts on files you’ve already customized (CLAUDE.md, README, etc.).</p>
-</div>
-</div>
-<section id="how-to-upgrade-2.x-3.0" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-upgrade-2.x-3.0">How to Upgrade (2.x → 3.0)</h2>
-<ol type="1">
-<li><strong>Download</strong> the <a href="https://github.com/hugosantanna/clo-author/releases">latest release</a> or clone clo-author 3.0 into a temporary folder</li>
-<li><strong>Delete</strong> your old <code>.claude/</code> directory</li>
-<li><strong>Copy</strong> the new <code>.claude/</code> into your project</li>
-<li><strong>Done</strong> — your paper, scripts, data, CLAUDE.md, bibliography are all untouched</li>
-</ol>
-<p>That’s it. No git merge, no upstream remote, no conflicts. The infrastructure is entirely inside <code>.claude/</code>; your research content lives in separate directories that clo-author never touches.</p>
-<p><strong>Optional:</strong> also copy the new <code>templates/</code> directory if you want updated templates.</p>
-<p><strong>Your CLAUDE.md stays yours.</strong> You already customized it with your project name, institution, field, and folder paths. Don’t overwrite it — the 3.0 infrastructure reads whatever paths you have there.</p>
-</section>
-<section id="future-upgrades-3.x-4.0" class="level2">
-<h2 class="anchored" data-anchor-id="future-upgrades-3.x-4.0">Future Upgrades (3.x → 4.0+)</h2>
-<p>Once you’re on 3.0, run <code>/tools upgrade</code> for future versions. It automates the same process: replace <code>.claude/</code>, preserve your content, report what changed.</p>
-</section>
-<section id="what-changed-in-3.0" class="level2">
-<h2 class="anchored" data-anchor-id="what-changed-in-3.0">What Changed in 3.0</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 52%">
-<col style="width: 23%">
-<col style="width: 23%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Component</th>
-<th>2.x</th>
-<th>3.0</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Scope</td>
-<td>Economics only</td>
-<td>Economics (adaptable to adjacent fields)</td>
-</tr>
-<tr class="even">
-<td>Peer review</td>
-<td>Score averaging</td>
-<td>Editor + dispositions + desk reject</td>
-</tr>
-<tr class="odd">
-<td>Journal profiles</td>
-<td>15 (economics)</td>
-<td>35+ across 5 fields</td>
-</tr>
-<tr class="even">
-<td>Profile location</td>
-<td><code>.claude/rules/</code></td>
-<td><code>.claude/references/</code> (on-demand)</td>
-</tr>
-<tr class="odd">
-<td>Folder structure</td>
-<td><code>Paper/</code>, <code>Figures/</code>, <code>Tables/</code>, <code>Talks/</code></td>
-<td><code>paper/</code> (self-contained), <code>scripts/</code></td>
-</tr>
-<tr class="even">
-<td>Presentations</td>
-<td>Beamer only</td>
-<td>Beamer + Quarto RevealJS</td>
-</tr>
-<tr class="odd">
-<td>Memory</td>
-<td><code>[LEARN]</code> tags</td>
-<td>Auto-memory (built-in)</td>
-</tr>
-<tr class="even">
-<td>Context overhead</td>
-<td>~3,500 lines/session</td>
-<td>~1,000 lines/session</td>
-</tr>
-<tr class="odd">
-<td>Agent prompts</td>
-<td>Economics-specific</td>
-<td>Field-neutral (read from domain profile)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Key principle:</strong> The upgrade adapts to your project. It never renames folders with content or overwrites filled-in profiles.</p>
-<hr>
-</section>
-<section id="sec-create-skills" class="level2">
-<h2 class="anchored" data-anchor-id="sec-create-skills">Creating Custom Skills</h2>
-<p>Create a skill when you repeatedly explain the same 3+ step workflow to Claude. Each skill lives in <code>.claude/skills/[name]/SKILL.md</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> your-skill-name</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">What it does</span><span class="kw">]</span><span class="at"> + [When to use] + [Key capabilities]</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">argument-hint</span><span class="kw">:</span><span class="at"> </span><span class="st">"[brief hint for user]"</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">allowed-tools</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">"Read"</span><span class="kw">,</span><span class="at"> </span><span class="st">"Write"</span><span class="kw">,</span><span class="at"> </span><span class="st">"Edit"</span><span class="kw">,</span><span class="at"> </span><span class="st">"Bash"</span><span class="kw">,</span><span class="at"> </span><span class="st">"Task"</span><span class="kw">]</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Quick start:</strong> Copy <code>templates/skill-template.md</code> to <code>.claude/skills/your-skill-name/SKILL.md</code> and customize.</p>
-<hr>
-<p>See the full <a href="./customization.html#skills-10-core-commands">command reference</a> in the Customization Guide.</p>
-<hr>
-</section>
 </section>
 <section id="troubleshooting" class="level1">
 <h1>Troubleshooting</h1>
@@ -880,7 +418,7 @@ Note
 <p><strong>Symptom:</strong> <code>xelatex</code> errors or missing packages.</p>
 <ol type="1">
 <li>Check you have XeLaTeX installed: <code>which xelatex</code></li>
-<li>Ensure <code>TEXINPUTS</code> includes <code>Preambles/</code>: the <code>/tools compile</code> skill handles this</li>
+<li>Ensure <code>TEXINPUTS</code> includes <code>preambles/</code>: the <code>/tools compile</code> skill handles this</li>
 <li>Missing package? Install via TeX Live: <code>tlmgr install [package]</code></li>
 </ol>
 </section>
@@ -919,9 +457,28 @@ Note
 <li>Fix critical issues first (they cost the most points)</li>
 <li>Check per-component scores — one weak component can drag down the aggregate</li>
 </ol>
-
-
+<hr>
 </section>
+</section>
+<section id="sec-upgrading" class="level1">
+<h1>Upgrading</h1>
+<p>Run <code>/tools upgrade</code> to upgrade your project to the latest clo-author version. It replaces <code>.claude/</code> and <code>templates/</code>, preserving your paper, scripts, data, bibliography, and CLAUDE.md.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Your files are safe.</strong> The upgrade only touches <code>.claude/</code> (the infrastructure) and <code>templates/</code>. Your paper, scripts, data, bibliography, and all research content are never modified or deleted.</p>
+</div>
+</div>
+<p><strong>Manual alternative:</strong> Download the <a href="https://github.com/hugosantanna/clo-author/releases">latest release</a>, delete your <code>.claude/</code> directory, and copy the new one in. Your CLAUDE.md stays yours — the infrastructure reads whatever paths you have there.</p>
+
+
 </section>
 
 </main> <!-- /main -->

@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-be788d54854417ccf85972ce5a1e216a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2ed217316077e1b63917f5fed0b8555e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-4a343adb3e348b0dfb90aadcb4eb116e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -156,9 +156,19 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#hooks-smart-defaults" id="toc-hooks-smart-defaults" class="nav-link" data-scroll-target="#hooks-smart-defaults">Hooks — Smart Defaults</a>
   <ul class="collapse">
   <li><a href="#design-principles" id="toc-design-principles" class="nav-link" data-scroll-target="#design-principles">Design Principles</a></li>
-  <li><a href="#all-4-hooks" id="toc-all-4-hooks" class="nav-link" data-scroll-target="#all-4-hooks">All 4 Hooks</a></li>
+  <li><a href="#all-5-hooks" id="toc-all-5-hooks" class="nav-link" data-scroll-target="#all-5-hooks">All 5 Hooks</a></li>
   </ul></li>
   <li><a href="#memory-system" id="toc-memory-system" class="nav-link" data-scroll-target="#memory-system">Memory System</a></li>
+  <li><a href="#self-improvement" id="toc-self-improvement" class="nav-link" data-scroll-target="#self-improvement">Self-Improvement</a>
+  <ul class="collapse">
+  <li><a href="#auto-memory" id="toc-auto-memory" class="nav-link" data-scroll-target="#auto-memory">Auto-Memory</a></li>
+  <li><a href="#skill-extraction-tools-learn" id="toc-skill-extraction-tools-learn" class="nav-link" data-scroll-target="#skill-extraction-tools-learn">Skill Extraction: /tools learn</a></li>
+  </ul></li>
+  <li><a href="#sec-exploration" id="toc-sec-exploration" class="nav-link" data-scroll-target="#sec-exploration">Exploration Workflow</a>
+  <ul class="collapse">
+  <li><a href="#fast-track-vs-plan-first" id="toc-fast-track-vs-plan-first" class="nav-link" data-scroll-target="#fast-track-vs-plan-first">Fast-Track vs Plan-First</a></li>
+  </ul></li>
+  <li><a href="#sec-constitutional" id="toc-sec-constitutional" class="nav-link" data-scroll-target="#sec-constitutional">Constitutional Governance (Optional)</a></li>
   <li><a href="#context-survival-system" id="toc-context-survival-system" class="nav-link" data-scroll-target="#context-survival-system">Context Survival System</a></li>
   </ul>
 </nav>
@@ -242,7 +252,7 @@ ul.task-list li input[type="checkbox"] {
 <h1>CLAUDE.md — The Project Constitution</h1>
 <p><code>CLAUDE.md</code> is the single most important file. Claude reads it at the start of every session. It should be a <strong>slim constitution</strong> — short directives and pointers, not comprehensive documentation. Aim for ~120 lines:</p>
 <ul>
-<li><strong>Core principles</strong> — 5–6 bullets (plan-first, verify-after, quality gates, worker-critic pairs, LEARN tags)</li>
+<li><strong>Core principles</strong> — 5–6 bullets (plan-first, verify-after, quality gates, worker-critic pairs, auto-memory)</li>
 <li><strong>Folder structure</strong> — where everything lives</li>
 <li><strong>Commands</strong> — compilation, deployment</li>
 <li><strong>Skill quick reference</strong> — table of 10 available commands</li>
@@ -266,7 +276,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="rules-auto-loading-domain-knowledge" class="level1">
 <h1>Rules — Auto-Loading Domain Knowledge</h1>
-<p>Rules are markdown files in <code>.claude/rules/</code> that Claude loads automatically. Consolidated into <strong>11 focused files</strong> for clarity.</p>
+<p>Rules are markdown files in <code>.claude/rules/</code> that Claude loads automatically. Consolidated into <strong>9 focused files</strong> for clarity.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 40%">
@@ -297,31 +307,23 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td><code>content-standards.md</code></td>
-<td>Table generation, PDF processing, exploration workflow</td>
+<td>Table generation, figure standards, PDF processing, exploration workflow</td>
 </tr>
 <tr class="even">
-<td><code>figures.md</code></td>
-<td>No embedded titles, serif fonts, publication-quality axis labels, full year axes</td>
+<td><code>content-invariants.md</code></td>
+<td>21 numbered non-negotiable rules (INV-1 through INV-21) for paper, code, and talks</td>
 </tr>
 <tr class="odd">
-<td><code>tables.md</code></td>
-<td>No embedded titles, booktabs, threeparttable, notes in paper not R output</td>
-</tr>
-<tr class="even">
 <td><code>working-paper-format.md</code></td>
 <td>Working paper layout: 12pt, 1in margins, titling fonts, abstract format</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>revision.md</code></td>
 <td>R&amp;R cycle comment classification and routing</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>meta-governance.md</code></td>
 <td>Template vs working project distinction</td>
-</tr>
-<tr class="odd">
-<td><code>domain-profile.md</code></td>
-<td>Field-specific calibration (moved to <code>.claude/references/</code> in v3.0)</td>
 </tr>
 </tbody>
 </table>
@@ -369,7 +371,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="hooks-smart-defaults" class="level1">
 <h1>Hooks — Smart Defaults</h1>
-<p>Hooks live in <code>.claude/settings.json</code> and fire on events, regardless of context state. Reduced to <strong>4 essential hooks</strong> that stay out of the way.</p>
+<p>Hooks live in <code>.claude/settings.json</code> and fire on events, regardless of context state. Reduced to <strong>5 hooks</strong> that stay out of the way.</p>
 <section id="design-principles" class="level2">
 <h2 class="anchored" data-anchor-id="design-principles">Design Principles</h2>
 <ul>
@@ -378,8 +380,8 @@ ul.task-list li input[type="checkbox"] {
 <li>Avoid prompt-based hooks that trigger LLM calls on every response</li>
 </ul>
 </section>
-<section id="all-4-hooks" class="level2">
-<h2 class="anchored" data-anchor-id="all-4-hooks">All 4 Hooks</h2>
+<section id="all-5-hooks" class="level2">
+<h2 class="anchored" data-anchor-id="all-5-hooks">All 5 Hooks</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 23%">
@@ -414,6 +416,11 @@ ul.task-list li input[type="checkbox"] {
 <td>Git post-merge</td>
 <td>Reminds to run <code>/tools learn</code> after merges</td>
 </tr>
+<tr class="odd">
+<td>Auto-lint</td>
+<td><code>PostToolUse</code></td>
+<td>Lints R/Python/Julia files on every Edit or Write (advisory)</td>
+</tr>
 </tbody>
 </table>
 <hr>
@@ -447,7 +454,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td>Corrections</td>
 <td><code>MEMORY.md</code></td>
-<td>On <code>[LEARN]</code> tag</td>
+<td>Auto-memory (automatic)</td>
 <td>Prevent repeating mistakes</td>
 </tr>
 <tr class="odd">
@@ -470,6 +477,106 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<hr>
+</section>
+<section id="self-improvement" class="level1">
+<h1>Self-Improvement</h1>
+<section id="auto-memory" class="level2">
+<h2 class="anchored" data-anchor-id="auto-memory">Auto-Memory</h2>
+<p>Claude Code has a built-in memory system that automatically saves corrections and preferences across sessions. No manual tagging needed — when you correct Claude (“that’s UAB, not Emory”), it saves the correction and applies it in future conversations.</p>
+<p>Memory is stored in <code>.claude/projects/.../memory/</code> and persists across sessions. You can also explicitly ask Claude to remember or forget something.</p>
+</section>
+<section id="skill-extraction-tools-learn" class="level2">
+<h2 class="anchored" data-anchor-id="skill-extraction-tools-learn">Skill Extraction: /tools learn</h2>
+<p>For discoveries that deserve a reusable workflow (not just a one-liner correction), use <code>/tools learn</code> to create a full skill.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Correction or preference</td>
+<td>Auto-memory (automatic)</td>
+</tr>
+<tr class="even">
+<td>Multi-step workflow</td>
+<td><code>/tools learn</code> to create full skill</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="sec-exploration" class="level1">
+<h1>Exploration Workflow</h1>
+<p>The <code>explorations/</code> folder provides a structured sandbox for experimental work.</p>
+<p><strong>The problem:</strong> Without structure, experimental code scatters across the repository.</p>
+<p><strong>The solution:</strong> All experimental work goes into <code>explorations/</code> first:</p>
+<pre><code>explorations/
+├── [active-project]/
+│   ├── README.md           # Goal, hypotheses, status
+│   ├── R/                  # Code iterations (_v1, _v2)
+│   └── output/             # Results
+└── ARCHIVE/
+    ├── completed_[name]/   # Graduated to production
+    └── abandoned_[name]/   # Documented why stopped</code></pre>
+<section id="fast-track-vs-plan-first" class="level3">
+<h3 class="anchored" data-anchor-id="fast-track-vs-plan-first">Fast-Track vs Plan-First</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Answer</th>
+<th>Workflow</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>“Will this ship?”</td>
+<td>YES</td>
+<td>Plan-First (80/100 quality)</td>
+</tr>
+<tr class="even">
+<td>“Am I testing an idea?”</td>
+<td>YES</td>
+<td>Fast-Track (60/100 quality)</td>
+</tr>
+<tr class="odd">
+<td>“Does this improve the project?”</td>
+<td>NO</td>
+<td>Don’t build it</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="sec-constitutional" class="level1">
+<h1>Constitutional Governance (Optional)</h1>
+<div class="callout callout-style-default callout-note callout-titled" title="Constitutional Governance">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Constitutional Governance
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>As your project grows, some decisions become non-negotiable. The <code>templates/constitutional-governance.md</code> template helps you distinguish between:</p>
+<ul>
+<li><strong>Immutable principles</strong> (Articles I–V): Non-negotiable rules</li>
+<li><strong>User preferences</strong>: Flexible patterns that can vary</li>
+</ul>
+<p>Use it <strong>after</strong> you’ve established 3–7 recurring patterns.</p>
+</div>
+</div>
+</div>
 <hr>
 </section>
 <section id="context-survival-system" class="level1">
