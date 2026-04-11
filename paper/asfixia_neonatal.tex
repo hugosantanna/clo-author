@@ -1,0 +1,468 @@
+% ============================================================
+%  Asfixia Neonatal / Encefalopatía Hipóxico-Isquémica
+%  Artículo de revisión — formato working paper
+% ============================================================
+\documentclass[12pt]{article}
+
+% ====== Página y formato básico ======
+\usepackage[left=1.0in,right=1.0in,top=1.0in,bottom=1.0in]{geometry}
+\usepackage{setspace}
+\doublespacing
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% ====== Tipografía ======
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+
+% ====== Matemáticas ======
+\usepackage{amssymb, amsmath}
+
+% ====== Tablas ======
+\usepackage{array, booktabs, makecell}
+\usepackage[flushleft]{threeparttable}
+
+% ====== Figuras ======
+\usepackage{graphicx}
+\usepackage{caption}
+\captionsetup{font=small, labelfont=bf, justification=justified}
+
+% ====== Listas ======
+\usepackage{enumitem}
+
+% ====== URLs y colores ======
+\usepackage{xurl}
+\usepackage{xcolor}
+\definecolor{citationcolor}{RGB}{0, 127, 255}
+
+% ====== Bibliografía (biblatex + biber) ======
+\usepackage[backend=biber,
+            style=authoryear,
+            maxcitenames=3,
+            mincitenames=1,
+            maxbibnames=99,
+            giveninits=true,
+            uniquename=false,
+            uniquelist=true,
+            dashed=false,
+            natbib=true]{biblatex}
+\addbibresource{asfixia_neonatal.bib}
+\renewcommand*{\nameyeardelim}{\addcomma\space}
+
+% ====== Idioma ======
+\usepackage[spanish]{babel}
+
+% ====== Hyperref (último) ======
+\usepackage[hidelinks, breaklinks, colorlinks=true,
+            linkcolor=citationcolor, citecolor=citationcolor,
+            urlcolor=citationcolor]{hyperref}
+
+% ============================================================
+%  Metadatos
+% ============================================================
+\title{Asfixia Neonatal y Encefalopatía Hipóxico-Isquémica:\\
+       Fisiopatología, Diagnóstico, Tratamiento y Pronóstico%
+       \thanks{Los autores no declaran conflictos de interés.
+               Este trabajo no recibió financiamiento externo.}}
+
+\author{
+  Author One\thanks{Departamento de Neonatología, Facultad de Medicina,
+  Universidad Ficticia. Correo: author.one@univficticia.edu} \quad
+  Author Two\thanks{Unidad de Cuidados Intensivos Neonatales,
+  Hospital Ficticio Nacional. Correo: author.two@hospitalficticio.gob}
+}
+
+\date{Abril de 2026}
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+\maketitle
+\thispagestyle{empty}
+
+% ============================================================
+\begin{abstract}
+\noindent \singlespacing
+\textbf{Introducción.} La asfixia neonatal representa la segunda causa de años de vida
+ajustados por discapacidad en el período neonatal y genera una carga desproporcionada
+en países de ingresos bajos y medianos.
+\textbf{Métodos.} Revisión narrativa de la literatura clínica y epidemiológica publicada
+entre 1976 y 2024, con énfasis en ensayos clínicos aleatorizados, metaanálisis y guías
+de práctica clínica iberoamericanas.
+\textbf{Resultados.} La hipotermia terapéutica (33,5\,°C rectal durante 72 horas),
+iniciada antes de las 6 horas de vida en recién nacidos con encefalopatía
+hipóxico-isquémica moderada o grave, reduce la mortalidad y la discapacidad
+neuológica mayor con un número necesario a tratar de 6 a 9.
+El diagnóstico se apoya en criterios clínicos estandarizados, electroencefalografía
+de amplitud integrada y resonancia magnética.
+\textbf{Conclusión.} La detección oportuna y el inicio precoz de la hipotermia
+constituyen la intervención más eficaz disponible; su acceso universal, especialmente
+en entornos de recursos limitados, sigue siendo el principal desafío.
+\end{abstract}
+
+\vspace{1em}
+\noindent \textbf{Códigos JEL:} I10, I12, I18
+
+\vspace{0.5em}
+\noindent \textbf{Palabras clave:} asfixia neonatal, encefalopatía hipóxico-isquémica,
+hipotermia terapéutica, fisiopatología neonatal, pronóstico neurológico
+
+\newpage
+\setcounter{page}{1}
+
+% ============================================================
+\section{Introducción}
+\label{sec:introduccion}
+% ============================================================
+
+La asfixia neonatal ocurre entre 1 y 6 por cada 1\,000 nacidos vivos en países de
+ingresos altos, cifra que asciende a 25 por cada 1\,000 en contextos de bajos recursos;
+en Ecuador, datos del Ministerio de Salud Pública registraron 7 casos por cada 100
+nacidos vivos en 2022 \parencite{ecuador2022}. El 96\,\% de la carga global de esta
+condición recae sobre países de ingresos bajos y medianos \parencite{kurinczuk2010},
+lo que convierte a la asfixia neonatal en un problema de equidad sanitaria tanto como
+en un desafío clínico.
+
+La magnitud de sus consecuencias justifica la atención. La asfixia neonatal causa el
+23\,\% de la mortalidad infantil global y explica el 20\,\% de los casos de parálisis
+cerebral infantil \parencite{lawn2005}. En términos de carga de enfermedad, constituye
+la segunda causa de años de vida ajustados por discapacidad en el período neonatal,
+superada únicamente por la prematuridad \parencite{kurinczuk2010}. La mortalidad no es
+el único desenlace relevante: los supervivientes pueden presentar epilepsia, deterioro
+cognitivo y trastornos motores que persisten a lo largo de toda la vida.
+
+La encefalopatía hipóxico-isquémica (EHI) es la expresión clínica más grave de la
+asfixia neonatal. Se define como el conjunto de signos neurológicos que aparecen en las
+primeras horas de vida como consecuencia de la reducción aguda del aporte de oxígeno
+y substrato energético al cerebro \parencite{volpe2012}. La distinción entre asfixia
+neonatal ---evento bioquímico y clínico de privación de oxígeno--- y EHI ---su repercusión
+cerebral--- tiene implicancias prácticas: no todos los recién nacidos asfixiados
+desarrollan EHI, pero quienes lo hacen concentran el mayor riesgo de muerte y
+discapacidad.
+
+El único tratamiento con eficacia demostrada en ensayos clínicos aleatorizados es la
+hipotermia terapéutica \parencite{shankaran2005, gluckman2005, azzopardi2008}. Su
+ventana de acción es estrecha ---las primeras seis horas de vida---, lo que hace del
+reconocimiento precoz una condición sine qua non para su aplicación efectiva. El
+presente artículo revisa la fisiopatología, los criterios diagnósticos, el protocolo de
+tratamiento y los factores pronósticos de la EHI, con atención a las particularidades
+relevantes para entornos latinoamericanos.
+
+% ============================================================
+\section{Fisiopatología}
+\label{sec:fisiopatologia}
+% ============================================================
+
+El daño cerebral en la EHI no ocurre en un único momento sino en una cascada que se
+desarrolla en cuatro fases, cada una con características bioquímicas y temporales
+propias \parencite{ferriero2004}. Comprender esta secuencia es fundamental para
+entender por qué la hipotermia funciona y cuál es su ventana terapéutica.
+
+\textbf{Fase I: evento centinela.} La reducción aguda del flujo sanguíneo
+---por desprendimiento de placenta, prolapso de cordón, paro cardiorrespiratorio u
+otro evento--- suprime la entrega de oxígeno y glucosa. Las células cerebrales pasan
+del metabolismo aeróbico al anaeróbico, con producción de lactato y caída del ATP.
+La falla energética activa los canales iónicos voltaje-dependientes y permite la
+entrada masiva de calcio al citoplasma, desencadenando la excitotoxicidad primaria.
+Este proceso se inicia en minutos y puede terminar en necrosis celular si la
+isquemia es prolongada.
+
+\textbf{Fase II: período de latencia.} La restauración de la circulación ---espontánea
+o mediante reanimación--- inaugura un intervalo de relativa estabilidad metabólica que
+dura entre 1 y 6 horas. La actividad eléctrocerebral se recupera parcialmente,
+el metabolismo oxidativo mejora y el daño visible es todavía mínimo. Este período
+de latencia constituye la ventana terapéutica: es el momento en que la hipotermia
+puede interrumpir la cascada \parencite{edwards2010}. Pasadas las 6 horas, la
+eficacia del tratamiento disminuye de manera sustancial.
+
+\textbf{Fase III: fase secundaria.} A partir de las 6 horas, y con un pico entre las
+24 y las 72 horas, se activan cuatro mecanismos que amplifican el daño neuronal.
+La excitotoxicidad secundaria es mediada por glutamato y potenciada por la
+acumulación de calcio intracelular. El estrés oxidativo genera especies reactivas de
+oxígeno que atacan lípidos, proteínas y ADN. La respuesta inflamatoria recluta
+microglia y macrófagos circulantes que liberan citocinas proinflamatorias
+(IL-1$\beta$, IL-6, TNF-$\alpha$). Por último, la apoptosis ---activada por las vías
+intrínseca y extrínseca de la caspasa--- elimina neuronas que podrían haberse
+recuperado si el proceso hubiese sido interrumpido \parencite{volpe2012}. La
+hipotermia actúa principalmente suprimiendo estos cuatro mecanismos secundarios.
+
+\textbf{Fase IV: fase terciaria.} En las semanas y meses posteriores al evento
+agudo persisten fenómenos de remodelación, neuroinflamación crónica y epigenética
+alterada que pueden continuar generando daño \parencite{ferriero2004}. Esta fase
+justifica la investigación de neuroprotectores adyuvantes ---eritropoyetina, melatonina,
+células madre--- cuyo beneficio en combinación con la hipotermia se evalúa actualmente
+en ensayos clínicos.
+
+La asfixia no afecta solo al cerebro. La redistribución del gasto cardíaco ante la
+hipoxia ---respuesta de buceo--- privilegia el flujo coronario y cerebral a expensas de
+órganos esplácnicos, riñón y piel. El resultado es una disfunción multiorgánica cuya
+severidad es paralela a la del daño cerebral: cardiopatía transitoria con hipertensión
+pulmonar, insuficiencia renal aguda, enterocolitis necrosante, elevación de
+transaminasas e hipoglucemia son hallazgos frecuentes que requieren monitoreo y
+tratamiento activo \parencite{shankaran2005}. La presencia y magnitud de la afectación
+sistémica sirven como indicador barrométrico de la gravedad global del cuadro.
+
+% ============================================================
+\section{Diagnóstico}
+\label{sec:diagnostico}
+% ============================================================
+
+El diagnóstico de EHI requiere la confluencia de criterios clínicos, bioquímicos y
+neurofisiológicos \parencite{alsepneo2021}. La clasificación en grados de severidad
+determina directamente la elegibilidad para hipotermia terapéutica, por lo que una
+evaluación rigurosa y sistematizada es condición necesaria para el tratamiento.
+
+\subsection{Criterios diagnósticos}
+\label{subsec:criterios}
+
+Los criterios diagnósticos se organizan en dos grupos. Los \textbf{criterios A}
+documentan la ocurrencia y la severidad del evento hipóxico-isquémico: presencia de
+evento centinela identificable, más al menos uno de los siguientes ---puntuación de
+Apgar $\leq 5$ a los cinco minutos de vida, necesidad de reanimación cardiopulmonar
+avanzada por más de 10 minutos, pH en sangre de cordón $< 7{,}0$, o déficit de
+bases $\geq 16$\,mmol/L \parencite{sarnat1976}. Los \textbf{criterios B} documentan
+la afectación neurológica mediante escalas estandarizadas de encefalopatía: la escala
+de Sarnat modificada clasifica la EHI en grados I (leve), II (moderada) y III (grave)
+con base en el nivel de conciencia, tono muscular, reflejos primitivos y presencia de
+convulsiones \parencite{sarnat1976}. La escala cuantitativa de García-Alix asigna una
+puntuación que estratifica como leve ($< 8$ puntos), moderada (8--30 puntos) y grave
+($> 30$ puntos), con mayor objetividad interobservador \parencite{garciaalix2012}.
+La elegibilidad para hipotermia exige que ambos grupos de criterios estén presentes y
+que la EHI sea moderada o grave.
+
+\subsection{Monitoreo neurofisiológico}
+\label{subsec:eeg}
+
+El electroencefalograma de amplitud integrada (aEEG) permite la monitorización
+continua del patrón electrocortical con un equipo de cabecera y escasa formación
+técnica. Sus patrones ---fondo continuo, discontinuo, burst-suppression, voltaje bajo
+continuo o isoeléctrico--- tienen valor diagnóstico para estratificar la severidad y
+pronóstico para predecir el desenlace neurológico \parencite{alsepneo2021}. Su
+principal utilidad práctica es la detección de convulsiones subclínicas, que ocurren
+hasta en el 50\,\% de los neonatos con EHI moderada-grave y son clínicamente silentes
+\parencite{volpe2012}. El EEG convencional de 19 canales aporta mayor sensibilidad
+diagnóstica y debe utilizarse ante cualquier duda sobre la interpretación del aEEG o
+cuando se sospeche estado epiléptico.
+
+\subsection{Neuroimagen}
+\label{subsec:rmn}
+
+La resonancia magnética (RMN) es la herramienta pronóstica principal en la EHI.
+Su rendimiento diagnóstico varía con el momento de adquisición. La RMN precoz
+($< 5$ días), con secuencias de difusión (DWI) y coeficiente de difusión aparente
+(ADC), detecta restricción de difusión en las regiones lesionadas ---particularmente
+ganglios basales, tálamo y corteza--- antes de que las secuencias convencionales
+muestren anormalidades \parencite{ferriero2004}. La RMN tardía (5--14 días), con
+secuencias T1 y T2, refleja con mayor fidelidad la extensión final del daño y
+constituye el mejor predictor imagenológico del pronóstico motor y cognitivo. La
+lesión bilateral de ganglios basales y tálamo en T1 predice parálisis cerebral
+discinética con una probabilidad que varía del 10 al 98\,\% según la extensión
+\parencite{garciaalix2012}.
+
+\subsection{Biomarcadores}
+\label{subsec:biomark}
+
+La enolasa neuronal específica (NSE) es el biomarcador sérico más estudiado en la EHI.
+Concentraciones superiores a 50\,ng/ml durante las primeras 24 horas se asocian con
+mal pronóstico neurológico con alta especificidad, aunque su sensibilidad es moderada
+\parencite{kurinczuk2010}. Otros marcadores ---S100B, proteína de unión a ácidos grasos
+de tipo cerebral (FABP), neurofilamento de cadena ligera--- se encuentran en evaluación
+clínica pero carecen aún de umbrales de decisión validados para uso rutinario en
+entornos iberoamericanos.
+
+% ============================================================
+\section{Tratamiento}
+\label{sec:tratamiento}
+% ============================================================
+
+\subsection{Hipotermia terapéutica}
+\label{subsec:hipotermia}
+
+La hipotermia terapéutica es el estándar de oro para el tratamiento de la EHI moderada
+y grave. Tres ensayos aleatorizados multicéntricos ---CoolCap \parencite{gluckman2005},
+NICHD \parencite{shankaran2005} y TOBY \parencite{azzopardi2008}--- demostraron
+reducción significativa de la mortalidad y la discapacidad mayor, con un número
+necesario a tratar (NNT) de 6 a 9. El metaanálisis de \citet{edwards2010} confirmó
+que el enfriamiento a 33--34\,°C durante 72 horas reduce en un 25\,\% el riesgo
+combinado de muerte o discapacidad neuológica grave a los 18 meses.
+
+El protocolo estándar establece como temperatura objetivo 33,5\,°C rectal, mantenida
+durante 72 horas sin interrupción \parencite{jacobs2013}. El recalentamiento posterior
+es lento y controlado: 0,3--0,5\,°C por hora para evitar el rebote convulsivo e
+hipotérmico. El enfriamiento puede ser pasivo ---retirar las fuentes de calor y dejar
+que el recién nacido se enfríe de manera natural--- o activo mediante mantas o equipos
+de enfriamiento servo-controlados. En entornos de recursos limitados, el enfriamiento
+pasivo o con bolsas de gel frío es una alternativa que las guías latinoamericanas
+aceptan como medida puente \parencite{alsepneo2021}.
+
+Las indicaciones precisas son: edad gestacional $\geq 35$ semanas, peso al nacer
+$\geq 1{,}800$\,g, edad postnatal $\leq 6$ horas, y EHI moderada o grave documentada
+con criterios A y B \parencite{statpearls2024}. Las contraindicaciones absolutas
+incluyen malformaciones congénitas mayores incompatibles con la vida, coagulopatía
+grave no corregible y situaciones en que el tratamiento no esté en sintonía con los
+objetivos de cuidado acordados con la familia. La prematuridad extrema
+($< 35$ semanas) es contraindicación relativa por la falta de datos de seguridad
+en este subgrupo.
+
+El tiempo de inicio es crítico: datos del ensayo NICHD y del estudio TOBY indican que
+el inicio de la hipotermia antes de los 180 minutos de vida se asocia con mejores
+resultados motores que su inicio entre los 180 y 360 minutos \parencite{shankaran2014}.
+Este gradiente temporal refuerza la necesidad de protocolos de identificación precoz
+en sala de partos y de traslados neonatales organizados para garantizar que el recién
+nacido llegue al centro de hipotermia dentro de la ventana.
+
+\subsection{Monitoreo durante la hipotermia}
+\label{subsec:monitoreo}
+
+El manejo durante las 72 horas de hipotermia requiere vigilancia sistémica y
+neurológica continua. Los parámetros mínimos son: glucemia cada 2--4 horas (objetivo
+$> 47$\,mg/dL), electrolitos séricos, coagulograma, función hepática y renal al inicio
+y cada 24 horas, aEEG o EEG continuo para detección de convulsiones, y ecocardiografía
+para descartar hipertensión pulmonar persistente y disfunción miocárdica
+\parencite{alsepneo2021}. La hipotermia altera el metabolismo de múltiples fármacos;
+las dosis de sedación, antiepilépticos y antibióticos deben ajustarse.
+
+\subsection{Manejo de convulsiones}
+\label{subsec:convulsiones}
+
+Las convulsiones neonatales complican hasta el 40--45\,\% de los casos de EHI y
+agravan el daño cerebral al incrementar la demanda metabólica en el contexto de
+reserva energética reducida \parencite{volpe2012}. El fenobarbital en dosis de carga
+de 20\,mg/kg intravenoso es el fármaco de primera línea; puede repetirse hasta
+alcanzar 40\,mg/kg si las convulsiones persisten \parencite{alsepneo2021}. El
+levetiracetam ---dosis de 20--40\,mg/kg intravenoso--- se reserva como tercera línea por
+su perfil de seguridad y la menor carga de efectos adversos sedantes, aunque la
+evidencia comparativa directa con otros fármacos en neonatos es todavía limitada
+\parencite{statpearls2024}. La fenitoína y el midazolam se utilizan como segunda línea
+en los esquemas de la mayoría de los centros latinoamericanos.
+
+% ============================================================
+\section{Pronóstico y seguimiento}
+\label{sec:pronostico}
+% ============================================================
+
+El pronóstico de la EHI depende de la severidad del episodio, del patrón de lesión en
+la RMN y de la respuesta al tratamiento, y abarca un espectro amplio que va desde la
+recuperación neurológica completa hasta el fallecimiento en período neonatal.
+
+\subsection{Secuelas neurológicas}
+\label{subsec:secuelas}
+
+La lesión bilateral de ganglios basales y tálamo ---patrón más frecuente en la EHI
+grave--- se asocia con parálisis cerebral (PC) discinética. La probabilidad de PC varía
+del 10 al 98\,\% según la extensión de la lesión en la RMN \parencite{garciaalix2012},
+lo que ilustra la importancia de la neuroimagen como herramienta pronóstica individual
+y no solo poblacional. La epilepsia se presenta en el 40--45\,\% de los casos de EHI
+con convulsiones neonatales y puede requerir tratamiento antiepiléptico crónico
+\parencite{volpe2012}. Entre los supervivientes con PC, las comorbilidades son la norma:
+dolor crónico en el 75\,\%, discapacidad intelectual en el 50\,\% y trastornos
+visuales ---incluyendo cortical visual impairment--- en el 50\,\% de los casos
+\parencite{kurinczuk2010}.
+
+\subsection{Factores pronósticos}
+\label{subsec:factores}
+
+Cuatro factores tienen el mayor peso pronóstico individual. Primero, la severidad
+clínica al ingreso medida con la escala de Sarnat: los neonatos con EHI grado III
+tienen mortalidad hospitalaria superior al 50\,\% y, entre los supervivientes, más del
+70\,\% presenta discapacidad mayor \parencite{sarnat1976}. Segundo, el patrón de la
+RMN: la lesión de ganglios basales/tálamo confiere peor pronóstico que la lesión
+predominantemente cortical \parencite{ferriero2004}. Tercero, el tiempo al inicio de
+la hipotermia: cada hora de retraso dentro de la ventana de 6 horas se asocia con
+peor outcome \parencite{shankaran2014}. Cuarto, la persistencia de convulsiones a
+pesar del tratamiento antiepiléptico es un marcador de gravedad independiente
+\parencite{volpe2012}.
+
+\subsection{Seguimiento a largo plazo}
+\label{subsec:seguimiento}
+
+Las guías de la ALSEPNEO \parencite{alsepneo2021} recomiendan seguimiento
+neuropediátrico mínimo hasta los seis años de edad. Este seguimiento debe incluir
+evaluación del neurodesarrollo con instrumentos estandarizados ---Bayley Scales of
+Infant and Toddler Development, escala de Griffiths--- cada seis meses hasta los dos
+años y anualmente hasta los seis. La detección precoz de déficits motores, cognitivos
+o sensoriales permite iniciar intervenciones terapéuticas ---fisioterapia, terapia
+ocupacional, estimulación temprana--- en el período de mayor plasticidad neuronal.
+El seguimiento continuado es también necesario para documentar de manera prospectiva
+los resultados de los programas de hipotermia, lo que permite actualizar los datos
+de eficacia en contextos locales donde la incidencia de comorbilidades prenatales
+difiere de los entornos de los ensayos originales.
+
+La tabla~\ref{tab:pronostico} sintetiza los principales desenlaces según la
+clasificación de Sarnat al ingreso.
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{Pronóstico según grado de encefalopatía hipóxico-isquémica al ingreso}
+\label{tab:pronostico}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Desenlace} & \textbf{EHI grado I} & \textbf{EHI grado II} & \textbf{EHI grado III} \\
+\midrule
+Mortalidad neonatal & $< 5$\,\% & 15--25\,\% & $> 50$\,\% \\
+Discapacidad mayor & $< 5$\,\% & 25--35\,\% & $> 70$\,\% \\
+Parálisis cerebral & $< 1$\,\% & 10--20\,\% & 40--60\,\% \\
+Epilepsia & $< 5$\,\% & 20--30\,\% & 30--50\,\% \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\small
+\item \textit{Nota.} Estimaciones basadas en \citet{sarnat1976} y \citet{kurinczuk2010},
+con ajustes según la revisión de \citet{edwards2010} que incluye datos post-hipotermia.
+EHI = encefalopatía hipóxico-isquémica. Los valores expresan rangos aproximados;
+la variabilidad individual es considerable y debe completarse con la evaluación
+por RMN. Muestra: ensayos TOBY, NICHD y CoolCap combinados ($n > 600$).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ============================================================
+\section{Conclusiones}
+\label{sec:conclusiones}
+% ============================================================
+
+La asfixia neonatal y su expresión clínica principal, la EHI, configuran un problema
+de salud pública de magnitud relevante tanto en términos de mortalidad como de carga
+de discapacidad, con una distribución geográfica que concentra el 96\,\% del daño en
+países de ingresos bajos y medianos. En Ecuador y en el conjunto de América Latina,
+la incidencia supera la de los países de donde provienen la mayoría de los ensayos
+clínicos, lo que refuerza la urgencia de adaptar los protocolos diagnósticos y
+terapéuticos a la realidad local.
+
+El conocimiento acumulado sobre la fisiopatología en cuatro fases ofrece una base
+racional para la hipotermia terapéutica, cuya eficacia está respaldada por evidencia
+de nivel I procedente de tres ensayos aleatorizados independientes y ratificada en el
+metaanálisis de Edwards y colaboradores, con un NNT de 6 a 9 para prevenir muerte o
+discapacidad mayor. El tiempo al inicio del tratamiento es el modificador más potente
+de su eficacia: cada hora dentro de la ventana de 6 horas cuenta, y los sistemas de
+salud que no disponen de unidades de hipotermia deben organizar circuitos de traslado
+neonatal que garanticen el acceso oportuno.
+
+Los avances diagnósticos ---aEEG, RMN y biomarcadores--- permiten hoy estratificar el
+riesgo con mayor precisión que hace una década, aunque persiste la necesidad de
+validar umbrales y protocolos en poblaciones latinoamericanas. La investigación en
+neuroprotectores adyuvantes ---eritropoyetina, melatonina, sulfato de magnesio--- abre
+perspectivas para mejorar los resultados más allá de lo alcanzable con la hipotermia
+sola, pero requiere ensayos adicionales antes de su adopción rutinaria.
+
+El seguimiento neuropediátrico hasta los seis años es tan parte del tratamiento como
+la hipotermia misma: sin él, las secuelas se detectan tarde, las intervenciones de
+habilitación se retrasan y se pierde la oportunidad de actuar durante el período
+de mayor plasticidad cerebral. Garantizar ese seguimiento en sistemas de salud con
+alta dispersión geográfica y escasos especialistas representa el reto inmediato para
+los equipos de neonatología en la región.
+
+% ============================================================
+\clearpage
+\small
+\singlespacing
+\printbibliography[title={Referencias}]
+% ============================================================
+
+\end{document}
