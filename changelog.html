@@ -141,7 +141,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#v41" id="toc-v41" class="nav-link active" data-scroll-target="#v41">v4.1.0 — Enforcement Layer</a>
+  <li><a href="#v411" id="toc-v411" class="nav-link active" data-scroll-target="#v411">v4.1.1 — Modern LaTeX Stack</a>
+  <ul class="collapse">
+  <li><a href="#latexmk-build-system" id="toc-latexmk-build-system" class="nav-link" data-scroll-target="#latexmk-build-system">latexmk Build System</a></li>
+  <li><a href="#tabularray" id="toc-tabularray" class="nav-link" data-scroll-target="#tabularray">tabularray</a></li>
+  <li><a href="#cleveref" id="toc-cleveref" class="nav-link" data-scroll-target="#cleveref">cleveref</a></li>
+  <li><a href="#microtype-promotion" id="toc-microtype-promotion" class="nav-link" data-scroll-target="#microtype-promotion">microtype Promotion</a></li>
+  <li><a href="#github-actions-ci" id="toc-github-actions-ci" class="nav-link" data-scroll-target="#github-actions-ci">GitHub Actions CI</a></li>
+  </ul></li>
+  <li><a href="#v41" id="toc-v41" class="nav-link" data-scroll-target="#v41">v4.1.0 — Enforcement Layer</a>
   <ul class="collapse">
   <li><a href="#content-invariants" id="toc-content-invariants" class="nav-link" data-scroll-target="#content-invariants">Content Invariants</a></li>
   <li><a href="#pre-flight-reports" id="toc-pre-flight-reports" class="nav-link" data-scroll-target="#pre-flight-reports">Pre-Flight Reports</a></li>
@@ -189,6 +197,32 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="v411" class="level1">
+<h1>v4.1.1 — Modern LaTeX Stack</h1>
+<p><em>Released 2026-04-11</em></p>
+<p>Modernizes the LaTeX infrastructure with Overleaf-compatible upgrades.</p>
+<section id="latexmk-build-system" class="level2">
+<h2 class="anchored" data-anchor-id="latexmk-build-system">latexmk Build System</h2>
+<p><code>paper/latexmkrc</code> configures XeLaTeX, TEXINPUTS, and BIBINPUTS. One command replaces the manual 4-command build: <code>cd paper &amp;&amp; latexmk main.tex</code>. No dot prefix — Overleaf reads it automatically. Updated across CLAUDE.md, verifier, <code>/tools compile</code>, and <code>/talk compile</code>.</p>
+</section>
+<section id="tabularray" class="level2">
+<h2 class="anchored" data-anchor-id="tabularray">tabularray</h2>
+<p>Modern table engine with key-value interface. Hand-written tables use <code>tblr</code>/<code>talltblr</code> (captions, notes, and rules in one declarative block). R/Python/Julia output continues exporting bare <code>tabular</code> wrapped with <code>threeparttable</code>. Both approaches documented with examples.</p>
+</section>
+<section id="cleveref" class="level2">
+<h2 class="anchored" data-anchor-id="cleveref">cleveref</h2>
+<p><code>\usepackage[nameinlink]{cleveref}</code> loaded after <code>hyperref</code>. <code>\cref{fig:x}</code> auto-generates “Figure 1” — eliminates <code>Figure~\ref{}</code> boilerplate. Writer-critic deducts for missing cleveref and manual ref patterns.</p>
+</section>
+<section id="microtype-promotion" class="level2">
+<h2 class="anchored" data-anchor-id="microtype-promotion">microtype Promotion</h2>
+<p>Promoted from Recommended to Required. Writer-critic now deducts -2 for missing <code>microtype</code>.</p>
+</section>
+<section id="github-actions-ci" class="level2">
+<h2 class="anchored" data-anchor-id="github-actions-ci">GitHub Actions CI</h2>
+<p><code>.github/workflows/compile-paper.yml</code> compiles the paper on push/PR when <code>paper/**</code> files change. Skips gracefully in template repos (no <code>main.tex</code>). Uploads compiled PDF as artifact.</p>
+<hr>
+</section>
+</section>
 <section id="v41" class="level1">
 <h1>v4.1.0 — Enforcement Layer</h1>
 <p><em>Released 2026-04-09</em></p>
@@ -308,8 +342,8 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="working-paper-format-required-vs.-recommended">Working Paper Format: Required vs.&nbsp;Recommended</h2>
 <p>The preamble standard now distinguishes:</p>
 <ul>
-<li><strong>Required</strong> (blocking): document class, margins, double-spacing, biblatex+biber, booktabs, hyperref last</li>
-<li><strong>Recommended</strong> (advisory): lmodern, microtype, citation color, captionsetup, hidelinks</li>
+<li><strong>Required</strong> (blocking): document class, margins, double-spacing, biblatex+biber, booktabs, tabularray, microtype, cleveref, hyperref second-to-last</li>
+<li><strong>Recommended</strong> (advisory): lmodern, citation color, captionsetup, hidelinks</li>
 </ul>
 <p>Writer-critic deductions adjusted accordingly — recommended items are reported but don’t cost points.</p>
 </section>

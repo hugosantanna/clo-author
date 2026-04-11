@@ -415,11 +415,12 @@ Paragraph 6 [ROADMAP]: Section-by-section guide</code></pre>
 <h1>Troubleshooting</h1>
 <section id="latex-wont-compile" class="level3">
 <h3 class="anchored" data-anchor-id="latex-wont-compile">LaTeX Won’t Compile</h3>
-<p><strong>Symptom:</strong> <code>xelatex</code> errors or missing packages.</p>
+<p><strong>Symptom:</strong> <code>latexmk</code> or <code>xelatex</code> errors, missing packages.</p>
 <ol type="1">
-<li>Check you have XeLaTeX installed: <code>which xelatex</code></li>
-<li>Ensure <code>TEXINPUTS</code> includes <code>preambles/</code>: the <code>/tools compile</code> skill handles this</li>
+<li>Check you have XeLaTeX and latexmk installed: <code>which xelatex latexmk</code></li>
+<li><code>paper/latexmkrc</code> configures TEXINPUTS and BIBINPUTS automatically</li>
 <li>Missing package? Install via TeX Live: <code>tlmgr install [package]</code></li>
+<li>On Overleaf: set compiler to XeLaTeX via Menu &gt; Compiler (Overleaf reads <code>latexmkrc</code> automatically)</li>
 </ol>
 </section>
 <section id="hooks-not-firing" class="level3">
