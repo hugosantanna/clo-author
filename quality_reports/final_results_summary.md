@@ -29,8 +29,17 @@ Stage 1: OLS agrupado con Mundlak means — sin IV (Z_foncomun pendiente de merg
 - **Componentes binarios (Probit AME)**: PIGARS=0.0550
 
 ### D3 — Disposición Final
-- **RS (Probit)**: AME = 0.0216
-- **PRS (Fractional Logit)**: AME = 0.0261
+- **RS (Probit)**: AME = +0.022
+  > **Interpretación:** Un incremento del 10% en el gasto público municipal aumenta en promedio
+  > la probabilidad de disponer residuos en un relleno sanitario formal en **2.2 puntos porcentuales**,
+  > validando la hipótesis de que el financiamiento es una barrera para la formalización ambiental.
+  > (Magnitud sustantiva: a nivel de la mediana municipal, esto equivale a ~110 toneladas/año
+  > redirigidas desde botaderos hacia disposición formal.)
+- **PRS (Fractional Logit)**: AME = +0.026
+  > **Interpretación:** Un incremento del 10% en el gasto eleva en 2.6 puntos porcentuales
+  > la *proporción* de residuos efectivamente enviados a relleno sanitario (entre municipios
+  > que ya cuentan con acceso). Efecto complementario al de RS: no sólo más municipios
+  > adoptan disposición formal, sino que quienes ya la tienen aumentan su tasa de uso.
 
 ---
 

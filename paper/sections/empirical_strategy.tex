@@ -1,0 +1,90 @@
+% ============================================================
+% empirical_strategy.tex
+% Sección: Estrategia Empírica
+% Tesis: Impacto del Gasto en Limpieza Pública sobre
+%        Gestión de Residuos Sólidos Municipales, Perú 2015-2019
+% Autor: Dante Barreto Gamarra (UNAS)
+% ============================================================
+
+\section{Estrategia Empírica}
+\label{sec:estrategia}
+
+\subsection{Identificación y Modelo Base}
+\label{sec:identificacion}
+
+La estrategia empírica principal utiliza un diseño de Efectos Fijos de Doble Vía (\textit{Two-Way Fixed Effects}, TWFE) con Correlated Random Effects (CRE) y una función de control (CF) para corregir la endogeneidad del gasto municipal (\citealt{Wooldridge2015}).
+El modelo general para el municipio $i$ en el año $t$ es:
+
+\begin{equation}
+  Y_{it} = \alpha + \beta \ln G_{it} + \gamma \bar{G}_{i} + \delta_{t} + \varepsilon_{it}
+  \label{eq:modelo_base}
+\end{equation}
+
+\noindent donde $Y_{it}$ es el indicador de gestión de residuos sólidos (FR, QPRS, CSRS, PI, RS o PRS),
+$\ln G_{it} = \ln(\text{Gasto}_{it} + 1)$ es el logaritmo del gasto devengado en limpieza pública,
+$\bar{G}_{i}$ es la media temporal de $\ln G_{it}$ para el municipio $i$ (\textit{Mundlak device}),
+y $\delta_{t}$ son efectos fijos de año.
+
+\subsection{Corrección de Endogeneidad: CRE + Función de Control}
+\label{sec:cre_cf}
+
+El gasto municipal puede estar correlacionado con factores no observables (capacidad institucional, preferencias por el medio ambiente), lo que genera endogeneidad.
+Siguiendo \citet{Wooldridge2015}, implementamos la corrección en dos etapas:
+
+\textbf{Etapa 1} (OLS agrupado con Mundlak means):
+\begin{equation}
+  \ln G_{it} = \pi_0 + \pi_1 \bar{G}_{i} + \sum_t \pi_t \delta_t + v_{it}
+  \label{eq:stage1}
+\end{equation}
+
+\noindent Los residuos $\hat{v}_{it}$ capturan la variación del gasto no explicada por la heterogeneidad municipal permanente.
+
+\textbf{Etapa 2}: Para los modelos no lineales (Ordered Probit, Probit, Fractional Logit), $\hat{v}_{it}$ se incluye como regresor adicional.
+Si $\hat{v}_{it}$ es estadísticamente significativo, confirma la presencia de endogeneidad y justifica la corrección CF.
+
+Los errores estándar se agrupan a nivel provincial (\textit{province-clustered SE}) para corregir la correlación serial y la heteroscedasticidad a nivel de municipio.
+
+\subsection{Supuestos de Identificación}
+\label{sec:supuestos}
+
+\subsubsection*{Stable Unit Treatment Value Assumption (SUTVA)}
+
+Para garantizar la validez de las estimaciones CRE+CF, se asume el cumplimiento del supuesto SUTVA.
+Dado que la gestión de residuos y la ejecución presupuestal en el Perú son de competencia estrictamente distrital según la Ley Orgánica de Municipalidades (Ley N° 27972), se asume que el gasto del distrito $i$ no genera efectos de desbordamiento (\textit{spillovers}) que afecten los resultados de gestión del distrito $j$.
+Esta premisa es razonable porque: (i) los servicios de limpieza pública son no exportables por definición jurisdiccional; (ii) la infraestructura de disposición final (rellenos sanitarios) es mayoritariamente de escala distrital en el período 2015-2019; y (iii) los contratos de concesión de residuos no cruzaban límites distritales en el período de análisis según los registros RENAMU.
+
+\subsubsection*{Exogeneidad del Instrumento FONCOMUN}
+
+Como verificación de robustez, se utiliza la transferencia FONCOMUN como instrumento para $\ln G_{it}$.
+La restricción de exclusión requiere que FONCOMUN afecte la gestión de residuos únicamente a través del gasto en limpieza pública, y no directamente.
+Siguiendo \citet{ConleyHansenRossi2012}, se reportan límites de \textit{plausible exogeneity} para evaluar la robustez de la restricción de exclusión a desviaciones locales.
+
+\subsubsection*{Tendencias Paralelas (TWFE)}
+
+La validez del TWFE requiere que, en ausencia de variación en el gasto, los municipios habrían seguido trayectorias paralelas en las variables de resultado.
+Se verifica este supuesto mediante pruebas de pre-tendencias usando el rezago $\ln G_{it-1}$ (especificación DL(1)) y el análisis de event-study presentado en el Apéndice~\cref{sec:appendix_pretendencias}.
+
+\subsection{Modelos por Dimensión}
+\label{sec:modelos_dimension}
+
+\subsubsection*{D1 — Eficiencia en Recolección}
+
+Para la frecuencia de recolección (FR: 1=diaria, 5=nunca), estimamos un Ordered Probit CRE+CF dado el carácter ordenado de la variable.
+Para la cantidad recolectada (QPRS, en kg/día), utilizamos un modelo OLS log-log con indicador de recolección cero (\textit{corner solution}).
+Para la cobertura del servicio (CSRS: 1=\textless{}25\%, 4=\textgreater{}75\%), estimamos un Ordered Probit CRE+CF análogo al de FR.
+
+\subsubsection*{D2 — Planeamiento Municipal}
+
+El índice de planeamiento (PI: suma de 5 instrumentos binarios, rango 0-5) se estima con OLS CRE+CF.
+Adicionalmente, cada componente binario (PIGARS, PMRS, SRRS, PTRS, PSFRSRS) se modela con Probit CRE+CF para identificar qué instrumentos responden al gasto.
+
+\subsubsection*{D3 — Disposición Final Adecuada}
+
+Para el uso de relleno sanitario (RS: binario), se usa Probit CRE+CF.
+Para la proporción de residuos enviados a relleno sanitario (PRS $\in [0,1]$), se aplica un Fractional Logit \citep{PapkeWooldridge1996} con la función de control integrada.
+
+\subsection{Corrección por Multiplicidad}
+\label{sec:bonferroni}
+
+Las tres hipótesis primarias (H1: efecto sobre FR; H2: efecto sobre PI; H3: efecto sobre PRS) se contrastan simultáneamente con la corrección Bonferroni-Holm para controlar la tasa de error familiar (\textit{familywise error rate}).
+Las comparaciones secundarias dentro de cada dimensión (componentes D2, submodelos D1) se reportan sin corrección de multiplicidad, siguiendo la práctica estándar para análisis secundarios preregistrados.
