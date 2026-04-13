@@ -1,0 +1,109 @@
+% ============================================================
+% results.tex
+% Sección: Resultados
+% Tesis: Impacto del Gasto en Limpieza Pública sobre
+%        Gestión de Residuos Sólidos Municipales, Perú 2015-2019
+% Autor: Dante Barreto Gamarra (UNAS)
+% ============================================================
+
+\section{Resultados}
+\label{sec:resultados}
+
+\subsection{Diagnóstico de Endogeneidad}
+\label{sec:endogeneidad}
+
+El primer paso antes de interpretar los coeficientes estructurales consiste en verificar si la corrección CRE+CF está empíricamente justificada. En todos los modelos estimados, el coeficiente sobre $\hat{v}_{it}$ —los residuos de la primera etapa— es estadísticamente significativo al nivel del $1\%$ ($p < 0{,}001$). Este resultado rechaza la hipótesis nula de exogeneidad del gasto y confirma que el estimador TWFE sin corrección produce estimaciones sesgadas. En ausencia de la función de control, la correlación entre $\ln G_{it}$ y los factores institucionales no observables generaría una sobreestimación del efecto causal: los municipios con mayor capacidad de gestión tienden a ejecutar más presupuesto y simultáneamente a reportar mejores indicadores de residuos, de modo que el OLS ingenuo captura tanto el efecto del gasto como la ventaja institucional preexistente. La estimación CRE+CF descompone estas fuentes de variación y aísla el efecto causal del gasto.
+
+Los parámetros de la primera etapa se presentan en la \cref{tab:stage1} del Apéndice. El modelo OLS agrupado con medias Mundlak ($\bar{G}_{i}$) y efectos fijos de año explica el $74\%$ de la varianza en $\ln G_{it}$. Las medias de Mundlak son altamente significativas (coef.\ $= 0{,}921$, $p < 0{,}001$), lo que indica que la heterogeneidad municipal permanente —capturada por $\bar{G}_{i}$— concentra la mayor parte de la variación del gasto. La variación residual $\hat{v}_{it}$, que representa los desvíos transitorios del gasto respecto al nivel histórico del municipio, es el componente identificante en la segunda etapa.
+
+% ------------------------------------------------------------------
+\subsection{Dimensión 1 — Eficiencia en Recolección}
+\label{sec:d1}
+
+\subsubsection*{Frecuencia de Recolección (FR)}
+
+El gasto municipal en limpieza pública tiene un efecto estadísticamente significativo y económicamente sustantivo sobre la frecuencia de recolección de residuos. El coeficiente del Ordered Probit CRE+CF es $\hat{\beta} = -0{,}522$ ($p < 0{,}001$), cuyo signo negativo refleja la codificación de la variable: $FR = 1$ corresponde a recolección diaria (máxima frecuencia) y $FR = 5$ a recolección nula. Un mayor gasto desplaza a los municipios hacia las categorías inferiores del índice ordinal, es decir, hacia frecuencias de recolección más altas. La magnitud del coeficiente latente supera en un factor de 6{,}5 la estimación TWFE sin corrección ($\hat{\beta}_{\text{TWFE}} = -0{,}081$), lo que ilustra el sesgo de atenuación que introduce la endogeneidad cuando no se controla por la heterogeneidad institucional.
+
+El resultado valida la Hipótesis H1: el incremento del gasto municipal en limpieza pública aumenta la frecuencia de recolección. Este efecto opera, previsiblemente, a través del canal operativo directo: mayor gasto habilita la adquisición de combustible, el mantenimiento de flota y el pago de salarios del personal de campo, factores que son vinculantes para la frecuencia del servicio en municipios con presupuestos ajustados.
+
+\subsubsection*{Cantidad Diaria de Residuos Recolectados (QPRS)}
+
+La elasticidad estimada del gasto sobre la cantidad diaria de residuos recolectados (QPRS) es $+0{,}879$ (SE $= 0{,}021$, $p < 0{,}001$), lo que implica que un incremento del $10\%$ en el gasto municipal se asocia con un aumento del $8{,}79\%$ en los kilogramos de residuos recolectados por día. Este resultado es consistente con la hipótesis de rendimientos decrecientes: municipios con bajos niveles de gasto base exhiben las mayores ganancias marginales en cobertura efectiva. La elasticidad es cercana a la unidad pero significativamente inferior a ella ($t$-test de $H_0: \hat{\beta} = 1$, $p < 0{,}001$), lo que sugiere que la capacidad operativa no escala de forma perfectamente proporcional con el presupuesto —presumiblemente por fricciones en la contratación de personal calificado y la disponibilidad de infraestructura de tratamiento en municipios rurales. Frente al estimador TWFE ($\hat{\beta}_{\text{TWFE}} = 0{,}027$), la corrección CRE+CF eleva la elasticidad en más de treinta veces, evidenciando que el sesgo de atenuación es cuantitativamente dominante en este outcome.
+
+\subsubsection*{Cobertura del Servicio (CSRS)}
+
+El coeficiente CRE+CF sobre la cobertura del servicio de recolección es $\hat{\beta} = +0{,}254$ ($p < 0{,}001$). Dado que CSRS está codificada con valores crecientes hacia mayor cobertura ($CSRS = 4$ corresponde a cobertura superior al $75\%$ del territorio distrital), el signo positivo indica que el gasto amplía la cobertura geográfica del servicio. La magnitud es inferior a la del efecto sobre QPRS, lo que es consistente con una estructura de costos en la que la expansión territorial del servicio (incorporar nuevas zonas de recolección) es marginalmente más costosa que aumentar la intensidad del servicio en zonas ya cubiertas. Los resultados para FR y CSRS se presentan en la \cref{tab:d1_resultados}.
+
+% ------------------------------------------------------------------
+\subsection{Dimensión 2 — Planeamiento Municipal}
+\label{sec:d2}
+
+El índice de planeamiento de gestión de residuos sólidos (PI) responde con mayor magnitud al gasto que cualquier otra variable de resultado en el modelo. El coeficiente OLS CRE+CF es $\hat{\beta} = +0{,}300$ (SE $= 0{,}015$, $p < 0{,}001$), que puede interpretarse directamente: un incremento del $10\%$ en el gasto ejecutado en limpieza pública aumenta el índice de planeamiento en $0{,}030$ puntos (sobre una escala de $0$ a $5$). La estimación TWFE subestimaba este efecto en casi ocho veces ($\hat{\beta}_{\text{TWFE}} = 0{,}039$), confirmando que la endogeneidad comprime artificialmente los coeficientes cuando la heterogeneidad institucional no observable está correlacionada tanto con el gasto como con la adopción de instrumentos de planificación. El resultado valida la Hipótesis H2 y sugiere que el gasto municipal opera, en parte, a través de un canal institucional: los recursos financieros facilitan la contratación de personal técnico, la elaboración de diagnósticos y la formalización de procedimientos de gestión que se traducen en la adopción de instrumentos de planificación obligatorios.
+
+El análisis por componentes revela heterogeneidad en la respuesta. El PIGARS (Plan de Gestión Ambiental de Residuos Sólidos) presenta el mayor efecto marginal promedio entre los cinco instrumentos binarios: AME $= +0{,}055$ ($p < 0{,}001$), lo que indica que un incremento del $10\%$ en el gasto eleva en $5{,}5$ puntos porcentuales la probabilidad de que un municipio cuente con un PIGARS aprobado. Este resultado tiene una interpretación de política directa: el PIGARS es el instrumento de planificación más demandante en términos de recursos técnicos (diagnóstico, consultoría, procesos de participación ciudadana), de modo que el financiamiento constituye una restricción vinculante para su adopción en municipios de menor capacidad fiscal. Los resultados por componente se presentan en la \cref{tab:d2_componentes}.
+
+% ------------------------------------------------------------------
+\subsection{Dimensión 3 — Disposición Final Adecuada}
+\label{sec:d3}
+
+\subsubsection*{Uso de Relleno Sanitario (RS)}
+
+El efecto marginal promedio sobre la probabilidad de uso de relleno sanitario (AME $= +0{,}022$, $p < 0{,}001$) revela que el financiamiento constituye una barrera material para la formalización ambiental de la disposición final. Un incremento del $10\%$ en el gasto eleva en $2{,}2$ puntos porcentuales la probabilidad de que un municipio disponga sus residuos en infraestructura formal, validando H3. En términos absolutos, dado que la mediana municipal en el período 2015--2019 generaba aproximadamente $5{,}500$ toneladas anuales de residuos sólidos, este incremento marginal equivale a redirigir alrededor de $110$ toneladas por año desde botaderos a cielo abierto hacia disposición controlada. La comparación con el estimador TWFE es reveladora: el coeficiente no corregido sobre RS es $-0{,}003$ —no solo insignificante sino con signo contrario— lo que confirma que el sesgo de causalidad inversa (municipios con peores indicadores de disposición reciben más recursos correctivos) enmascaraba completamente el efecto positivo del gasto cuando no se controla por endogeneidad.
+
+\subsubsection*{Proporción de Residuos en Relleno Sanitario (PRS)}
+
+El Fractional Logit CRE+CF \citep{PapkeWooldridge1996} estima un efecto marginal promedio de $+0{,}026$ ($p < 0{,}001$) sobre la proporción de residuos enviados a relleno sanitario. Este efecto es complementario al de RS: mientras que el AME sobre RS captura el margen extensivo (probabilidad de adopción de disposición formal), el AME sobre PRS captura el margen intensivo (tasa de uso entre municipios que ya cuentan con acceso a relleno sanitario). La coexistencia de efectos positivos y significativos en ambos márgenes indica que el gasto no solo incorpora nuevos municipios a la disposición formal, sino que también profundiza el uso entre quienes ya la practican. Este resultado descarta la hipótesis alternativa de que el efecto sobre RS sea puramente mecánico (municipios que construyen una nueva celda reportan automáticamente un PRS más alto): si así fuera, el efecto sobre PRS debería concentrarse en los municipios entrantes y ser nulo para los ya formalizados.
+
+% ------------------------------------------------------------------
+\subsection{Tabla Principal de Resultados}
+\label{sec:tabla_principal}
+
+La \cref{tab:resultados_principales} consolida los coeficientes CRE+CF para los seis outcomes en las tres dimensiones. Para facilitar la comparación, se reportan también los coeficientes TWFE sin corrección. La diferencia sistemática entre ambas columnas confirma la dirección del sesgo descrita en \cref{sec:endogeneidad}: el TWFE subestima los efectos en D1 y D2, y revierte el signo en D3, en todos los casos debido a la correlación positiva entre el gasto observado y los factores institucionales no observados que deterioran los outcomes.
+
+\begin{table}[htbp]
+\centering
+\caption{Efecto del Gasto en Limpieza Pública sobre la Gestión de Residuos Sólidos Municipales\\
+  Modelos CRE+CF vs.\ TWFE sin corrección, Perú 2015--2019}
+\label{tab:resultados_principales}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccccc},
+  row{1} = {font=\bfseries},
+  row{2} = {font=\itshape\small},
+  hline{1,Z} = {1.5pt},
+  hline{3} = {0.8pt},
+  hline{8,9} = {0.5pt, dashed},
+  hline{10} = {0.8pt},
+}
+ & \SetCell[c=3]{c} Dimensión 1 — Recolección & & & D2 & \SetCell[c=2]{c} Dimensión 3 — Disposición & \\
+ & FR & QPRS & CSRS & PI & RS & PRS \\
+\SetCell[r=1]{l} \textit{CRE+CF} & & & & & & \\
+$\hat{\beta}$ / AME & $-0{,}522$ & $+0{,}879$ & $+0{,}254$ & $+0{,}300$ & $+0{,}022$ & $+0{,}026$ \\
+SE & (clust.) & $(0{,}021)$ & (clust.) & $(0{,}015)$ & (clust.) & (clust.) \\
+$p$-valor & $<0{,}001$ & $<0{,}001$ & $<0{,}001$ & $<0{,}001$ & $<0{,}001$ & $<0{,}001$ \\
+\textit{TWFE} & & & & & & \\
+$\hat{\beta}$ & $-0{,}081$ & $+0{,}027$ & $+0{,}116$ & $+0{,}039$ & $-0{,}003$ & $-0{,}003$ \\
+Observaciones & $9{.}322$ & $9{.}322$ & $9{.}322$ & $9{.}322$ & $9{.}225$ & $9{.}322$ \\
+Municipios & $1{.}874$ & $1{.}874$ & $1{.}874$ & $1{.}874$ & $1{.}874$ & $1{.}874$ \\
+Clusters & $196$ & $196$ & $196$ & $196$ & $196$ & $196$ \\
+$\hat{v}_{it}$ sig. & Sí & Sí & Sí & Sí & Sí & Sí \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notas.} La variable de tratamiento es $\ln G_{it}$: logaritmo del gasto devengado en limpieza pública.
+FR = frecuencia de recolección (ordinal 1--5; 1=diaria); QPRS = kg de residuos recolectados por día (log-log);
+CSRS = cobertura del servicio (ordinal 1--4); PI = índice de planeamiento (escala 0--5, OLS);
+RS = uso de relleno sanitario (Probit, se reporta AME); PRS = proporción de residuos en relleno (Fractional Logit, se reporta AME).
+CRE+CF: Correlated Random Effects con función de control \citep{Wooldridge2015}; Mundlak device incluido en todos los modelos.
+Errores estándar agrupados a nivel de provincia (196 clusters).
+Todos los modelos incluyen efectos fijos de año y controles: $\ln(\text{población})$, tasa de urbanización, pobreza provincial, $\ln(\text{ingresos propios per cápita})$, dummy capital provincial.
+Fuente: RENAMU 2015--2019 (INEI) y SIAF/MEF.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection{Corrección por Multiplicidad}
+\label{sec:multiplicidad}
+
+Las tres hipótesis primarias de la investigación —H1 (efecto sobre FR), H2 (efecto sobre PI) y H3 (efecto sobre PRS)— se contrastan simultáneamente bajo la corrección Bonferroni-Holm para controlar la tasa de error familiar. Los $p$-valores ajustados para las tres hipótesis son $p_{\text{adj}} < 0{,}001$ en todos los casos. El rechazo de H1, H2 y H3 es, por tanto, robusto a la comparación múltiple: los resultados no son artefactos del análisis de múltiples outcomes. Los análisis por componentes dentro de cada dimensión (PIGARS, PMRS, SRRS y los demás instrumentos binarios de D2; CSRS como sub-outcome de D1) se reportan sin corrección de multiplicidad, siguiendo la práctica estándar para comparaciones secundarias preregistradas como exploratorias.
