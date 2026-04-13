@@ -3,11 +3,10 @@
 # Thesis: Impacto del Gasto en Limpieza Pública sobre
 #         Gestión de Residuos Sólidos Municipales, Perú 2015-2019
 # Author: Dante Barreto Gamarra (UNAS)
-# Purpose: Harmonize RENAMU 2015-2019 and build enriched panel
+# Purpose: Harmonize RENAMU 2015-2019 using OFFICIAL dictionary
+#          (validated 2026-04-13 by Dante Barreto Gamarra)
 # Inputs:  data/raw/RENAMU_20{15..19}.xlsx
-#          data/processed/panel_final_tesis.csv
-# Outputs: data/processed/panel_enriched.rds
-#          data/processed/panel_enriched.csv
+# Outputs: data/processed/panel_enriched.rds / .csv
 #          data/processed/codebook.md
 # ============================================================
 
@@ -15,309 +14,317 @@
 library(here)
 library(readxl)
 library(dplyr)
-library(tidyr)
 library(stringr)
 
 set.seed(20240101)
 
-dir.create(here("data", "processed"), recursive = TRUE, showWarnings = FALSE)
-dir.create(here("scripts", "R", "output"),  recursive = TRUE, showWarnings = FALSE)
-dir.create(here("paper", "tables"),         recursive = TRUE, showWarnings = FALSE)
+dir.create(here("data", "processed"),  recursive = TRUE, showWarnings = FALSE)
+dir.create(here("scripts", "R", "output"), recursive = TRUE, showWarnings = FALSE)
 
 # ============================================================
-# 1. Variable maps by year
+# MAPA DE VARIABLES — Diccionario RENAMU oficial
 # ============================================================
-# Confirmed by inspecting first rows (ubigeo 010101 = Chachapoyas):
 #
-# | Variable       | 2015        | 2016        | 2017   | 2018   | 2019   |
-# |----------------|-------------|-------------|--------|--------|--------|
-# | frecuencia     | C37_P45_1   | C37_P45_1   | P43_1  | P41_1  | P40_1  |
-# | poblacion      | C38_P46_1   | C38_P46_1   | P44_1  | P42_1  | P41_1  |
-# | cobertura_cat  | C39_P47_1   | C39_P47_1   | P45_1  | P43_1  | P42_1  |
-# | gasto_total    | C42_P50_T   | C42_P50_T   | P48_T  | P46_T  | P45_T  |
-# | plan_1..5      | C40_P48_1-5 | C40_P48_1-5 |P46_1-5 |P44_1-5 |P43_1-5 |
-# | prs_pct (%)    | C41_P49_2   | C41_P49_2   | P47_2  |P45_2_1 |P44_2_1 |
-# | rs_bin (1=yes) | C41_P49_2_2 | C41_P49_2_2 |P47_2_2 | P45_2  | P44_2  |
-#   rs_bin coding: 2015/16/17 use 1=yes,2=no -> recode; 2018/19 use 1=yes,2=no
+# TRATAMIENTO (Gasto devengado, SIAF Fun.008):
+#   Gasto_Total : C42_P50_T | P48_T | P46_T | P45_T
+#   Gasto_Recojo: C42_P50_1 | P48_1 | P46_1 | P45_1
+#   Gasto_Barrid: C42_P50_2 | P48_2 | P46_2 | P45_2
+#   Gasto_Otros : C42_P50_3 | P48_3 | P46_3 | P45_3
+#
+# D1 — Eficiencia en Recolección:
+#   FR   (1-5)  : C37_P45_1 | P43_1 | P41_1 | P40_1
+#   QPRS (kg/día): C38_P46_1 | P44_1 | P42_1 | P41_1
+#     *** QPRS = kilogramos diarios recolectados, NO es población ***
+#   CSRS (1-4)  : C39_P47_1 | P45_1 | P43_1 | P42_1
+#
+# D2 — Planeamiento (todos BINARIOS: presencia del instrumento > 0 → 1):
+#   PIGARS : C40_P48_1 | P46_1 | P44_1 | P43_1
+#   PMRS   : C40_P48_2 | P46_2 | P44_2 | P43_2
+#   SRRS   : C40_P48_3 | P46_3 | P44_3 | P43_3
+#   PTRS   : C40_P48_4 | P46_4 | P44_4 | P43_4
+#   PSFRSRS: C40_P48_5 | P46_5 | P44_5 | P43_5
+#
+# D3 — Disposición Final (binario: 1=Sí, 2=No → recodif. 0/1;
+#                          proporción: 0-100 → dividir /100):
+#   RS / PRS        : C41_P49_1_1/C41_P49_1 | P47_2_2/P47_2 | P45_1/P45_1_1 | P44_1/P44_1_1
+#   Botadero/PBot   : C41_P49_2_2/C41_P49_2 | P47_1_1/P47_1 | P45_2/P45_2_1 | P44_2/P44_2_1
+#   Reciclados/PRec : C41_P49_3_3/C41_P49_3 | P47_3_3/P47_3 | P45_3/P45_3_1 | P44_3/P44_3_1
+#   Quemados/PQuem  : C41_P49_4_4/C41_P49_4 | P47_4_4/P47_4 | P45_4/P45_4_1 | P44_4/P44_4_1
+#   RSRO/PRSRO      : C41_P49_5_5/C41_P49_5 | P47_5_5/P47_5 | P45_5/P45_5_1 | P44_5/P44_5_1
+# ============================================================
+
+# Helpers ----
+recode_bin <- function(x) {
+  # RENAMU binary: 1=Sí, 2=No, 0 or NA = sin dato → recode to 0/1
+  x <- suppressWarnings(as.numeric(x))
+  dplyr::case_when(x == 1 ~ 1L, x == 2 ~ 0L, TRUE ~ NA_integer_)
+}
+
+plan_bin <- function(x) {
+  # Planning instrument: value = code if present, 0 if absent → binary
+  as.integer(suppressWarnings(as.numeric(x)) > 0)
+}
+
+n <- function(x) suppressWarnings(as.numeric(x))
 
 # ============================================================
-# 2. Reader functions per year
+# 1. Year-specific readers ----
 # ============================================================
 
-read_renamu_year <- function(year, path) {
-  df <- read_excel(path, sheet = 1) |>
-    mutate(across(everything(), as.character))   # normalize types
+read_year <- function(yr, path) {
+  d <- read_excel(path, sheet = 1) |>
+    dplyr::mutate(dplyr::across(dplyr::everything(), as.character))
+  u <- str_pad(d[["UBIGEO"]], 6, "left", "0")
 
-  ubigeo_col <- "UBIGEO"
+  if (yr %in% c(2015, 2016)) {
+    data.frame(
+      ubigeo = u, year = yr,
+      # D1
+      FR    = n(d[["C37_P45_1"]]),
+      QPRS  = n(d[["C38_P46_1"]]),   # kg/día — NO es población
+      CSRS  = n(d[["C39_P47_1"]]),
+      # Gasto
+      Gasto_Total   = n(d[["C42_P50_T"]]),
+      Gasto_Recojo  = n(d[["C42_P50_1"]]),
+      Gasto_Barrido = n(d[["C42_P50_2"]]),
+      Gasto_Otros   = n(d[["C42_P50_3"]]),
+      # D2
+      PIGARS  = plan_bin(d[["C40_P48_1"]]),
+      PMRS    = plan_bin(d[["C40_P48_2"]]),
+      SRRS    = plan_bin(d[["C40_P48_3"]]),
+      PTRS    = plan_bin(d[["C40_P48_4"]]),
+      PSFRSRS = plan_bin(d[["C40_P48_5"]]),
+      # D3
+      RS          = recode_bin(d[["C41_P49_1_1"]]),
+      PRS         = n(d[["C41_P49_1"]]) / 100,
+      Botadero    = recode_bin(d[["C41_P49_2_2"]]),
+      PBotadero   = n(d[["C41_P49_2"]]) / 100,
+      Reciclados  = recode_bin(d[["C41_P49_3_3"]]),
+      PReciclados = n(d[["C41_P49_3"]]) / 100,
+      Quemados    = recode_bin(d[["C41_P49_4_4"]]),
+      PQuemados   = n(d[["C41_P49_4"]]) / 100,
+      RSRO        = recode_bin(d[["C41_P49_5_5"]]),
+      PRSRO       = n(d[["C41_P49_5"]]) / 100,
+      stringsAsFactors = FALSE
+    )
 
-  if (year %in% c(2015, 2016)) {
-    df <- df |> transmute(
-      ubigeo        = str_pad(.data[[ubigeo_col]], 6, "left", "0"),
-      year          = year,
-      frecuencia    = as.numeric(C37_P45_1),
-      poblacion     = as.numeric(C38_P46_1),
-      cobertura_cat = as.numeric(C39_P47_1),
-      gasto_total   = as.numeric(C42_P50_T),
-      plan_1        = as.integer(as.numeric(C40_P48_1) > 0),
-      plan_2        = as.integer(as.numeric(C40_P48_2) > 0),
-      plan_3        = as.integer(as.numeric(C40_P48_3) > 0),
-      plan_4        = as.integer(as.numeric(C40_P48_4) > 0),
-      plan_5        = as.integer(as.numeric(C40_P48_5) > 0),
-      prs_pct       = as.numeric(C41_P49_2),            # % to relleno sanitario
-      rs_raw        = as.numeric(C41_P49_2_2)           # 1=yes, 2=no
+  } else if (yr == 2017) {
+    data.frame(
+      ubigeo = u, year = yr,
+      FR    = n(d[["P43_1"]]),
+      QPRS  = n(d[["P44_1"]]),
+      CSRS  = n(d[["P45_1"]]),
+      Gasto_Total   = n(d[["P48_T"]]),
+      Gasto_Recojo  = n(d[["P48_1"]]),
+      Gasto_Barrido = n(d[["P48_2"]]),
+      Gasto_Otros   = n(d[["P48_3"]]),
+      PIGARS  = plan_bin(d[["P46_1"]]),
+      PMRS    = plan_bin(d[["P46_2"]]),
+      SRRS    = plan_bin(d[["P46_3"]]),
+      PTRS    = plan_bin(d[["P46_4"]]),
+      PSFRSRS = plan_bin(d[["P46_5"]]),
+      RS          = recode_bin(d[["P47_2_2"]]),
+      PRS         = n(d[["P47_2"]]) / 100,
+      Botadero    = recode_bin(d[["P47_1_1"]]),
+      PBotadero   = n(d[["P47_1"]]) / 100,
+      Reciclados  = recode_bin(d[["P47_3_3"]]),
+      PReciclados = n(d[["P47_3"]]) / 100,
+      Quemados    = recode_bin(d[["P47_4_4"]]),
+      PQuemados   = n(d[["P47_4"]]) / 100,
+      RSRO        = recode_bin(d[["P47_5_5"]]),
+      PRSRO       = n(d[["P47_5"]]) / 100,
+      stringsAsFactors = FALSE
     )
-  } else if (year == 2017) {
-    df <- df |> transmute(
-      ubigeo        = str_pad(.data[[ubigeo_col]], 6, "left", "0"),
-      year          = year,
-      frecuencia    = as.numeric(P43_1),
-      poblacion     = as.numeric(P44_1),
-      cobertura_cat = as.numeric(P45_1),
-      gasto_total   = as.numeric(P48_T),
-      plan_1        = as.integer(as.numeric(P46_1) > 0),
-      plan_2        = as.integer(as.numeric(P46_2) > 0),
-      plan_3        = as.integer(as.numeric(P46_3) > 0),
-      plan_4        = as.integer(as.numeric(P46_4) > 0),
-      plan_5        = as.integer(as.numeric(P46_5) > 0),
-      prs_pct       = as.numeric(P47_2),
-      rs_raw        = as.numeric(P47_2_2)               # 1=yes, 2=no
+
+  } else if (yr == 2018) {
+    data.frame(
+      ubigeo = u, year = yr,
+      FR    = n(d[["P41_1"]]),
+      QPRS  = n(d[["P42_1"]]),
+      CSRS  = n(d[["P43_1"]]),
+      Gasto_Total   = n(d[["P46_T"]]),
+      Gasto_Recojo  = n(d[["P46_1"]]),
+      Gasto_Barrido = n(d[["P46_2"]]),
+      Gasto_Otros   = n(d[["P46_3"]]),
+      PIGARS  = plan_bin(d[["P44_1"]]),
+      PMRS    = plan_bin(d[["P44_2"]]),
+      SRRS    = plan_bin(d[["P44_3"]]),
+      PTRS    = plan_bin(d[["P44_4"]]),
+      PSFRSRS = plan_bin(d[["P44_5"]]),
+      RS          = recode_bin(d[["P45_1"]]),
+      PRS         = n(d[["P45_1_1"]]) / 100,
+      Botadero    = recode_bin(d[["P45_2"]]),
+      PBotadero   = n(d[["P45_2_1"]]) / 100,
+      Reciclados  = recode_bin(d[["P45_3"]]),
+      PReciclados = n(d[["P45_3_1"]]) / 100,
+      Quemados    = recode_bin(d[["P45_4"]]),
+      PQuemados   = n(d[["P45_4_1"]]) / 100,
+      RSRO        = recode_bin(d[["P45_5"]]),
+      PRSRO       = n(d[["P45_5_1"]]) / 100,
+      stringsAsFactors = FALSE
     )
-  } else if (year == 2018) {
-    df <- df |> transmute(
-      ubigeo        = str_pad(.data[[ubigeo_col]], 6, "left", "0"),
-      year          = year,
-      frecuencia    = as.numeric(P41_1),
-      poblacion     = as.numeric(P42_1),
-      cobertura_cat = as.numeric(P43_1),
-      gasto_total   = as.numeric(P46_T),
-      plan_1        = as.integer(as.numeric(P44_1) > 0),
-      plan_2        = as.integer(as.numeric(P44_2) > 0),
-      plan_3        = as.integer(as.numeric(P44_3) > 0),
-      plan_4        = as.integer(as.numeric(P44_4) > 0),
-      plan_5        = as.integer(as.numeric(P44_5) > 0),
-      prs_pct       = as.numeric(P45_2_1),              # % to relleno sanitario
-      rs_raw        = as.numeric(P45_2)                 # 1=yes, 2=no
-    )
-  } else if (year == 2019) {
-    df <- df |> transmute(
-      ubigeo        = str_pad(.data[[ubigeo_col]], 6, "left", "0"),
-      year          = year,
-      frecuencia    = as.numeric(P40_1),
-      poblacion     = as.numeric(P41_1),
-      cobertura_cat = as.numeric(P42_1),
-      gasto_total   = as.numeric(P45_T),
-      plan_1        = as.integer(as.numeric(P43_1) > 0),
-      plan_2        = as.integer(as.numeric(P43_2) > 0),
-      plan_3        = as.integer(as.numeric(P43_3) > 0),
-      plan_4        = as.integer(as.numeric(P43_4) > 0),
-      plan_5        = as.integer(as.numeric(P43_5) > 0),
-      prs_pct       = as.numeric(P44_2_1),
-      rs_raw        = as.numeric(P44_2)                 # 1=yes, 2=no
+
+  } else if (yr == 2019) {
+    data.frame(
+      ubigeo = u, year = yr,
+      FR    = n(d[["P40_1"]]),
+      QPRS  = n(d[["P41_1"]]),
+      CSRS  = n(d[["P42_1"]]),
+      Gasto_Total   = n(d[["P45_T"]]),
+      Gasto_Recojo  = n(d[["P45_1"]]),
+      Gasto_Barrido = n(d[["P45_2"]]),
+      Gasto_Otros   = n(d[["P45_3"]]),
+      PIGARS  = plan_bin(d[["P43_1"]]),
+      PMRS    = plan_bin(d[["P43_2"]]),
+      SRRS    = plan_bin(d[["P43_3"]]),
+      PTRS    = plan_bin(d[["P43_4"]]),
+      PSFRSRS = plan_bin(d[["P43_5"]]),
+      RS          = recode_bin(d[["P44_1"]]),
+      PRS         = n(d[["P44_1_1"]]) / 100,
+      Botadero    = recode_bin(d[["P44_2"]]),
+      PBotadero   = n(d[["P44_2_1"]]) / 100,
+      Reciclados  = recode_bin(d[["P44_3"]]),
+      PReciclados = n(d[["P44_3_1"]]) / 100,
+      Quemados    = recode_bin(d[["P44_4"]]),
+      PQuemados   = n(d[["P44_4_1"]]) / 100,
+      RSRO        = recode_bin(d[["P44_5"]]),
+      PRSRO       = n(d[["P44_5_1"]]) / 100,
+      stringsAsFactors = FALSE
     )
   }
-  return(df)
 }
 
 # ============================================================
-# 3. Read and stack all years
+# 2. Stack all years ----
 # ============================================================
 
-years <- 2015:2019
-raw_path <- here("data", "raw")
+cat("Leyendo archivos RENAMU...\n")
+panel <- dplyr::bind_rows(lapply(2015:2019, function(yr) {
+  fp <- here("data", "raw", paste0("RENAMU_", yr, ".xlsx"))
+  cat(" ", yr, "\n")
+  read_year(yr, fp)
+}))
 
-renamu_list <- lapply(years, function(yr) {
-  fpath <- file.path(raw_path, paste0("RENAMU_", yr, ".xlsx"))
-  cat("Reading", fpath, "\n")
-  read_renamu_year(yr, fpath)
-})
-
-renamu <- bind_rows(renamu_list)
-
-cat("\n=== RENAMU stacked ===\n")
-cat("Rows:", nrow(renamu), "\n")
-cat("Municipalities:", n_distinct(renamu$ubigeo), "\n")
-cat("Years:", sort(unique(renamu$year)), "\n")
-cat("Missing gasto_total:", sum(is.na(renamu$gasto_total)), "\n")
-cat("Missing frecuencia:", sum(is.na(renamu$frecuencia)), "\n")
+cat("\nPanel apilado:", nrow(panel), "obs |",
+    n_distinct(panel$ubigeo), "municipios |",
+    n_distinct(panel$year), "años\n")
 
 # ============================================================
-# 4. Recode and derive variables
+# 3. Derivar variables ----
 # ============================================================
 
-renamu <- renamu |>
-  mutate(
-    # Province code (first 4 digits of ubigeo)
+panel <- panel |>
+  dplyr::mutate(
     province_code = substr(ubigeo, 1, 4),
+    year_f        = factor(year),
 
-    # RS binary: 1=yes, 2=no -> recode to 0/1
-    # For 2015/16/17: 1=yes, 2=no; for 2018/19: 1=yes, 2=no (same)
-    RS = case_when(
-      rs_raw == 1 ~ 1L,
-      rs_raw == 2 ~ 0L,
-      TRUE ~ NA_integer_
-    ),
+    # Tratamiento
+    log_gasto    = log(Gasto_Total + 1),
 
-    # PRS: proportion to sanitary landfill (0-1)
-    PRS = case_when(
-      is.na(prs_pct) & RS == 0 ~ 0,
-      !is.na(prs_pct)           ~ prs_pct / 100,
-      TRUE ~ NA_real_
-    ),
-    PRS = pmax(0, pmin(1, PRS)),  # clamp to [0,1]
+    # D1: log(QPRS) con indicador de cero
+    log_QPRS  = dplyr::if_else(QPRS > 0, log(QPRS), log(0.001)),
+    zero_QPRS = as.integer(is.na(QPRS) | QPRS == 0),
 
-    # Planning index (0-5)
-    PI = rowSums(cbind(plan_1, plan_2, plan_3, plan_4, plan_5), na.rm = FALSE),
+    # D2: Planning Index (0-5)
+    PI = PIGARS + PMRS + SRRS + PTRS + PSFRSRS,
 
-    # Gasto per capita
-    gasto_pc = case_when(
-      poblacion > 0 ~ gasto_total / poblacion,
-      TRUE ~ NA_real_
-    ),
-    log_G_pc = log(gasto_pc + 1),   # log(x+1) to handle zeros
+    # D3: proporciones acotadas a [0,1]
+    PRS       = pmax(0, pmin(1, dplyr::coalesce(PRS,       0))),
+    PBotadero = pmax(0, pmin(1, dplyr::coalesce(PBotadero, 0))),
 
-    # Frecuencia as ordered factor (1-5)
-    FR_f = factor(frecuencia,
-                  levels = 1:5,
-                  ordered = TRUE),
-
-    # Coverage as ordered factor (1-4)
-    CSRS_f = factor(cobertura_cat,
-                    levels = 1:4,
-                    ordered = TRUE),
-
-    # Year factor
-    year_f = factor(year)
-  )
-
-# ============================================================
-# 5. Mundlak means (computed on full panel BEFORE analysis)
-# ============================================================
-
-renamu <- renamu |>
-  group_by(ubigeo) |>
-  mutate(
-    mean_G_pc    = mean(log_G_pc,     na.rm = TRUE),
-    mean_pop     = mean(log(poblacion + 1), na.rm = TRUE),
-    mean_PI      = mean(PI,            na.rm = TRUE),
-    mean_FR      = mean(frecuencia,    na.rm = TRUE)
+    # Factores ordenados (excluir código 0 = sin dato)
+    FR_f   = factor(dplyr::if_else(FR   %in% 1:5, FR,   NA_real_),
+                    levels = 1:5, ordered = TRUE),
+    CSRS_f = factor(dplyr::if_else(CSRS %in% 1:4, CSRS, NA_real_),
+                    levels = 1:4, ordered = TRUE)
   ) |>
-  ungroup()
+  # Mundlak means — calculadas UNA VEZ, usadas igual en Stage 1 y Stage 2
+  dplyr::group_by(ubigeo) |>
+  dplyr::mutate(
+    mean_log_gasto = mean(log_gasto,  na.rm = TRUE),
+    mean_log_QPRS  = mean(log_QPRS,   na.rm = TRUE),
+    mean_FR        = mean(FR,          na.rm = TRUE),
+    mean_CSRS      = mean(CSRS,        na.rm = TRUE),
+    mean_PI        = mean(PI,          na.rm = TRUE)
+  ) |>
+  dplyr::ungroup() |>
+  # DL(1): rezago de gasto
+  dplyr::arrange(ubigeo, year) |>
+  dplyr::group_by(ubigeo) |>
+  dplyr::mutate(log_gasto_lag1 = dplyr::lag(log_gasto, 1)) |>
+  dplyr::ungroup()
 
 # ============================================================
-# 6. Merge diagnostics
+# 4. Diagnósticos ----
 # ============================================================
 
-base_panel <- read.csv(here("data", "processed", "panel_final_tesis.csv"),
-                       stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM") |>
-  mutate(ubigeo = str_pad(as.character(ubigeo), 6, "left", "0"),
-         year   = as.integer(anio))
-
-# Normalize column names (handle BOM or encoding issues)
-names(base_panel) <- trimws(names(base_panel))
-
-cat("\n=== MERGE DIAGNOSTICS ===\n")
-cat("Base panel rows:", nrow(base_panel), "\n")
-cat("Base panel columns:", paste(names(base_panel), collapse=", "), "\n")
-cat("RENAMU rows:", nrow(renamu), "\n")
-
-# Check match on frecuencia (known-good variable)
-if ("frecuencia" %in% names(base_panel)) {
-  check <- inner_join(
-    base_panel |> select(ubigeo, year, frecuencia_csv = frecuencia),
-    renamu     |> select(ubigeo, year, frecuencia_renamu = frecuencia),
-    by = c("ubigeo", "year")
-  )
-  cat("Matched rows (base x RENAMU):", nrow(check), "\n")
-  freq_agree <- mean(check$frecuencia_csv == check$frecuencia_renamu, na.rm = TRUE)
-  cat("Frecuencia agreement rate:", round(freq_agree * 100, 1), "%\n")
-} else {
-  cat("NOTE: 'frecuencia' column not found in base panel — skipping match check\n")
-  cat("Available columns:", paste(names(base_panel), collapse=", "), "\n")
+cat("\n=== MISSINGS ===\n")
+vars_check <- c("log_gasto","FR","QPRS","CSRS","PI","RS","PRS","Botadero","PBotadero")
+for (v in vars_check) {
+  nm <- sum(is.na(panel[[v]]))
+  cat(sprintf("  %-14s : %5d missing (%5.1f%%)\n", v, nm, 100*nm/nrow(panel)))
 }
 
-# ============================================================
-# 7. Final panel (use RENAMU as primary; add lag for DL(1))
-# ============================================================
-
-panel <- renamu |>
-  arrange(ubigeo, year) |>
-  group_by(ubigeo) |>
-  mutate(
-    log_G_pc_lag1 = dplyr::lag(log_G_pc, 1)
-  ) |>
-  ungroup() |>
-  filter(!is.na(log_G_pc), !is.na(frecuencia), poblacion > 0)
-
-cat("\n=== FINAL PANEL ===\n")
-cat("Observations:", nrow(panel), "\n")
-cat("Municipalities:", n_distinct(panel$ubigeo), "\n")
-cat("Province clusters:", n_distinct(panel$province_code), "\n")
-print(table(panel$year))
-cat("\nMissing values by key variable:\n")
-key_vars <- c("log_G_pc", "frecuencia", "PI", "PRS", "RS", "cobertura_cat")
-for (v in key_vars) {
-  cat(sprintf("  %-15s : %d missing (%.1f%%)\n",
-              v, sum(is.na(panel[[v]])),
-              100 * mean(is.na(panel[[v]]))))
-}
+cat("\nRS (recodif. 0/1):\n"); print(table(panel$RS, useNA = "ifany"))
+cat("\nPI (0-5):\n");          print(table(panel$PI, useNA = "ifany"))
+cat("\nFR (1-5):\n");          print(table(panel$FR, useNA = "ifany"))
 
 # ============================================================
-# 8. Save outputs
+# 5. Guardar ----
 # ============================================================
 
 saveRDS(panel, here("data", "processed", "panel_enriched.rds"))
 write.csv(panel, here("data", "processed", "panel_enriched.csv"),
           row.names = FALSE, fileEncoding = "UTF-8")
+cat("\n✓ panel_enriched.rds / .csv guardados\n")
 
-cat("\n✓ Saved panel_enriched.rds and panel_enriched.csv\n")
+writeLines(c(
+  "# Codebook — panel_enriched.rds",
+  paste0("**Fecha:** ", format(Sys.time(), "%Y-%m-%d")),
+  paste0("**Fuente:** RENAMU 2015-2019 (INEI) — mapeado vs. Diccionario oficial"),
+  paste0("**Obs:** ", nrow(panel),
+         " | **Municipios:** ", n_distinct(panel$ubigeo),
+         " | **Provincias (clusters):** ", n_distinct(panel$province_code)),
+  "",
+  "| Variable | Descripción | Unidad | Código RENAMU (2015-16 / 2017 / 2018 / 2019) |",
+  "|----------|-------------|--------|----------------------------------------------|",
+  "| ubigeo | Código distrital | 6 dígitos | UBIGEO |",
+  "| year | Año encuesta | 2015-2019 | — |",
+  "| province_code | Código provincial (cluster) | 4 dígitos | derived |",
+  "| **Tratamiento** ||||",
+  "| Gasto_Total | Gasto devengado limpieza pública | S/ | C42_P50_T / P48_T / P46_T / P45_T |",
+  "| Gasto_Recojo | Gasto recojo y transporte | S/ | C42_P50_1 / P48_1 / P46_1 / P45_1 |",
+  "| Gasto_Barrido | Gasto barrido de calles | S/ | C42_P50_2 / P48_2 / P46_2 / P45_2 |",
+  "| log_gasto | log(Gasto_Total+1) — tratamiento principal | ln(S/) | derived |",
+  "| log_gasto_lag1 | log_gasto rezagado 1 año — DL(1) | ln(S/) | derived |",
+  "| **D1 — Eficiencia** ||||",
+  "| FR | Frecuencia de recojo (1=diaria … 5=nunca) | 1-5 ordenada | C37_P45_1 / P43_1 / P41_1 / P40_1 |",
+  "| QPRS | **Kilogramos diarios** recolectados (NO es población) | kg/día | C38_P46_1 / P44_1 / P42_1 / P41_1 |",
+  "| CSRS | Cobertura del servicio (1=<25% … 4=>75%) | 1-4 ordenada | C39_P47_1 / P45_1 / P43_1 / P42_1 |",
+  "| **D2 — Planeamiento** ||||",
+  "| PIGARS | Plan Integral Gestión Ambiental RS (0/1) | binaria | C40_P48_1 / P46_1 / P44_1 / P43_1 |",
+  "| PMRS | Plan de Manejo RS (0/1) | binaria | C40_P48_2 / P46_2 / P44_2 / P43_2 |",
+  "| SRRS | Sistema Recolección RS (0/1) | binaria | C40_P48_3 / P46_3 / P44_3 / P43_3 |",
+  "| PTRS | Programa Transformación RS (0/1) | binaria | C40_P48_4 / P46_4 / P44_4 / P43_4 |",
+  "| PSFRSRS | Programa Segregación en Fuente (0/1) | binaria | C40_P48_5 / P46_5 / P44_5 / P43_5 |",
+  "| PI | Índice planeamiento = suma(5 binarias) | 0-5 | derived |",
+  "| **D3 — Disposición Final** ||||",
+  "| RS | Usa relleno sanitario (0=No, 1=Sí) | binaria | C41_P49_1_1 / P47_2_2 / P45_1 / P44_1 |",
+  "| PRS | Proporción a relleno sanitario | [0,1] | C41_P49_1 / P47_2 / P45_1_1 / P44_1_1 |",
+  "| Botadero | Usa botadero (0/1) | binaria | C41_P49_2_2 / P47_1_1 / P45_2 / P44_2 |",
+  "| PBotadero | Proporción a botadero | [0,1] | C41_P49_2 / P47_1 / P45_2_1 / P44_2_1 |",
+  "| Reciclados | Recicla residuos (0/1) | binaria | C41_P49_3_3 / P47_3_3 / P45_3 / P44_3 |",
+  "| PReciclados | Proporción reciclada | [0,1] | C41_P49_3 / P47_3 / P45_3_1 / P44_3_1 |",
+  "| Quemados | Quema residuos (0/1) | binaria | C41_P49_4_4 / P47_4_4 / P45_4 / P44_4 |",
+  "| PQuemados | Proporción quemada | [0,1] | C41_P49_4 / P47_4 / P45_4_1 / P44_4_1 |",
+  "| RSRO | Otro destino (0/1) | binaria | C41_P49_5_5 / P47_5_5 / P45_5 / P44_5 |",
+  "| PRSRO | Proporción otro destino | [0,1] | C41_P49_5 / P47_5 / P45_5_1 / P44_5_1 |",
+  "| **Mundlak means** ||||",
+  "| mean_log_gasto | Media temporal log_gasto por municipio | — | derived |",
+  "| mean_log_QPRS | Media temporal log(QPRS) | — | derived |",
+  "| mean_FR | Media temporal FR | — | derived |",
+  "| mean_PI | Media temporal PI | — | derived |"
+), here("data", "processed", "codebook.md"))
 
-# Quick codebook
-codebook <- data.frame(
-  variable = c("ubigeo","year","province_code","frecuencia","FR_f","cobertura_cat",
-               "CSRS_f","gasto_total","gasto_pc","log_G_pc","log_G_pc_lag1",
-               "PI","plan_1","plan_2","plan_3","plan_4","plan_5",
-               "PRS","RS","poblacion","mean_G_pc","mean_pop","year_f"),
-  label = c(
-    "Código distrital 6 dígitos (RENAMU/SIAF key)",
-    "Año (2015-2019)",
-    "Código provincial 4 dígitos (cluster variable)",
-    "Frecuencia de recolección (1=diaria, 5=nunca) [RENAMU C37/P43/P41/P40]",
-    "Frecuencia ordenada factor 1-5",
-    "Categoría cobertura del servicio 1-4 [RENAMU C39/P45/P43/P42]",
-    "Cobertura ordenada factor 1-4",
-    "Gasto devengado total limpieza pública S/ [RENAMU C42/P48/P46/P45]",
-    "Gasto per capita (gasto_total/poblacion)",
-    "log(gasto_pc + 1) — tratamiento principal G_pc",
-    "log_G_pc rezagado 1 año (para DL(1))",
-    "Índice planeamiento: suma 5 instrumentos binarios [RENAMU C40/P46/P44/P43]",
-    "Plan de gestión RS (0/1) [RENAMU instrumento 1]",
-    "Registro de generadores (0/1) [RENAMU instrumento 2]",
-    "Programa segregación en fuente (0/1) [RENAMU instrumento 3]",
-    "Servicio de barrido (0/1) [RENAMU instrumento 4]",
-    "Presupuesto asignado RS (0/1) [RENAMU instrumento 5]",
-    "Proporción residuos a relleno sanitario [0,1] [RENAMU C41/P47/P45/P44]",
-    "Usa relleno sanitario (0/1) [derivado de RS_raw]",
-    "Población distrital [RENAMU C38/P44/P42/P41]",
-    "Media temporal de log_G_pc (Mundlak device)",
-    "Media temporal de log(poblacion) (Mundlak device)",
-    "Año como factor (efectos fijos de año)"
-  ),
-  source = "RENAMU INEI",
-  stringsAsFactors = FALSE
-)
-
-writeLines(
-  c("# Codebook — panel_enriched",
-    paste0("**Generado:** ", Sys.time()),
-    paste0("**Obs:** ", nrow(panel), " | **Municipios:** ", n_distinct(panel$ubigeo)),
-    "",
-    paste(c("| Variable | Label | Source |"),
-          c("|---------|-------|--------|"),
-          apply(codebook, 1, function(r) paste0("| ", r[1], " | ", r[2], " | ", r[3], " |")),
-          sep = "\n")
-  ),
-  here("data", "processed", "codebook.md")
-)
-
-cat("✓ Saved codebook.md\n")
+cat("✓ codebook.md guardado\n")
 cat("\nDone: 00_build_panel.R\n")
