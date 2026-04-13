@@ -46,3 +46,12 @@
 **Report:** RESOLUCION2026.docx (documento fuente oficial)
 
 ---
+
+### 2026-04-13 — data-engineer (00_build_panel.R corregido)
+**Phase:** Execution — Data Engineering
+**Target:** `scripts/R/00_build_panel.R`
+**Score:** PASS
+**Verdict:** Script reescrito con mapa oficial del Diccionario RENAMU validado por el autor. Corrección crítica: QPRS (C38_P46_1/P44_1/P42_1/P41_1) = kg/día recolectados (NO era población). Helpers recode_bin() y plan_bin() añadidos. PRS y proporciones divididas por 100. Ejecutado sin errores: 9,322 obs, 1,874 municipios, 196 clusters provinciales. Commit 61065a7 pusheado a fork.
+**Report:** `data/processed/codebook.md`
+
+---
