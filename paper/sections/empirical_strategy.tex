@@ -88,3 +88,11 @@ Para la proporción de residuos enviados a relleno sanitario (PRS $\in [0,1]$), 
 
 Las tres hipótesis primarias (H1: efecto sobre FR; H2: efecto sobre PI; H3: efecto sobre PRS) se contrastan simultáneamente con la corrección Bonferroni-Holm para controlar la tasa de error familiar (\textit{familywise error rate}).
 Las comparaciones secundarias dentro de cada dimensión (componentes D2, submodelos D1) se reportan sin corrección de multiplicidad, siguiendo la práctica estándar para análisis secundarios preregistrados.
+
+\subsection{Inferencia con Bootstrap de Dos Etapas}
+\label{sec:bootstrap}
+
+Para los modelos no lineales de segunda etapa (Ordered Probit, Probit y Fractional Logit), los errores estándar analíticos de la regresión subestiman la variabilidad muestral real porque no incorporan el error de estimación de $\hat{v}_{it}$ generado en la primera etapa \citep{Wooldridge2015}.
+Para corregir este sesgo de inferencia, se implementa un bootstrap de dos etapas con $B = 999$ réplicas, remuestreando por conglomerado provincial en ambas etapas simultáneamente: en cada réplica se re-estima la primera etapa (OLS con medias Mundlak) y se obtiene un nuevo $\hat{v}_{it}^{(b)}$, el cual se incorpora en la segunda etapa correspondiente.
+Los errores estándar reportados en la \cref{tab:resultados_principales} y en las tablas de componentes son los desvíos estándar de la distribución bootstrap de los coeficientes y efectos marginales promedio (AME).
+Para los modelos OLS (QPRS y PI), los errores estándar analíticos clustered a nivel provincial son asintóticamente válidos \citep{Wooldridge2015} y se reportan directamente; el bootstrap confirma la concordancia con los errores analíticos en ambos casos.
