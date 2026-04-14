@@ -67,18 +67,18 @@ Se verifica este supuesto mediante pruebas de pre-tendencias usando el rezago $\
 \subsection{Modelos por Dimensión}
 \label{sec:modelos_dimension}
 
-\subsubsection*{D1 — Eficiencia en Recolección}
+\subsubsection*{D1 --- Eficiencia en Recolección}
 
 Para la frecuencia de recolección (FR: 1=diaria, 5=nunca), estimamos un Ordered Probit CRE+CF dado el carácter ordenado de la variable.
 Para la cantidad recolectada (QPRS, en kg/día), utilizamos un modelo OLS log-log con indicador de recolección cero (\textit{corner solution}).
 Para la cobertura del servicio (CSRS: 1=\textless{}25\%, 4=\textgreater{}75\%), estimamos un Ordered Probit CRE+CF análogo al de FR.
 
-\subsubsection*{D2 — Planeamiento Municipal}
+\subsubsection*{D2 --- Planeamiento Municipal}
 
 El índice de planeamiento (PI: suma de 5 instrumentos binarios, rango 0-5) se estima con OLS CRE+CF.
 Adicionalmente, cada componente binario (PIGARS, PMRS, SRRS, PTRS, PSFRSRS) se modela con Probit CRE+CF para identificar qué instrumentos responden al gasto.
 
-\subsubsection*{D3 — Disposición Final Adecuada}
+\subsubsection*{D3 --- Disposición Final Adecuada}
 
 Para el uso de relleno sanitario (RS: binario), se usa Probit CRE+CF.
 Para la proporción de residuos enviados a relleno sanitario (PRS $\in [0,1]$), se aplica un Fractional Logit \citep{PapkeWooldridge1996} con la función de control integrada.
