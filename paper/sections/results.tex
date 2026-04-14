@@ -131,3 +131,17 @@ El análisis de event-study con ventana de cuatro años se presenta en el Apénd
 \label{sec:multiplicidad}
 
 Las tres hipótesis primarias de la investigación ---H1 (efecto sobre FR), H2 (efecto sobre PI) y H3 (efecto sobre PRS)--- se contrastan simultáneamente bajo la corrección Bonferroni-Holm para controlar la tasa de error familiar. Los $p$-valores ajustados para las tres hipótesis son $p_{\text{adj}} < 0{,}001$ en todos los casos. El rechazo de H1, H2 y H3 es, por tanto, robusto a la comparación múltiple: los resultados no son artefactos del análisis de múltiples outcomes. Los análisis por componentes dentro de cada dimensión (PIGARS, PMRS, SRRS y los demás instrumentos binarios de D2; CSRS como sub-outcome de D1) se reportan sin corrección de multiplicidad, siguiendo la práctica estándar para comparaciones secundarias preregistradas como exploratorias.
+
+% ------------------------------------------------------------------
+\subsection{Límites de Plausibilidad: Oster (2019)}
+\label{sec:oster_resultados}
+
+Como análisis de sensibilidad complementario al test de función de control, se calculan los límites de proporcionalidad de selección $\delta^*$ de \citet{Oster2019} para los tres outcomes primarios (resultados completos en el \cref{sec:appendix_oster}).
+El estadístico $\delta^*$ cuantifica cuánto más influyentes que los observables tendrían que ser los no-observables para anular el efecto estimado.
+Los tres resultados son $\delta^* < 0$, con $|\delta^*| > 1{,}35$ en los tres casos (QPRS: $\delta^* = -1{,}75$; PI: $\delta^* = -1{,}80$; RS: $\delta^* = -1{,}35$).
+
+El hallazgo de $\delta^* < 0$ tiene una interpretación precisa: valida la robustez del benchmark de mínimos cuadrados (la transición TWFE $\to$ CRE+CF) frente al sesgo de variable omitida estática.
+Los no-observables permanentes tendrían que operar en dirección opuesta a los observables ---y ser más de $1{,}35$ veces más influyentes--- para revertir el movimiento del coeficiente entre ambas especificaciones.
+Esta condición contradice la dirección del sesgo documentada por el test de función de control: los municipios con mayor capacidad institucional no observable tienden a gastar \textit{más}, no menos, en limpieza pública.
+El resultado $\delta^* < 0$ proporciona así una base sólida para la estimación CRE+CF: la selección no-observable estática, de existir, reforzaría los coeficientes estimados en lugar de reducirlos a cero.
+La amenaza residual ---confundidores tiempo-variantes--- no queda descartada por el test de Oster y se discute en la \cref{sec:frontera}.
