@@ -273,8 +273,15 @@ El estadístico $\delta^*$ compara el movimiento del coeficiente entre la especi
 \noindent donde $\dot{\beta}$ es el coeficiente sin corrección (TWFE), $\tilde{\beta}$ es el coeficiente CRE+CF,
 $\dot{R}^2$ y $\tilde{R}^2$ son los $R^2$ de cada especificación,
 y $R^2_{\max} = 1{,}3 \times \tilde{R}^2$ siguiendo la convención de \citet{Oster2019}.
-Un resultado con $|\delta^*| > 1$ es robusto: los no-observables tendrían que ser más influyentes que los observables para anular el efecto.
-Un $\delta^* < 0$ indica que la selección no-observable tendría que operar en dirección contraria a la selección observable ---condición aún más favorable para la identificación.
+
+\textit{Alcance del ejercicio.}
+El estadístico $\delta^*$ de \citet{Oster2019} está diseñado para comparaciones entre especificaciones OLS: cuantifica cuánto más influyentes tendrían que ser los no-observables ---en relación con los observables--- para anular el movimiento del coeficiente al agregar controles.
+En este análisis, $\dot{\beta}$ corresponde al estimador TWFE sin corrección de endogeneidad (especificación corta) y $\tilde{\beta}$ al estimador CRE+CF con función de control (especificación larga).
+Por tanto, el $\delta^*$ reportado cuantifica la robustez de la \textit{transición} del comparador OLS hacia el CRE+CF frente al sesgo de variable omitida estática (permanente): los no-observables permanentes tendrían que ser al menos $|\delta^*|$ veces más importantes que los observables, y operar en dirección opuesta, para revertir el movimiento del coeficiente entre las dos especificaciones.
+En este sentido, $\delta^*$ actúa como un límite de peor escenario (\textit{worst-case bound}) que valida la especificación CRE+CF relativa al comparador TWFE ---no como una validación directa del estimador CRE+CF frente a confundidores tiempo-variantes, cuya amenaza queda fuera del alcance del test de Oster y se aborda mediante el análisis DL(1) y el test de función de control documentados en las \cref{sec:pretendencias,sec:endogeneidad}.
+
+Un resultado con $|\delta^*| > 1$ es robusto bajo esta interpretación.
+Un $\delta^* < 0$ indica que la selección no-observable permanente tendría que operar en dirección contraria a la selección observable ---condición aún más favorable para la identificación.
 En términos económicos, un $\delta^* < 0$ requeriría que los municipios con mayor capacidad institucional no observable gastasen \textit{menos} en limpieza pública de lo esperado por sus características observables. Esta condición es opuesta a la dirección del sesgo confirmada por el test de función de control (Apéndice B): los municipios con mejor gestión no observada tienden a ejecutar \textit{más} presupuesto, no menos. Por tanto, la selección no-observable residual ---de existir--- operaría en el mismo sentido que la selección observable, fortaleciendo los coeficientes CRE+CF en lugar de reducirlos hacia cero.
 
 \begin{table}[htbp]

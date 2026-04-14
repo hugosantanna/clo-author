@@ -96,3 +96,16 @@ Para los modelos no lineales de segunda etapa (Ordered Probit, Probit y Fraction
 Para corregir este sesgo de inferencia, se implementa un bootstrap de dos etapas con $B = 999$ réplicas, remuestreando por conglomerado provincial en ambas etapas simultáneamente: en cada réplica se re-estima la primera etapa (OLS con medias Mundlak) y se obtiene un nuevo $\hat{v}_{it}^{(b)}$, el cual se incorpora en la segunda etapa correspondiente.
 Los errores estándar reportados en la \cref{tab:resultados_principales} y en las tablas de componentes son los desvíos estándar de la distribución bootstrap de los coeficientes y efectos marginales promedio (AME).
 Para los modelos OLS (QPRS y PI), los errores estándar analíticos clustered a nivel provincial son asintóticamente válidos \citep{Wooldridge2015} y se reportan directamente; el bootstrap confirma la concordancia con los errores analíticos en ambos casos.
+
+\subsection{Frontera de Identificación}
+\label{sec:frontera}
+
+La variación identificante en el estimador CRE+CF proviene de las fluctuaciones dentro-municipio del gasto, una vez descontada la media temporal del municipio ($\bar{G}_{i}$): formalmente, el estimador explota $\tilde{G}_{it} = \ln G_{it} - \bar{G}_{i}$, es decir, los desvíos transitorios del gasto respecto al nivel histórico de cada municipio.
+Este componente está purificado de la heterogeneidad permanente no observable ---capacidad institucional estructural, geografía, historia fiscal--- que el dispositivo de Mundlak absorbe en la primera etapa.
+
+La frontera de identificación que el diseño no puede superar son los confundidores tiempo-variantes correlacionados con $\tilde{G}_{it}$.
+El ejemplo arquetípico es un cambio en la capacidad política local: un nuevo alcalde técnicamente competente puede incrementar simultáneamente el gasto en limpieza pública y la calidad de la gestión de residuos en el mismo período, generando una correlación espuria que la función de control no elimina porque el residuo $\hat{v}_{it}$ no distingue entre un shock de gasto exógeno y un shock de capacidad de gestión.
+Los resultados robustecedores abordan este riesgo desde distintos ángulos: el test DL(1) descarta tendencias preexistentes y efectos de anticipación; la significatividad de $\hat{v}_{it}$ en todos los modelos confirma la dirección del sesgo; y los límites de \citet{Oster2019} cuantifican la magnitud del sesgo de variable omitida estática necesaria para anular los efectos (Apéndice~\ref{sec:appendix_oster}).
+Sin embargo, ninguna de estas pruebas descarta de forma definitiva un confundidor tiempo-variante coincidente.
+Los efectos estimados deben interpretarse como efectos condicionales bajo el supuesto CRE ---que no persisten tendencias temporales heterogéneas no observadas entre municipios--- más que como efectos causales locales en sentido estricto.
+La integración de la transferencia FONCOMUN como instrumento externo es la extensión identificatoria que permitirá recuperar el LATE para el subgrupo de municipios cuyo gasto responde a variaciones en esa transferencia, transformando los efectos condicionales aquí reportados en efectos causales locales verificables.
