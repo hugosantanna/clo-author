@@ -47,6 +47,15 @@
 
 ---
 
+### 2026-04-13 — Editor + Referees (Peer Review Round 1 — World Development)
+**Phase:** Peer Review
+**Target:** paper/sections/ (abstract, empirical_strategy, results, discussion)
+**Score:** R1=67/100 (POLICY), R2=58/100 (CREDIBILITY) → Promedio=62.5/100
+**Verdict:** MAJOR REVISIONS. Decisión: invitar revisión mayor. Paper no es fatal — contribución genuina. 2 issues centrales bloqueantes: (1) CF sin instrumento excluido no purga confounders time-varying; lenguaje causal debe ser reenmarcado o respaldado con IV FONCOMUN; (2) amplificación QPRS 32× requiere reporte de coef. sobre vhat + Oster bounds. 5 MUST adicionales: SEs numéricos en tabla, bootstrap 2-etapas, pre-trends en texto, validez externa ≥2 párrafos, costeo FONCOMUN. Corrección crítica legal: Ley 29419 → Ley 29029 (mancomunidades).
+**Report:** quality_reports/reviews/2026-04-13_editorial_decision.md (+ desk_review.md, referee_domain.md, referee_methods.md)
+
+---
+
 ### 2026-04-13 — data-engineer (00_build_panel.R corregido)
 **Phase:** Execution — Data Engineering
 **Target:** `scripts/R/00_build_panel.R`
