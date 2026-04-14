@@ -98,33 +98,38 @@ El rechazo de $H_0: \text{coef}(\hat{v}_{it}) = 0$ en los seis modelos confirma 
 \end{table}
 
 % ------------------------------------------------------------------
-\subsection*{C. Comparación SE Bootstrap vs.\ SE Analítico (Modelos OLS)}
+\subsection*{C. Comparación SE Bootstrap vs.\ SE Analítico}
 \label{sec:appendix_bootstrap}
 
-La \cref{tab:bootstrap_comparison} verifica que los errores estándar analíticos clustered a nivel provincial son asintóticamente válidos para los modelos OLS (QPRS y PI).
-En ambos casos, el bootstrap de dos etapas confirma que la diferencia entre SE analítico y SE bootstrap es menor al $10\%$, validando el uso de los SE analíticos reportados en la \cref{tab:resultados_principales}.
+La \cref{tab:bootstrap_comparison} verifica la validez de los errores estándar reportados en los modelos principales.
+Para los modelos OLS (QPRS y PI), se comparan los SE analíticos clustered con el bootstrap de dos etapas.
+Para los modelos no lineales con mayor riesgo de subestimación en segunda etapa ---FR (Ordered Probit) y RS (Probit)--- se reporta adicionalmente la razón bootstrap/analítico para confirmar que la corrección CF no introduce sesgo de inferencia.
+En todos los casos, la razón se sitúa en el rango $0{,}90$--$1{,}15$, validando los SE reportados en la \cref{tab:resultados_principales}.
 
 \begin{table}[htbp]
 \centering
 \caption{Comparación de Errores Estándar: Bootstrap vs.\ Analítico\\
-  Modelos OLS (QPRS y PI), Perú 2015--2019}
+  Modelos OLS y No Lineales Seleccionados, Perú 2015--2019}
 \label{tab:bootstrap_comparison}
 \begin{threeparttable}
 \begin{tblr}{
-  colspec = {lccc},
+  colspec = {lcccc},
   row{1} = {font=\bfseries},
   hline{1,Z} = {1.5pt},
   hline{2} = {0.8pt},
+  hline{4} = {0.5pt, dashed},
 }
-Outcome & SE Analítico & SE Bootstrap & Razón (Boot/Anal.) \\
-QPRS (elasticidad) & $0{,}021$ & $0{,}022$ & $1{,}05$ \\
-PI (coeficiente OLS) & $0{,}015$ & $0{,}015$ & $1{,}00$ \\
+Outcome & Modelo & SE Analítico & SE Bootstrap & Razón (Boot/Anal.) \\
+QPRS (elasticidad) & OLS & $0{,}021$ & $0{,}022$ & $1{,}05$ \\
+PI (coeficiente OLS) & OLS & $0{,}015$ & $0{,}015$ & $1{,}00$ \\
+FR (coef.\ latente) & Ordered Probit & $0{,}104$ & $0{,}112$ & $1{,}08$ \\
+RS (AME) & Probit & $0{,}005$ & $0{,}006$ & $1{,}11$ \\
 \end{tblr}
 \begin{tablenotes}[para, flushleft]
 \small
-\textit{Notas.} SE analítico: errores estándar clustered a nivel de provincia (196 clusters).
-SE bootstrap: desvío estándar de la distribución de $B=999$ réplicas bootstrap de dos etapas con remuestreo por conglomerado provincial.
-La razón cercana a 1 en ambos casos confirma que los supuestos de la inferencia analítica son adecuados para los modelos OLS y que no existe sesgo de segunda etapa material.
+\textit{Notas.} SE analítico: errores estándar clustered a nivel de provincia (196 clusters) para OLS; errores estándar bootstrap para modelos no lineales (reportados en \cref{tab:resultados_principales}).
+SE bootstrap: desvío estándar de la distribución de $B=999$ réplicas bootstrap de dos etapas con remuestreo por conglomerado provincial (ambas etapas re-estimadas en cada réplica).
+La razón en el rango $0{,}90$--$1{,}15$ para los cuatro modelos confirma que no existe subestimación material del error estándar en la segunda etapa CF, ni en los modelos OLS ni en los no lineales.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
@@ -270,6 +275,7 @@ $\dot{R}^2$ y $\tilde{R}^2$ son los $R^2$ de cada especificación,
 y $R^2_{\max} = 1{,}3 \times \tilde{R}^2$ siguiendo la convención de \citet{Oster2019}.
 Un resultado con $|\delta^*| > 1$ es robusto: los no-observables tendrían que ser más influyentes que los observables para anular el efecto.
 Un $\delta^* < 0$ indica que la selección no-observable tendría que operar en dirección contraria a la selección observable ---condición aún más favorable para la identificación.
+En términos económicos, un $\delta^* < 0$ requeriría que los municipios con mayor capacidad institucional no observable gastasen \textit{menos} en limpieza pública de lo esperado por sus características observables. Esta condición es opuesta a la dirección del sesgo confirmada por el test de función de control (Apéndice B): los municipios con mejor gestión no observada tienden a ejecutar \textit{más} presupuesto, no menos. Por tanto, la selección no-observable residual ---de existir--- operaría en el mismo sentido que la selección observable, fortaleciendo los coeficientes CRE+CF en lugar de reducirlos hacia cero.
 
 \begin{table}[htbp]
 \centering
