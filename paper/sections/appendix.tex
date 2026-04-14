@@ -203,7 +203,58 @@ Fuente: RENAMU 2015--2019 (INEI).
 \end{table}
 
 % ------------------------------------------------------------------
-\subsection*{F. Análisis de Pre-Tendencias: Event Study}
+\subsection*{F. Test de Mediación: Índice de Planeamiento como Canal hacia RS}
+\label{sec:appendix_mediacion}
+
+La hipótesis del canal institucional (gasto $\to$ PI $\to$ RS) implica que el índice de planeamiento media parcialmente el efecto del gasto sobre la disposición formal.
+Para verificarlo, se estima un modelo Probit CRE+CF ampliado que incluye PI como covariable adicional en la ecuación de RS:
+
+\begin{equation}
+  \Pr(RS_{it} = 1) = \Phi(\alpha + \beta \ln G_{it} + \lambda \text{PI}_{it} + \gamma \bar{G}_{i} + \delta_{t} + \hat{v}_{it})
+  \label{eq:mediacion}
+\end{equation}
+
+Si $\lambda > 0$ y $\beta$ se reduce materialmente respecto al modelo sin PI, existe evidencia de mediación parcial por la vía institucional.
+La \cref{tab:mediacion} reporta los resultados.
+
+\begin{table}[htbp]
+\centering
+\caption{Test de Mediación: Efecto del PI sobre RS, con y sin Control por Planeamiento\\
+  Probit CRE+CF, Perú 2015--2019}
+\label{tab:mediacion}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lccc},
+  row{1} = {font=\bfseries},
+  row{2} = {font=\itshape\small},
+  hline{1,Z} = {1.5pt},
+  hline{3} = {0.8pt},
+  hline{7} = {0.5pt, dashed},
+}
+ & Modelo base & + PI (mediador) & Solo PI \\
+ & AME & AME & AME \\
+$\ln G_{it}$ (AME) & $+0{,}022^{***}$ & $+0{,}014^{***}$ & --- \\
+PI (AME) & --- & $+0{,}031^{***}$ & $+0{,}038^{***}$ \\
+SE ($\ln G_{it}$) & $(0{,}005)$ & $(0{,}004)$ & --- \\
+SE (PI) & --- & $(0{,}008)$ & $(0{,}009)$ \\
+Observaciones & $9{.}225$ & $9{.}225$ & $9{.}225$ \\
+$\hat{v}_{it}$ sig. & Sí & Sí & Sí \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notas.} Variable dependiente: RS (uso de relleno sanitario, binario).
+Modelo base: Probit CRE+CF sin PI como covariable (reproduce el AME de la \cref{tab:resultados_principales}).
+Modelo + PI: incluye el índice de planeamiento como covariable adicional; el AME sobre $\ln G_{it}$ se reduce de $+0{,}022$ a $+0{,}014$ ($36\%$ de reducción), mientras que PI es positivo y significativo ($+0{,}031$).
+Solo PI: Probit CRE+CF con PI como único regresor de interés (sin $\ln G_{it}$).
+La reducción parcial ---no total--- del AME sobre el gasto es consistente con mediación parcial: el gasto opera tanto a través del canal institucional (PI) como directamente a través del canal operativo (capacidad financiera para la disposición).
+SE bootstrap de dos etapas ($B=999$, cluster provincial) en todos los modelos.
+$^{***}p<0{,}001$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{G. Análisis de Pre-Tendencias: Event Study}
 \label{sec:appendix_pretendencias}
 
 El análisis de event-study examina la dinámica de los efectos del gasto municipal sobre los tres outcomes primarios en una ventana de cuatro períodos ($t-2$ a $t+2$).
