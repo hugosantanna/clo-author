@@ -38,6 +38,7 @@
 # 0. Setup ----
 library(here)
 library(dplyr)
+library(tidyr)
 library(stringr)
 library(fixest)           # feols con IV — CRE+IV-2SLS lineal
 library(marginaleffects)  # avg_slopes — AME para modelos no lineales
