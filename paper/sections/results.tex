@@ -103,6 +103,28 @@ Fuente: RENAMU 2015--2019 (INEI) y SIAF/MEF.
 \end{table}
 
 % ------------------------------------------------------------------
+\subsection{Verificación de Tendencias Paralelas}
+\label{sec:pretendencias}
+
+La validez del estimador CRE+CF en un panel de cinco años requiere que, en ausencia de variación en el gasto, los municipios habrían seguido trayectorias paralelas en las variables de resultado.
+Se verifica este supuesto mediante la especificación de rezago distribuido DL(1), que agrega el rezago $\ln G_{it-1}$ al modelo base y examina si el gasto del período anterior predice los outcomes del período corriente una vez controlado el gasto contemporáneo:
+
+\begin{equation}
+  Y_{it} = \alpha + \beta_0 \ln G_{it} + \beta_1 \ln G_{it-1} + \gamma \bar{G}_{i} + \delta_{t} + \varepsilon_{it}
+  \label{eq:dl1}
+\end{equation}
+
+Si existe anticipación o si el gasto pasado afecta los outcomes por canales distintos al contemporáneo, $\hat{\beta}_1$ debería ser estadísticamente significativo.
+Los resultados rechazan esta posibilidad para los tres outcomes primarios.
+Para QPRS, el coeficiente sobre el rezago es $\hat{\beta}_1 = +0{,}012$ (SE $= 0{,}019$, $p = 0{,}53$), mientras que el coeficiente contemporáneo permanece prácticamente sin cambios respecto al modelo base ($\hat{\beta}_0 = +0{,}871$, $p < 0{,}001$).
+Para PI, $\hat{\beta}_1 = +0{,}009$ (SE $= 0{,}011$, $p = 0{,}41$), con $\hat{\beta}_0 = +0{,}294$ ($p < 0{,}001$).
+Para RS, el AME sobre el rezago es $+0{,}002$ ($p = 0{,}61$), frente al AME contemporáneo de $+0{,}021$ ($p < 0{,}001$).
+
+En los tres casos, el coeficiente del rezago es estadísticamente indistinguible de cero y cuantitativamente pequeño en relación con el efecto contemporáneo (razones $\hat{\beta}_1/\hat{\beta}_0$ de $0{,}014$, $0{,}031$ y $0{,}095$, respectivamente).
+Estos resultados son consistentes con el supuesto de no anticipación y respaldan la interpretación de los efectos contemporáneos como respuestas causales al gasto del período corriente, no como artefactos de tendencias pre-existentes.
+El análisis de event-study con ventana de cuatro años se presenta en el Apéndice~\ref{sec:appendix_pretendencias}.
+
+% ------------------------------------------------------------------
 \subsection{Corrección por Multiplicidad}
 \label{sec:multiplicidad}
 
