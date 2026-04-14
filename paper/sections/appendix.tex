@@ -254,7 +254,54 @@ $^{***}p<0{,}001$.
 \end{table}
 
 % ------------------------------------------------------------------
-\subsection*{G. Análisis de Pre-Tendencias: Event Study}
+\subsection*{G. Límites de Plausibilidad: Oster (2019) $\delta^*$}
+\label{sec:appendix_oster}
+
+Siguiendo \citet{Oster2019}, se calcula el valor $\delta^*$ de proporcionalidad de selección que haría nulo el efecto estimado del gasto.
+El estadístico $\delta^*$ compara el movimiento del coeficiente entre la especificación sin controles observables y con controles observables con el movimiento hipotético que generarían los no-observables bajo proporcionalidad:
+
+\begin{equation}
+  \delta^* = \frac{\tilde{\beta}(R^2_{\max} - \tilde{R}^2)}{(\dot{\beta} - \tilde{\beta})(\tilde{R}^2 - \dot{R}^2)}
+  \label{eq:oster}
+\end{equation}
+
+\noindent donde $\dot{\beta}$ es el coeficiente sin corrección (TWFE), $\tilde{\beta}$ es el coeficiente CRE+CF,
+$\dot{R}^2$ y $\tilde{R}^2$ son los $R^2$ de cada especificación,
+y $R^2_{\max} = 1{,}3 \times \tilde{R}^2$ siguiendo la convención de \citet{Oster2019}.
+Un resultado con $|\delta^*| > 1$ es robusto: los no-observables tendrían que ser más influyentes que los observables para anular el efecto.
+Un $\delta^* < 0$ indica que la selección no-observable tendría que operar en dirección contraria a la selección observable ---condición aún más favorable para la identificación.
+
+\begin{table}[htbp]
+\centering
+\caption{Límites de Plausibilidad de Oster (2019): $\delta^*$ para los Tres Outcomes Primarios\\
+  Perú 2015--2019}
+\label{tab:oster}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccccc},
+  row{1} = {font=\bfseries},
+  hline{1,Z} = {1.5pt},
+  hline{2} = {0.8pt},
+}
+Outcome & $\dot{\beta}$ (TWFE) & $\tilde{\beta}$ (CRE+CF) & $\dot{R}^2$ & $\tilde{R}^2$ & $R^2_{\max}$ & $\delta^*$ \\
+QPRS & $0{,}027$ & $0{,}879$ & $0{,}42$ & $0{,}51$ & $0{,}663$ & $-1{,}75$ \\
+PI   & $0{,}039$ & $0{,}300$ & $0{,}38$ & $0{,}47$ & $0{,}611$ & $-1{,}80$ \\
+RS (AME) & $-0{,}003$ & $+0{,}022$ & $0{,}33$ & $0{,}41$ & $0{,}533$ & $-1{,}35$ \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notas.} $\dot{\beta}$: coeficiente TWFE sin corrección de endogeneidad (especificación corta).
+$\tilde{\beta}$: coeficiente CRE+CF con función de control (especificación larga).
+$R^2_{\max} = 1{,}3 \times \tilde{R}^2$ (convención de \citealt{Oster2019}).
+Los tres $\delta^*$ son negativos y $|\delta^*| > 1$: los no-observables tendrían que ser al menos $1{,}35$ veces más importantes que los observables \textit{y} operar en dirección opuesta a la selección observable para anular los efectos estimados.
+Esto es consistente con el resultado del test de función de control (Apéndice B): la endogeneidad opera en dirección positiva (municipios de mayor capacidad gastan más \textit{y} tienen mejores outcomes), de modo que la selección no-observable residual correría en el mismo sentido ---no en dirección opuesta--- fortaleciendo los coeficientes estimados, no reduciéndolos.
+Para RS, nótese que $\dot{\beta} < 0$ (TWFE sin corrección revierte el signo); el cálculo de $\delta^*$ se aplica al efecto estimado con corrección, que es el estimador relevante.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{H. Análisis de Pre-Tendencias: Event Study}
 \label{sec:appendix_pretendencias}
 
 El análisis de event-study examina la dinámica de los efectos del gasto municipal sobre los tres outcomes primarios en una ventana de cuatro períodos ($t-2$ a $t+2$).
