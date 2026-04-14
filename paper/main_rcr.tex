@@ -1,0 +1,150 @@
+% ============================================================
+% main_rcr.tex  —  Elsevier submission version
+% Target journal: Resources and Conservation Recycling
+% Citation style: Harvard (author-year), as per RCR Guide for Authors
+%
+% !!! IMPORTANT — BEFORE SUBMITTING !!!
+% RCR publishes in English only. This file must be used AFTER
+% the paper sections have been translated to English.
+% Translate sections/ files, then compile this file.
+%
+% Word limit: ~9,000 words (excluding references and appendix)
+% ============================================================
+
+\documentclass[review,12pt,authoryear,nonatbib]{elsarticle}
+
+% ====== Math Packages ======
+\usepackage{amssymb, amsmath, amsfonts, mathtools}
+\usepackage{dsfont}
+\usepackage{amsthm}
+\newtheorem{hypothesis}{Hypothesis}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+
+% ====== Table Packages ======
+\usepackage{array, booktabs, makecell}
+\usepackage{siunitx}
+\usepackage[flushleft]{threeparttable}
+\usepackage{rotating, tabularx}
+\usepackage{tabularray}
+\UseTblrLibrary{booktabs, siunitx}
+
+% ====== Custom Column Types ======
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\arraybackslash\hspace{0pt}}m{#1}}
+
+% ====== Figure and Caption Packages ======
+\usepackage{graphicx, subcaption}
+\usepackage{pdflscape}
+\usepackage{float}
+\usepackage[title]{appendix}
+
+% ====== Typography ======
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[normalem]{ulem}
+\usepackage{enumitem}
+
+% ====== Bibliography (biblatex + biber, Harvard author-year for RCR) ======
+\usepackage{xurl}
+\usepackage{xcolor}
+\definecolor{citationcolor}{RGB}{0, 127, 255}
+
+\usepackage[backend=biber,
+            style=authoryear,
+            maxcitenames=3,
+            mincitenames=1,
+            maxbibnames=99,
+            giveninits=true,
+            uniquename=false,
+            uniquelist=true,
+            dashed=false,
+            urldate=long,
+            url=true,
+            natbib=true]{biblatex}
+\addbibresource{../Bibliography_base.bib}
+
+\renewcommand*{\nameyeardelim}{\addcomma\space}
+
+% ====== Hyperref (second-to-last) ======
+\usepackage[hidelinks, breaklinks, colorlinks=true,
+            linkcolor=citationcolor, citecolor=citationcolor,
+            urlcolor=citationcolor]{hyperref}
+
+% ====== Cleveref (after hyperref) ======
+\usepackage[nameinlink]{cleveref}
+
+% ====== Footnote Settings ======
+\interfootnotelinepenalty=10000
+\setlength{\footnotesep}{0.5cm}
+
+% URL penalties
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+\setcounter{biburlnumpenalty}{9000}
+
+% ============================================================
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Municipal Public Cleaning Expenditure and Solid Waste Management:\\ Evidence from Peru, 2015--2019}
+
+% NOTE: Replace Spanish title above with the translated English title.
+% Spanish original:
+% "Impacto del Gasto Ejecutado en Limpieza Pública sobre la
+%  Gestión de Residuos Sólidos Municipales en el Perú (2015--2019)"
+
+\author[unas]{Dante Barreto Gamarra}
+\ead{dbarretogamarra@gmail.com}
+
+\address[unas]{Faculty of Economics, Universidad Nacional Agraria de la Selva (UNAS),
+               Tingo Mar\'ia, Per\'u}
+
+\begin{abstract}
+This study estimates the effect of municipal public cleaning expenditure on solid waste management across Peruvian districts from 2015 to 2019. The main identification threat is expenditure endogeneity: municipalities with stronger institutional capacity simultaneously execute higher budgets and report better outcomes. To correct this bias, we apply the Correlated Random Effects with Control Function (CRE+CF) estimator proposed by \citet{Wooldridge2015}, combining the \citet{Mundlak1978} device with first-stage residuals as an additional regressor. The analysis covers three management dimensions using a panel of 9,322 observations, 1,874 municipalities, and 196 provincial clusters. A 10\% increase in accrued expenditure raises daily waste collection by 8.79\% (elasticity $= +0.879$; $p < 0.001$), increases the municipal planning index by 0.030 points on a five-instrument scale ($\hat{\beta} = +0.300$; $p < 0.001$), and raises the probability of formal sanitary landfill disposal by 2.2 percentage points over an 18\% baseline (AME $= +0.022$; $p < 0.001$). All three primary hypotheses survive Bonferroni-Holm correction. Results identify municipal finance as the binding constraint for environmental formalization of final disposal, and support reforms to Peru's FONCOMUN transfer formula targeting municipalities with the largest solid waste management deficits.
+\end{abstract}
+
+\begin{keyword}
+municipal expenditure \sep solid waste management \sep sanitary landfill \sep
+CRE+CF estimator \sep Mundlak device \sep Peru \sep fiscal decentralization \sep
+FONCOMUN
+%
+% JEL classification (add as note after keywords in the cover letter;
+% elsarticle does not have a native JEL field):
+% H72, Q53, R51, O18, H77
+\end{keyword}
+
+\end{frontmatter}
+
+% ============================================================
+% MAIN BODY — English sections (sections/en/)
+% ============================================================
+
+\input{sections/en/empirical_strategy}
+
+\input{sections/en/results}
+
+\input{sections/en/discussion}
+
+\input{sections/en/conclusion}
+
+% ============================================================
+% APPENDIX
+% ============================================================
+\newpage
+\begin{appendices}
+\input{sections/en/appendix}
+\end{appendices}
+
+% ============================================================
+% REFERENCES
+% ============================================================
+\clearpage
+\small \printbibliography[title={References}]
+
+\end{document}
