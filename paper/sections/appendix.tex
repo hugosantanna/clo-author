@@ -11,7 +11,43 @@
 \addcontentsline{toc}{section}{Apéndice}
 
 % ------------------------------------------------------------------
-\subsection*{A. Parámetros de la Primera Etapa}
+\subsection*{A. Descomposición de Varianza: Within vs.\ Between}
+\label{sec:appendix_varianza}
+
+La amplificación de los coeficientes CRE+CF respecto al TWFE ---factores de $33\times$ para QPRS, $7{,}7\times$ para PI y reversión de signo para RS--- refleja diferencias en la proporción de varianza within vs.\ between entre outcomes y regresores.
+La \cref{tab:varianza_decomp} reporta las desviaciones estándar totales, between y within para $\ln G_{it}$ y los tres outcomes primarios, calculadas sobre el panel balanceado de 9,322 observaciones.
+
+\begin{table}[htbp]
+\centering
+\caption{Descomposición de Varianza: Desviaciones Estándar Total, Between y Within\\
+  Panel 2015--2019, Perú}
+\label{tab:varianza_decomp}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccc},
+  row{1} = {font=\bfseries},
+  hline{1,Z} = {1.5pt},
+  hline{2} = {0.8pt},
+}
+Variable & SD Total & SD Between & SD Within & Ratio B/W \\
+$\ln G_{it}$ & $1{,}81$ & $1{,}74$ & $0{,}51$ & $3{,}4$ \\
+QPRS ($\ln$ kg/día) & $2{,}43$ & $2{,}38$ & $0{,}41$ & $5{,}8$ \\
+PI (índice 0--5) & $1{,}12$ & $0{,}97$ & $0{,}58$ & $1{,}7$ \\
+RS (binario) & $0{,}38$ & $0{,}33$ & $0{,}19$ & $1{,}7$ \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notas.} SD Between: desviación estándar de las medias municipales $\bar{X}_i$.
+SD Within: desviación estándar de los desvíos $X_{it} - \bar{X}_i + \bar{\bar{X}}$.
+Ratio B/W: cociente SD Between / SD Within.
+El ratio $5{,}8$ para QPRS confirma que la variación entre municipios domina la varianza total; el TWFE descarta esta dimensión al aplicar la transformación within, identificando sobre una fracción pequeña y ruidosa de la varianza total, lo que explica mecánicamente la amplificación $33\times$ al recuperar la dimensión between mediante las medias de Mundlak.
+Los ratios inferiores para PI ($1{,}7$) y RS ($1{,}7$) explican sus amplificaciones menores ($7{,}7\times$ y reversión de signo, respectivamente): estos outcomes tienen relativamente más variación temporal dentro del municipio, de modo que el TWFE retiene más señal identificante.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{B. Parámetros de la Primera Etapa}
 \label{sec:appendix_stage1}
 
 La \cref{tab:stage1} reporta los parámetros del modelo OLS de primera etapa (\cref{eq:stage1}).
@@ -56,7 +92,7 @@ Fuente: RENAMU 2015--2019 (INEI) y SIAF/MEF.
 \end{table}
 
 % ------------------------------------------------------------------
-\subsection*{B. Test de Endogeneidad: Coeficientes sobre $\hat{v}_{it}$}
+\subsection*{C. Test de Endogeneidad: Coeficientes sobre $\hat{v}_{it}$}
 \label{sec:appendix_vhat}
 
 La \cref{tab:vhat} reporta el coeficiente (o AME) sobre $\hat{v}_{it}$ en cada modelo de segunda etapa.
@@ -98,7 +134,7 @@ El rechazo de $H_0: \text{coef}(\hat{v}_{it}) = 0$ en los seis modelos confirma 
 \end{table}
 
 % ------------------------------------------------------------------
-\subsection*{C. Comparación SE Bootstrap vs.\ SE Analítico}
+\subsection*{D. Comparación SE Bootstrap vs.\ SE Analítico}
 \label{sec:appendix_bootstrap}
 
 La \cref{tab:bootstrap_comparison} verifica la validez de los errores estándar reportados en los modelos principales.
@@ -135,7 +171,7 @@ La razón en el rango $0{,}90$--$1{,}15$ para los cuatro modelos confirma que no
 \end{table}
 
 % ------------------------------------------------------------------
-\subsection*{D. Resultados D1: Tablas de Frecuencia y Cobertura}
+\subsection*{E. Resultados D1: Tablas de Frecuencia y Cobertura}
 \label{sec:appendix_d1}
 
 \begin{table}[htbp]
@@ -172,7 +208,7 @@ Fuente: RENAMU 2015--2019 (INEI).
 \end{table}
 
 % ------------------------------------------------------------------
-\subsection*{E. Resultados D2: Componentes del Índice de Planeamiento}
+\subsection*{F. Resultados D2: Componentes del Índice de Planeamiento}
 \label{sec:appendix_d2}
 
 \begin{table}[htbp]
