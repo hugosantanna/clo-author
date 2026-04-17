@@ -4,6 +4,54 @@ All notable changes to the Clo-Author are documented here.
 
 ---
 
+## [4.2.0] — 2026-04-17 — Theorist Pair, Personal Style Guide, Checkpoint
+
+Three feature additions inspired by parallel work in the Claude-Code-for-economists space (Goldsmith-Pinkham's Markus Academy series) and by a theorist pair developed in the bad-controls project. Generalized and wired into the scaffold.
+
+### Theorist + theorist-critic pair
+
+A first-class pair for formal theory sections — assumptions, definitions, lemmas, theorems, and proofs calibrated to top methods journals (*Econometrica*, *Journal of Econometrics*, *Quantitative Economics*, *Annals of Statistics*).
+
+- **theorist agent** drafts identification results, consistency, asymptotic normality, influence functions, DML, bootstrap validity, test properties, and comparative-static propositions. Paper-type aware — activates for econometric methods, theory+empirics, structural identification, and methodological reduced-form papers.
+- **theorist-critic** reviews through 4 sequential phases with early-stop on critical gaps: (1) triage claim type, (2) proof validity (logical, measurability, expansions, identification, asymptotic distribution), (3) assumption minimality + statement calibration + notation, (4) citations + linkage + polish. Deduction rubric: -20 per logic gap, -25 circular, -15 overclaim, etc.
+- **Generalized citation anchors** — a new `Theoretical Foundational References` table in `.claude/references/domain-profile.md` parameterizes the anchor list; fallback defaults baked into the agent cover DiD, IV, RDD, DML, semiparametric efficiency, GMM, bootstrap, etc.
+- **Authorship-aware calibration** — a `Paper Author Team` table in the domain profile lets the theorist-critic avoid lecturing authors on results they themselves wrote.
+- Scoring: 20% weight in the aggregate when a theory section is present; renormalized otherwise.
+- Activation: `/strategize theory [target]` for creation, `/review --theory [target]` for audit, conditional activation in `/new-project` Phase 2.
+
+### Personal style guide
+
+A `/write style-guide [paper-dir]` mode that extracts the user's writing voice from their prior papers, then feeds that voice back to the writer on every subsequent invocation.
+
+- Discovers `.tex`/`.pdf` corpus in the target directory (default `master_supporting_docs/`)
+- Strategic sampling: full intros, first two paragraphs of each major section, abstract, conclusion, 5–10 results-section paragraphs per paper
+- Extracts quantitative patterns (sentence-length distribution, passive/active ratio, em dash rate) and qualitative patterns (paragraph openings, section openings, lexicon used/avoided, hedging, comparison style, citation split, tone markers)
+- Self-citation check surfaces author self-citations missing from `Bibliography_base.bib`
+- Writes to `.claude/references/personal-style-guide.md` with quoted examples — never invents patterns
+- Writer auto-loads the guide if real content is present; voice guide overrides generic academic defaults but never INV-1..21
+
+### Compaction discipline + scaffold-friendly `/checkpoint`
+
+Codifies compaction hygiene and adds a project-level session-handoff skill.
+
+- **Compaction discipline** (`workflow.md` Section 5): manual `/compact` at natural stopping points over auto-compression; 5–10 turn focused sessions; `/checkpoint` before `/compact` or session end; Session Recovery now starts at Step 0 — read recent checkpoint artifacts before the plan.
+- **`/checkpoint` skill** — scaffold-friendly port:
+  - Core (always on, fork-friendly): auto-memory updates, `SESSION_REPORT.md` append, `quality_reports/research_journal.md` append, git-state snapshot
+  - Obsidian integration (gated): activates only when `.claude/state/obsidian-config.md` exists AND Obsidian MCP is connected; otherwise skipped silently
+  - `--setup-obsidian` walks user through creating config from the example template
+  - Project-level skill takes precedence over user-level one inside clo-author
+- Meta-governance compliance: `.claude/state/*` gitignored, `*.example` whitelisted — fork users get the template, user-specific paths stay local
+
+### Files touched
+- Agents: `theorist.md`, `theorist-critic.md` (new); `writer.md` (style-guide loading + Style Extraction Mode)
+- Rules: `agents.md`, `quality.md`, `workflow.md`
+- References: `domain-profile.md` (Theoretical Foundational References + Paper Author Team), `personal-style-guide.md` (new)
+- Skills: `strategize/SKILL.md` (theory mode), `review/SKILL.md` (--theory flag), `new-project/SKILL.md` (conditional dispatch), `write/SKILL.md` (style-guide mode), `checkpoint/SKILL.md` (new)
+- State: `obsidian-config.md.example` (new template)
+- `.gitignore`, `CLAUDE.md`
+
+---
+
 ## [4.1.1] — 2026-04-11 — Modern LaTeX Stack
 
 Modernizes the LaTeX infrastructure: automated builds, modern table engine, smart cross-references, and CI compilation. All changes are Overleaf-compatible.
