@@ -206,8 +206,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td><code>/strategize</code></td>
-<td><code>--pap</code></td>
-<td>Empirical strategy (4 paper types) or pre-analysis plan</td>
+<td><code>--pap</code>, <code>theory</code></td>
+<td>Empirical strategy (4 paper types), pre-analysis plan, or formal theory section</td>
 </tr>
 <tr class="even">
 <td><code>/analyze [dataset]</code></td>
@@ -216,12 +216,12 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td><code>/write [section]</code></td>
-<td><code>--humanize</code></td>
-<td>Draft sections (argument moves, 4 paper types) or strip AI patterns</td>
+<td><code>--humanize</code>, <code>style-guide</code></td>
+<td>Draft sections, strip AI patterns, or extract personal voice from prior papers</td>
 </tr>
 <tr class="even">
 <td><code>/review [file]</code></td>
-<td><code>--peer [journal]</code>, <code>--peer --r2</code>, <code>--stress [journal]</code>, <code>--methods</code>, <code>--proofread</code>, <code>--code</code>, <code>--replicate [lang]</code>, <code>--all</code></td>
+<td><code>--peer [journal]</code>, <code>--peer --r2</code>, <code>--stress [journal]</code>, <code>--methods</code>, <code>--theory</code>, <code>--proofread</code>, <code>--code</code>, <code>--replicate [lang]</code>, <code>--all</code></td>
 <td>Quality reviews (routes by target + flags)</td>
 </tr>
 <tr class="odd">
@@ -243,6 +243,11 @@ ul.task-list li input[type="checkbox"] {
 <td><code>/tools</code></td>
 <td><code>commit</code>, <code>compile</code>, <code>validate-bib</code>, <code>journal</code>, <code>context</code>, <code>deploy</code>, <code>learn</code>, <code>lint</code>, <code>upgrade</code></td>
 <td>Utilities</td>
+</tr>
+<tr class="odd">
+<td><code>/checkpoint</code></td>
+<td><code>--auto</code>, <code>--memory-only</code>, <code>--scaffold-only</code>, <code>--dry-run</code>, <code>--setup-obsidian</code></td>
+<td>Session handoff: memory + SESSION_REPORT + research journal (+ Obsidian if configured)</td>
 </tr>
 </tbody>
 </table>

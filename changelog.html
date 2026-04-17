@@ -141,7 +141,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#v411" id="toc-v411" class="nav-link active" data-scroll-target="#v411">v4.1.1 — Modern LaTeX Stack</a>
+  <li><a href="#v420" id="toc-v420" class="nav-link active" data-scroll-target="#v420">v4.2.0 — Theorist Pair, Personal Style Guide, Checkpoint</a>
+  <ul class="collapse">
+  <li><a href="#theorist-theorist-critic-pair" id="toc-theorist-theorist-critic-pair" class="nav-link" data-scroll-target="#theorist-theorist-critic-pair">Theorist + theorist-critic pair</a></li>
+  <li><a href="#personal-style-guide" id="toc-personal-style-guide" class="nav-link" data-scroll-target="#personal-style-guide">Personal style guide</a></li>
+  <li><a href="#compaction-discipline-checkpoint-skill" id="toc-compaction-discipline-checkpoint-skill" class="nav-link" data-scroll-target="#compaction-discipline-checkpoint-skill">Compaction discipline + <code>/checkpoint</code> skill</a></li>
+  </ul></li>
+  <li><a href="#v411" id="toc-v411" class="nav-link" data-scroll-target="#v411">v4.1.1 — Modern LaTeX Stack</a>
   <ul class="collapse">
   <li><a href="#latexmk-build-system" id="toc-latexmk-build-system" class="nav-link" data-scroll-target="#latexmk-build-system">latexmk Build System</a></li>
   <li><a href="#tabularray" id="toc-tabularray" class="nav-link" data-scroll-target="#tabularray">tabularray</a></li>
@@ -197,6 +203,32 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="v420" class="level1">
+<h1>v4.2.0 — Theorist Pair, Personal Style Guide, Checkpoint</h1>
+<p><em>Released 2026-04-17</em></p>
+<p>Three feature additions inspired by parallel work in the Claude-Code-for-economists space and by a theorist pair developed in the bad-controls project.</p>
+<section id="theorist-theorist-critic-pair" class="level2">
+<h2 class="anchored" data-anchor-id="theorist-theorist-critic-pair">Theorist + theorist-critic pair</h2>
+<p>A first-class pair for formal theory sections — assumptions, definitions, lemmas, theorems, and proofs calibrated to top methods journals (<em>Econometrica</em>, <em>Journal of Econometrics</em>, <em>Quantitative Economics</em>, <em>Annals of Statistics</em>).</p>
+<p>The <strong>theorist</strong> drafts identification results, consistency, asymptotic normality, influence functions, DML, bootstrap validity, test properties, and comparative-static propositions. Paper-type aware — activates for econometric methods, theory+empirics, structural identification, and methodological reduced-form papers.</p>
+<p>The <strong>theorist-critic</strong> reviews through 4 sequential phases with early-stop on critical gaps: triage, proof validity (logical, measurability, expansions, identification, asymptotic distribution), assumption minimality + statement calibration, citations + linkage + polish.</p>
+<p>Field-specific anchors live in a new <code>Theoretical Foundational References</code> table in <code>domain-profile.md</code>; broad defaults cover DiD, IV, RDD, DML, semiparametric efficiency, GMM, and bootstrap. A <code>Paper Author Team</code> table lets the critic avoid lecturing authors on results they themselves wrote.</p>
+<p>Scoring: 20% weight in the aggregate when a theory section is present, renormalized otherwise. Invoke via <code>/strategize theory [target]</code> or audit via <code>/review --theory [target]</code>.</p>
+</section>
+<section id="personal-style-guide" class="level2">
+<h2 class="anchored" data-anchor-id="personal-style-guide">Personal style guide</h2>
+<p>A <code>/write style-guide [paper-dir]</code> mode that extracts the user’s writing voice from their prior papers, then feeds it back to the writer on every subsequent invocation.</p>
+<p>Strategic sampling across intros, section openings, abstracts, conclusions, and results paragraphs. Quantitative patterns (sentence-length distribution, passive/active ratio, em dash rate) and qualitative patterns (paragraph openings, section openings, lexicon used and avoided, hedging, comparison style, citation split, tone markers). Self-citation check surfaces author self-citations missing from <code>Bibliography_base.bib</code>.</p>
+<p>Writes to <code>.claude/references/personal-style-guide.md</code> with quoted examples from the corpus — never invents patterns. The writer auto-loads it if real content is present; voice guide overrides generic academic defaults but never INV-1..21.</p>
+</section>
+<section id="compaction-discipline-checkpoint-skill" class="level2">
+<h2 class="anchored" data-anchor-id="compaction-discipline-checkpoint-skill">Compaction discipline + <code>/checkpoint</code> skill</h2>
+<p>Codifies compaction hygiene and adds a project-level session-handoff skill.</p>
+<p><strong>Compaction discipline</strong> (workflow.md Section 5): manual <code>/compact</code> at natural stopping points over auto-compression; 5–10 turn focused sessions; <code>/checkpoint</code> before <code>/compact</code> or session end; Session Recovery starts at Step 0 — read recent checkpoint artifacts before the plan.</p>
+<p><strong><code>/checkpoint</code></strong> — scaffold-friendly port. Core (always on, fork-friendly): auto-memory updates, <code>SESSION_REPORT.md</code> append, <code>research_journal.md</code> append, git-state snapshot. Obsidian integration is gated: activates only when <code>.claude/state/obsidian-config.md</code> exists AND Obsidian MCP is connected. Fork users get the template; user-specific paths stay local via <code>.gitignore</code>.</p>
+<hr>
+</section>
+</section>
 <section id="v411" class="level1">
 <h1>v4.1.1 — Modern LaTeX Stack</h1>
 <p><em>Released 2026-04-11</em></p>

@@ -188,6 +188,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#strategist" id="toc-strategist" class="nav-link" data-scroll-target="#strategist">Strategist</a></li>
   <li><a href="#strategist-critic" id="toc-strategist-critic" class="nav-link" data-scroll-target="#strategist-critic">strategist-critic</a></li>
+  <li><a href="#theorist" id="toc-theorist" class="nav-link" data-scroll-target="#theorist">Theorist</a></li>
+  <li><a href="#theorist-critic" id="toc-theorist-critic" class="nav-link" data-scroll-target="#theorist-critic">theorist-critic</a></li>
   </ul></li>
   <li><a href="#the-builders-execution-phase" id="toc-the-builders-execution-phase" class="nav-link" data-scroll-target="#the-builders-execution-phase">The Builders (Execution Phase)</a>
   <ul class="collapse">
@@ -383,6 +385,77 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Strong on checklists and modern estimator recommendations. The institutional story behind your variation is yours to evaluate — the Strategist tells you what to check, not whether your setting is convincing.</p>
 </div>
 </div>
+</section>
+<section id="theorist" class="level2">
+<h2 class="anchored" data-anchor-id="theorist">Theorist</h2>
+<p>The methods coauthor for formal theory sections. Drafts assumptions, definitions, lemmas, theorems, and proofs at the rigor level of <em>Econometrica</em>, <em>Journal of Econometrics</em>, <em>Quantitative Economics</em>, and <em>Annals of Statistics</em>. <strong>Paper-type aware</strong> — activates primarily for:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Paper Type</th>
+<th>When Theorist Contributes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Econometric methods</td>
+<td>Identification + asymptotic theory + inference validity</td>
+</tr>
+<tr class="even">
+<td>Theory+empirics</td>
+<td>Model, propositions, comparative statics, mapping to data</td>
+</tr>
+<tr class="odd">
+<td>Structural</td>
+<td>Identification of structural parameters + estimation theory</td>
+</tr>
+<tr class="even">
+<td>Methodological reduced-form</td>
+<td>Identification + asymptotic distribution of proposed estimator</td>
+</tr>
+</tbody>
+</table>
+<p>Covers identification results, consistency, asymptotic normality, non-standard rates, influence functions and efficiency bounds, uniform validity, double/debiased ML, bootstrap validity, test properties, and signed comparative-static propositions. Field-specific citation anchors come from <code>domain-profile.md</code>; broad defaults cover DiD, IV, RDD, DML, semiparametric efficiency, GMM, and bootstrap. Invoke via <code>/strategize theory [target]</code>.</p>
+</section>
+<section id="theorist-critic" class="level2">
+<h2 class="anchored" data-anchor-id="theorist-critic">theorist-critic</h2>
+<p>A top methods-journal referee. Reviews through <strong>4 sequential phases with early-stop on critical gaps</strong> — the proof-validity phase gates everything downstream, so a broken proof doesn’t get buried under citation nits:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Phase</th>
+<th>Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Claim identification</td>
+<td>Object type, target parameter, estimator, assumption list, paper-type fit</td>
+</tr>
+<tr class="even">
+<td>2. Proof validity</td>
+<td>Logical validity, measurability / integrability, expansions + remainders, design-specific identification checks, asymptotic distribution</td>
+</tr>
+<tr class="odd">
+<td>3. Assumptions + statements</td>
+<td>Minimality (each assumption used), primitiveness, over/under-claim, pointwise vs.&nbsp;uniform, notation consistency (INV-7)</td>
+</tr>
+<tr class="even">
+<td>4. Citations + linkage + polish</td>
+<td>Citation fidelity, orphan theorems, linkage to empirical claims, exposition</td>
+</tr>
+</tbody>
+</table>
+<p>Deduction rubric: -20 per logic gap, -25 circular, -15 overclaim, -10 unjustified limit interchange, -5 per never-used assumption. Score ≥ 80 to approve.</p>
+<p><strong>Authorship-aware calibration</strong>: reads the <code>Paper Author Team</code> table in <code>domain-profile.md</code>; if the paper’s authors are themselves among the reference literature on the topic, the critic avoids lecturing them on their own contributions. Audit via <code>/review --theory [target]</code>.</p>
 <hr>
 </section>
 </section>
@@ -554,7 +627,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="agent-catalog" class="level1">
 <h1>Quick Reference</h1>
-<p>All 17 agents at a glance:</p>
+<p>All 19 agents at a glance:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 26%">
@@ -598,6 +671,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>strategist-critic</td>
 <td><code>strategist-critic.md</code></td>
 <td>Validates assumptions, inference, robustness (4 paper types)</td>
+</tr>
+<tr class="odd">
+<td>Theorist</td>
+<td><code>theorist.md</code></td>
+<td>Formal theory: assumptions, theorems, proofs (paper-type aware)</td>
+</tr>
+<tr class="even">
+<td>theorist-critic</td>
+<td><code>theorist-critic.md</code></td>
+<td>4-phase proof review with early-stop on critical gaps</td>
 </tr>
 <tr class="odd">
 <td>Data-engineer</td>
