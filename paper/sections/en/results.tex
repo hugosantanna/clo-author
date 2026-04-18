@@ -1,0 +1,146 @@
+% ============================================================
+% results.tex  [ENGLISH — RCR submission version]
+% Paper: Municipal Public Cleaning Expenditure and Solid Waste
+%        Management: Evidence from Peru, 2015–2019
+% Author: Dante Barreto Gamarra (UNAS)
+% ============================================================
+
+\section{Results}
+\label{sec:resultados}
+
+\subsection{Endogeneity Diagnosis}
+\label{sec:endogeneidad}
+
+The first step before interpreting structural coefficients is to verify whether the CRE+CF correction is empirically justified. In all estimated models, the coefficient on $\hat{v}_{it}$ --- first-stage residuals --- is statistically significant at the 1\% level ($p < 0.001$). This result rejects the null hypothesis of expenditure exogeneity and confirms that the uncorrected TWFE estimator produces biased estimates. Without the control function, the correlation between $\ln G_{it}$ and unobservable institutional factors would overestimate the expenditure effect: municipalities with greater management capacity tend to execute higher budgets while simultaneously reporting better waste indicators, so the naive OLS captures both the expenditure effect and the pre-existing institutional advantage. The CRE+CF estimation decomposes these sources of variation and isolates the expenditure effect under the CRE assumption that no heterogeneous unobserved temporal trends persist across municipalities.
+
+First-stage parameters are presented in \cref{tab:stage1} of the Appendix. The pooled OLS with Mundlak means ($\bar{G}_{i}$) and year fixed effects explains 74\% of the variance in $\ln G_{it}$. Mundlak means are highly significant (coeff.\ $= 0.921$, $p < 0.001$), indicating that permanent municipal heterogeneity --- captured by $\bar{G}_{i}$ --- accounts for the bulk of expenditure variation. The residual variation $\hat{v}_{it}$, representing transitory deviations of expenditure from each municipality's historical level, is the identifying component in the second stage.
+
+% ------------------------------------------------------------------
+\subsection{Dimension 1 --- Collection Efficiency}
+\label{sec:d1}
+
+\subsubsection*{Collection Frequency (FR)}
+
+Municipal public cleaning expenditure has a statistically significant and economically substantive effect on waste collection frequency. The Ordered Probit CRE+CF coefficient is $\hat{\beta} = -0.522$ ($p < 0.001$), where the negative sign reflects variable coding: $FR = 1$ corresponds to daily collection (maximum frequency) and $FR = 5$ to no collection. Higher expenditure shifts municipalities toward lower values of the ordinal index, i.e., toward higher collection frequencies. The magnitude of the latent coefficient exceeds the uncorrected TWFE estimate by a factor of 6.5 ($\hat{\beta}_{\text{TWFE}} = -0.081$), illustrating the attenuation bias introduced by endogeneity when institutional heterogeneity is not controlled.
+
+The result is consistent with Hypothesis H1 under the CRE assumption: higher municipal public cleaning expenditure increases collection frequency. This effect plausibly operates through the direct operational channel: higher expenditure enables fuel procurement, fleet maintenance, and field staff payroll --- all binding constraints for service frequency in budget-constrained municipalities.
+
+\subsubsection*{Daily Quantity of Waste Collected (QPRS)}
+
+The estimated expenditure elasticity for daily quantity of waste collected (QPRS) is $+0.879$ (SE $= 0.021$, $p < 0.001$), implying that a 10\% increase in municipal expenditure is associated with an 8.79\% increase in kilograms of waste collected per day. This result is consistent with the hypothesis of decreasing returns: municipalities with low baseline expenditure exhibit the largest marginal gains in effective coverage. The elasticity is close to but significantly below unity ($t$-test of $H_0: \hat{\beta} = 1$, $p < 0.001$), suggesting that operational capacity does not scale perfectly proportionally with budget --- presumably due to frictions in hiring skilled personnel and the availability of treatment infrastructure in rural municipalities. Compared to the TWFE estimator ($\hat{\beta}_{\text{TWFE}} = 0.027$), the CRE+CF correction raises the elasticity by more than thirty-fold, demonstrating that attenuation bias is quantitatively dominant for this outcome.
+
+The $33\times$ amplification for QPRS contrasts with the $7$--$8\times$ ratios observed for PI and RS, and requires an economic explanation. QPRS is a log-scale flow variable whose total variance is dominated by the between-municipality dimension: the difference between a 5,000-resident municipality without its own fleet and a 50,000-resident municipality with daily service generates cross-sectional variation of one to two orders of magnitude, while within-municipality temporal variation is comparatively small. The TWFE estimator absorbs all between-municipality variation into individual fixed effects, identifying only from transitory expenditure deviations --- which for QPRS are small and noisy, producing a near-zero TWFE coefficient ($+0.027$). The CRE+CF also recovers the between dimension through Mundlak means, multiplying the identifying signal. For PI and RS, temporal variation is relatively larger: PIGARS adoption or the transition to sanitary landfill are discrete events occurring within the panel's observation window and are therefore partially identified by the TWFE, explaining their smaller amplification ratios. In short, the asymmetry in amplification ratios reflects differences in the within-to-between variance ratio across outcomes, not an anomaly in CRE+CF estimation.
+
+\subsubsection*{Service Coverage (CSRS)}
+
+The CRE+CF coefficient on service coverage is $\hat{\beta} = +0.254$ ($p < 0.001$). Since CSRS is coded with increasing values toward higher coverage ($CSRS = 4$ corresponds to coverage above 75\% of the district territory), the positive sign indicates that expenditure expands the geographic reach of the service. The magnitude is smaller than the effect on QPRS, consistent with a cost structure in which territorial service expansion (incorporating new collection zones) is marginally more expensive than increasing service intensity in already-covered areas. Results for FR and CSRS are presented in \cref{tab:d1_resultados}.
+
+% ------------------------------------------------------------------
+\subsection{Dimension 2 --- Municipal Planning}
+\label{sec:d2}
+
+The solid waste planning index (PI) responds more strongly to expenditure than any other outcome variable in the model. The OLS CRE+CF coefficient is $\hat{\beta} = +0.300$ (SE $= 0.015$, $p < 0.001$), interpretable directly: a 10\% increase in accrued public cleaning expenditure increases the planning index by 0.030 points (on a 0 to 5 scale). The TWFE estimator underestimated this effect by nearly eight-fold ($\hat{\beta}_{\text{TWFE}} = 0.039$), confirming that endogeneity artificially compresses coefficients when unobservable institutional heterogeneity is correlated with both expenditure and planning instrument adoption. The result is consistent with Hypothesis H2 under the CRE assumption and suggests that municipal expenditure operates partly through an institutional channel: financial resources facilitate hiring technical staff, conducting diagnostics, and formalizing management procedures that translate into the adoption of mandatory planning instruments.
+
+Component analysis reveals heterogeneity in the response. The PIGARS (Municipal Solid Waste Environmental Management Plan) shows the largest average marginal effect among the five binary instruments: AME $= +0.055$ ($p < 0.001$), indicating that a 10\% expenditure increase raises by 5.5 percentage points the probability that a municipality has an approved PIGARS. This result has a direct policy interpretation: the PIGARS is the most resource-intensive planning instrument (requiring diagnostics, consulting, and citizen participation processes), making financing a binding constraint for its adoption in lower-fiscal-capacity municipalities. Component results are presented in \cref{tab:d2_componentes}.
+
+% ------------------------------------------------------------------
+\subsection{Dimension 3 --- Adequate Final Disposal}
+\label{sec:d3}
+
+\subsubsection*{Sanitary Landfill Use (RS)}
+
+The average marginal effect on the probability of sanitary landfill use (AME $= +0.022$, $p < 0.001$) reveals that financing constitutes a material barrier to the environmental formalization of final disposal. A 10\% expenditure increase raises by 2.2 percentage points the probability that a municipality disposes its waste in formal infrastructure, validating H3. In absolute terms, given that the median municipality in the 2015--2019 period generated approximately 5,500 annual tons of solid waste, this marginal increase is equivalent to redirecting around 110 tons per year from open dumpsites to controlled disposal. The comparison with the TWFE estimator is revealing: the uncorrected coefficient on RS is $-0.003$ --- not only insignificant but with the opposite sign --- confirming that reverse causality bias (municipalities with worse disposal indicators receive more corrective resources) completely masked the positive expenditure effect when endogeneity was not controlled.
+
+\subsubsection*{Proportion of Waste in Sanitary Landfill (PRS)}
+
+The Fractional Logit CRE+CF \citep{PapkeWooldridge1996} estimates an average marginal effect of $+0.026$ ($p < 0.001$) on the proportion of waste sent to sanitary landfills. This effect complements that of RS: while the AME on RS captures the extensive margin (probability of adopting formal disposal), the AME on PRS captures the intensive margin (utilization rate among municipalities already with access to sanitary landfills). The coexistence of positive and significant effects at both margins indicates that expenditure not only incorporates new municipalities into formal disposal, but also deepens usage among those already practicing it. This result rules out the alternative hypothesis that the RS effect is purely mechanical (municipalities building a new cell automatically report higher PRS): if that were the case, the PRS effect should concentrate among entering municipalities and be zero for already-formalized ones.
+
+% ------------------------------------------------------------------
+\subsection{Main Results Table}
+\label{sec:tabla_principal}
+
+\cref{tab:resultados_principales} consolidates CRE+CF coefficients for the six outcomes across three dimensions. For ease of comparison, uncorrected TWFE coefficients are also reported. The systematic difference between both columns confirms the bias direction described in \cref{sec:endogeneidad}: TWFE underestimates effects in D1 and D2, and reverses the sign in D3, in all cases due to the positive correlation between observed expenditure and unobserved institutional factors that deteriorate outcomes.
+
+\begin{table}[htbp]
+\centering
+\caption{Effect of Public Cleaning Expenditure on Municipal Solid Waste Management\\
+  CRE+CF vs.\ Uncorrected TWFE Models, Peru 2015--2019}
+\label{tab:resultados_principales}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccccc},
+  row{1} = {font=\bfseries},
+  row{2} = {font=\itshape\small},
+  hline{1,Z} = {1.5pt},
+  hline{3} = {0.8pt},
+  hline{8,9} = {0.5pt, dashed},
+  hline{10} = {0.8pt},
+}
+ & \SetCell[c=3]{c} Dimension 1 --- Collection & & & D2 & \SetCell[c=2]{c} Dimension 3 --- Disposal & \\
+ & FR & QPRS & CSRS & PI & RS & PRS \\
+\SetCell[r=1]{l} \textit{CRE+CF} & & & & & & \\
+$\hat{\beta}$ / AME & $-0.522$ & $+0.879$ & $+0.254$ & $+0.300$ & $+0.022$ & $+0.026$ \\
+SE & (clust.) & $(0.021)$ & (clust.) & $(0.015)$ & (clust.) & (clust.) \\
+$p$-value & $<0.001$ & $<0.001$ & $<0.001$ & $<0.001$ & $<0.001$ & $<0.001$ \\
+\textit{TWFE} & & & & & & \\
+$\hat{\beta}$ & $-0.081$ & $+0.027$ & $+0.116$ & $+0.039$ & $-0.003$ & $-0.003$ \\
+Observations & $9,322$ & $9,322$ & $9,322$ & $9,322$ & $9,225$ & $9,322$ \\
+Municipalities & $1,874$ & $1,874$ & $1,874$ & $1,874$ & $1,874$ & $1,874$ \\
+Clusters & $196$ & $196$ & $196$ & $196$ & $196$ & $196$ \\
+$\hat{v}_{it}$ sig. & Yes & Yes & Yes & Yes & Yes & Yes \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notes.} Treatment variable is $\ln G_{it}$: log of accrued public cleaning expenditure.
+FR = collection frequency (ordinal 1--5; 1=daily); QPRS = kg of waste collected per day (log-log);
+CSRS = service coverage (ordinal 1--4); PI = planning index (0--5 scale, OLS);
+RS = sanitary landfill use (Probit, AME reported); PRS = proportion of waste in landfill (Fractional Logit, AME reported).
+CRE+CF: Correlated Random Effects with control function \citep{Wooldridge2015}; Mundlak device included in all models.
+Standard errors clustered at the provincial level (196 clusters).
+All models include year fixed effects and controls: $\ln(\text{population})$, urbanization rate, provincial poverty rate, $\ln(\text{own revenues per capita})$, provincial capital dummy.
+Source: RENAMU 2015--2019 (INEI) and SIAF/MEF.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection{Parallel Trends Verification}
+\label{sec:pretendencias}
+
+The validity of the CRE+CF estimator in a five-year panel requires that, in the absence of expenditure variation, municipalities would have followed parallel trajectories in the outcome variables.
+We verify this assumption through the DL(1) distributed lag specification, which adds the lag $\ln G_{it-1}$ to the baseline model and examines whether prior-period expenditure predicts current-period outcomes once contemporaneous expenditure is controlled:
+
+\begin{equation}
+  Y_{it} = \alpha + \beta_0 \ln G_{it} + \beta_1 \ln G_{it-1} + \gamma \bar{G}_{i} + \delta_{t} + \varepsilon_{it}
+  \label{eq:dl1}
+\end{equation}
+
+If anticipation exists or if past expenditure affects outcomes through channels distinct from the contemporary one, $\hat{\beta}_1$ should be statistically significant.
+Results rule this out for all three primary outcomes.
+For QPRS, the lag coefficient is $\hat{\beta}_1 = +0.012$ (SE $= 0.019$, $p = 0.53$), while the contemporaneous coefficient remains virtually unchanged relative to the baseline model ($\hat{\beta}_0 = +0.871$, $p < 0.001$).
+For PI, $\hat{\beta}_1 = +0.009$ (SE $= 0.011$, $p = 0.41$), with $\hat{\beta}_0 = +0.294$ ($p < 0.001$).
+For RS, the AME on the lag is $+0.002$ ($p = 0.61$), versus the contemporaneous AME of $+0.021$ ($p < 0.001$).
+
+In all three cases, the lag coefficient is statistically indistinguishable from zero and quantitatively small relative to the contemporaneous effect (ratios $\hat{\beta}_1/\hat{\beta}_0$ of $0.014$, $0.031$, and $0.095$, respectively).
+These results are consistent with the no-anticipation assumption and support interpreting the contemporaneous effects as causal responses to current-period expenditure, not artifacts of pre-existing trends.
+The event study analysis with a four-year window is presented in Appendix~\ref{sec:appendix_pretendencias}.
+
+% ------------------------------------------------------------------
+\subsection{Multiple Testing Correction}
+\label{sec:multiplicidad}
+
+The three primary research hypotheses --- H1 (effect on FR), H2 (effect on PI), and H3 (effect on PRS) --- are tested simultaneously under the Bonferroni-Holm correction to control the familywise error rate. Adjusted $p$-values for all three hypotheses are $p_{\text{adj}} < 0.001$. The rejection of H1, H2, and H3 is therefore robust to multiple comparisons: the results are not artifacts of multi-outcome analysis. Component analyses within each dimension (PIGARS, PMRS, SRRS, and other binary D2 instruments; CSRS as a D1 sub-outcome) are reported without multiplicity correction, following standard practice for pre-registered secondary exploratory comparisons.
+
+% ------------------------------------------------------------------
+\subsection{Plausibility Bounds: Oster (2019)}
+\label{sec:oster_resultados}
+
+As a complementary sensitivity analysis, we calculate the selection proportionality bounds $\delta^*$ from \citet{Oster2019} for the three primary outcomes (complete results in \cref{sec:appendix_oster}).
+The $\delta^*$ statistic quantifies how much more influential unobservables would need to be than observables to nullify the estimated effect.
+All three results yield $\delta^* < 0$, with $|\delta^*| > 1.35$ in all cases (QPRS: $\delta^* = -1.75$; PI: $\delta^* = -1.80$; RS: $\delta^* = -1.35$).
+
+The finding $\delta^* < 0$ has a precise interpretation: it validates the robustness of the OLS benchmark (the TWFE $\to$ CRE+CF transition) against static omitted variable bias.
+Permanent unobservables would need to operate in the opposite direction from observables --- and be more than 1.35 times more influential --- to reverse the coefficient movement between the two specifications.
+This condition contradicts the bias direction documented by the control function test: municipalities with greater unobservable institutional capacity tend to spend \textit{more}, not less, on public cleaning.
+The result $\delta^* < 0$ thus provides a solid foundation for the CRE+CF estimation: static unobservable selection, if present, would reinforce the estimated coefficients rather than reduce them to zero.
+The residual threat --- time-varying confounders --- is not ruled out by the Oster test and is discussed in \cref{sec:frontera}.

@@ -1,0 +1,110 @@
+% ============================================================
+% empirical_strategy.tex  [ENGLISH — RCR submission version]
+% Paper: Municipal Public Cleaning Expenditure and Solid Waste
+%        Management: Evidence from Peru, 2015–2019
+% Author: Dante Barreto Gamarra (UNAS)
+% ============================================================
+
+\section{Empirical Strategy}
+\label{sec:estrategia}
+
+\subsection{Identification and Baseline Model}
+\label{sec:identificacion}
+
+The main empirical strategy uses a Two-Way Fixed Effects (TWFE) design with Correlated Random Effects (CRE) and a control function (CF) to correct for endogeneity of municipal expenditure \citep{Wooldridge2015}.
+The general model for municipality $i$ in year $t$ is:
+
+\begin{equation}
+  Y_{it} = \alpha + \beta \ln G_{it} + \gamma \bar{G}_{i} + \delta_{t} + \varepsilon_{it}
+  \label{eq:modelo_base}
+\end{equation}
+
+\noindent where $Y_{it}$ is the solid waste management outcome (FR, QPRS, CSRS, PI, RS, or PRS),
+$\ln G_{it} = \ln(\text{Expenditure}_{it} + 1)$ is the log of accrued public cleaning expenditure,
+$\bar{G}_{i}$ is the time mean of $\ln G_{it}$ for municipality $i$ (the Mundlak device),
+and $\delta_{t}$ are year fixed effects.
+
+\subsection{Endogeneity Correction: CRE + Control Function}
+\label{sec:cre_cf}
+
+Municipal expenditure may be correlated with unobservable factors (institutional capacity, environmental preferences), generating endogeneity.
+Following \citet{Wooldridge2015}, we implement the correction in two stages:
+
+\textbf{Stage 1} (pooled OLS with Mundlak means):
+\begin{equation}
+  \ln G_{it} = \pi_0 + \pi_1 \bar{G}_{i} + \sum_t \pi_t \delta_t + v_{it}
+  \label{eq:stage1}
+\end{equation}
+
+\noindent The residuals $\hat{v}_{it}$ capture expenditure variation unexplained by permanent municipal heterogeneity.
+
+\textbf{Stage 2}: For nonlinear models (Ordered Probit, Probit, Fractional Logit), $\hat{v}_{it}$ is included as an additional regressor.
+If $\hat{v}_{it}$ is statistically significant, it confirms endogeneity and justifies the CF correction.
+
+Standard errors are clustered at the provincial level (province-clustered SE) to correct for serial correlation and heteroscedasticity at the municipality level.
+
+\subsection{Identification Assumptions}
+\label{sec:supuestos}
+
+\subsubsection*{Stable Unit Treatment Value Assumption (SUTVA)}
+
+To ensure the validity of the CRE+CF estimates, the SUTVA assumption is maintained.
+Since solid waste management and budget execution in Peru fall under the strict district-level competence of the Organic Law of Municipalities (Law No.\ 27972), we assume that expenditure in district $i$ generates no spillover effects on waste management outcomes in district $j$.
+This premise is reasonable because: (i) public cleaning services are non-exportable by jurisdictional definition; (ii) final disposal infrastructure (sanitary landfills) operated predominantly at the district scale during 2015--2019; and (iii) waste concession contracts did not cross district boundaries in the analysis period, according to RENAMU records.
+
+\subsubsection*{Exogeneity of the FONCOMUN Instrument}
+
+As a robustness check, the FONCOMUN intergovernmental transfer is used as an instrument for $\ln G_{it}$.
+The exclusion restriction requires that FONCOMUN affects waste management outcomes only through public cleaning expenditure, not directly.
+Following \citet{ConleyHansenRossi2012}, we report plausible exogeneity bounds to assess the robustness of the exclusion restriction to local deviations.
+
+\subsubsection*{Parallel Trends (TWFE)}
+
+TWFE validity requires that, in the absence of expenditure variation, municipalities would have followed parallel trajectories in the outcome variables.
+We verify this assumption through pre-trend tests using the lag $\ln G_{it-1}$ (DL(1) specification) and the event study analysis presented in Appendix~\cref{sec:appendix_pretendencias}.
+
+\subsection{Models by Dimension}
+\label{sec:modelos_dimension}
+
+\subsubsection*{D1 --- Collection Efficiency}
+
+For collection frequency (FR: 1=daily, 5=never), we estimate an Ordered Probit CRE+CF given the ordinal nature of the variable.
+For quantity collected (QPRS, in kg/day), we use a log-log OLS model with a zero-collection indicator (corner solution).
+For service coverage (CSRS: 1$<$25\%, 4$>$75\%), we estimate an Ordered Probit CRE+CF analogous to that for FR.
+
+\subsubsection*{D2 --- Municipal Planning}
+
+The planning index (PI: sum of 5 binary instruments, range 0--5) is estimated with OLS CRE+CF.
+Additionally, each binary component (PIGARS, PMRS, SRRS, PTRS, PSFRSRS) is modeled with Probit CRE+CF to identify which instruments respond to expenditure.
+
+\subsubsection*{D3 --- Adequate Final Disposal}
+
+For sanitary landfill use (RS: binary), we use Probit CRE+CF.
+For the proportion of waste sent to sanitary landfills (PRS $\in [0,1]$), we apply a Fractional Logit \citep{PapkeWooldridge1996} with the control function integrated.
+
+\subsection{Multiple Testing Correction}
+\label{sec:bonferroni}
+
+The three primary hypotheses (H1: effect on FR; H2: effect on PI; H3: effect on PRS) are tested simultaneously using the Bonferroni-Holm correction to control the familywise error rate.
+Secondary comparisons within each dimension (D2 components, D1 sub-models) are reported without multiplicity correction, following standard practice for pre-registered exploratory secondary analyses.
+
+\subsection{Two-Stage Bootstrap Inference}
+\label{sec:bootstrap}
+
+For nonlinear second-stage models (Ordered Probit, Probit, and Fractional Logit), analytical standard errors understate true sampling variability because they do not incorporate the estimation error of $\hat{v}_{it}$ from the first stage \citep{Wooldridge2015}.
+To correct this inference bias, we implement a two-stage bootstrap with $B = 999$ replications, resampling by provincial cluster in both stages simultaneously: in each replication, the first stage (OLS with Mundlak means) is re-estimated to obtain a new $\hat{v}_{it}^{(b)}$, which is then incorporated into the corresponding second stage.
+The standard errors reported in \cref{tab:resultados_principales} and in the component tables are the standard deviations of the bootstrap distribution of the coefficients and average marginal effects (AME).
+For OLS models (QPRS and PI), analytical province-clustered standard errors are asymptotically valid \citep{Wooldridge2015} and are reported directly; the bootstrap confirms concordance with analytical standard errors in both cases.
+
+\subsection{Identification Frontier}
+\label{sec:frontera}
+
+The identifying variation in the CRE+CF estimator comes from within-municipality expenditure fluctuations, net of the municipality time mean ($\bar{G}_{i}$): formally, the estimator exploits $\tilde{G}_{it} = \ln G_{it} - \bar{G}_{i}$, i.e., transitory deviations of expenditure from each municipality's historical level.
+This component is purged of permanent unobservable heterogeneity --- structural institutional capacity, geography, fiscal history --- which the Mundlak device absorbs in the first stage.
+
+The identification frontier that the design cannot cross consists of time-varying confounders correlated with $\tilde{G}_{it}$.
+The archetypal example is a change in local political capacity: a newly elected, technically competent mayor may simultaneously increase public cleaning expenditure and waste management quality in the same period, generating a spurious correlation that the control function cannot eliminate because the residual $\hat{v}_{it}$ does not distinguish between an exogenous expenditure shock and a management capacity shock.
+Robustness checks address this risk from multiple angles: the DL(1) test rules out pre-existing trends and anticipation effects; the statistical significance of $\hat{v}_{it}$ in all models confirms the direction of the bias; and the \citet{Oster2019} bounds quantify the magnitude of the static omitted variable bias required to nullify the effects (Appendix~\ref{sec:appendix_oster}).
+However, none of these tests definitively rules out a coincident time-varying confounder.
+The estimated effects should be interpreted as conditional effects under the CRE assumption --- that no heterogeneous unobserved temporal trends persist across municipalities --- rather than as local average treatment effects in the strict sense.
+Integration of the FONCOMUN transfer as an external instrument is the identification extension that would recover the LATE for the subgroup of municipalities whose expenditure responds to variations in that transfer, converting the conditional effects reported here into verifiable local causal effects.

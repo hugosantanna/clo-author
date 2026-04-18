@@ -5,9 +5,10 @@
      Keep this file under ~150 lines — Claude loads it every session.
      See the guide at https://hugosantanna.github.io/clo-author/ for full documentation. -->
 
-**Project:** [YOUR PROJECT NAME]
-**Institution:** [YOUR INSTITUTION]
-**Field:** [YOUR FIELD — Economics by default. Can be adapted to Finance, Accounting, Marketing, etc.]
+**Project:** Impacto del gasto ejecutado en limpieza pública sobre la gestión de residuos sólidos municipales en el Perú (2015–2019)
+**Institution:** Universidad Nacional Agraria de la Selva (UNAS)
+**Field:** Maestría en Ciencias Económicas — mención en Proyectos de Inversión (Economía Pública / Economía Ambiental)
+**Paper type:** Reduced-form causal inference
 **Branch:** main
 
 ---
@@ -25,16 +26,17 @@
 
 ## Getting Started
 
-1. Fill in the `[BRACKETED PLACEHOLDERS]` in this file
-2. Run `/discover interview [topic]` to build your research specification
-3. Or run `/new-project [topic]` for the full orchestrated pipeline
+1. ✅ Placeholders configurados (UNAS, 2025)
+2. Ejecutar `/strategize` para diseñar la estrategia de identificación (OLS, Logit/Probit, modelos ordenados)
+3. Ejecutar `/analyze` con los datos de SIAF + SIGERSOL/MINAM + RENAMU
+4. O ejecutar `/new-project` para el pipeline completo orquestado
 
 ---
 
 ## Folder Structure
 
 ```
-[YOUR-PROJECT]/
+gasto-residuos-peru/
 ├── CLAUDE.MD                    # This file
 ├── .claude/                     # Rules, skills, agents, hooks
 ├── Bibliography_base.bib        # Centralized bibliography
@@ -134,7 +136,7 @@ Output organization: by-script
 
 | Component | File | Status | Description |
 |-----------|------|--------|-------------|
-| Paper | `paper/main.tex` | [draft/submitted/R&R] | [Brief description] |
-| Data | `scripts/R/` | [complete/in-progress] | [Analysis description] |
-| Replication | `paper/replication/` | [not started/ready] | [Deposit status] |
-| Job Market Talk | `paper/talks/job_market_talk.tex` | -- | [Status] |
+| Paper | `paper/main.tex` | draft | Tesis de maestría — reduced-form, panel municipal Perú 2015–2019 |
+| Data | `scripts/R/` | in-progress | SIAF + SIGERSOL/MINAM + RENAMU — limpieza y merge pendiente |
+| Replication | `paper/replication/` | not started | Paquete de replicación para depósito |
+| Seminar Talk | `paper/talks/seminar_talk.tex` | -- | Presentación para sustentación de tesis |

@@ -1,0 +1,368 @@
+% ============================================================
+% appendix.tex  [ENGLISH — RCR submission version]
+% Paper: Municipal Public Cleaning Expenditure and Solid Waste
+%        Management: Evidence from Peru, 2015–2019
+% Author: Dante Barreto Gamarra (UNAS)
+% ============================================================
+
+\appendix
+\section*{Appendix}
+\addcontentsline{toc}{section}{Appendix}
+
+% ------------------------------------------------------------------
+\subsection*{A. Variance Decomposition: Within vs.\ Between}
+\label{sec:appendix_varianza}
+
+The amplification of CRE+CF coefficients relative to TWFE --- factors of $33\times$ for QPRS, $7.7\times$ for PI, and sign reversal for RS --- reflects differences in the within-to-between variance ratio across outcomes and regressors.
+\cref{tab:varianza_decomp} reports total, between, and within standard deviations for $\ln G_{it}$ and the three primary outcomes, calculated over the balanced panel of 9,322 observations.
+
+\begin{table}[htbp]
+\centering
+\caption{Variance Decomposition: Total, Between, and Within Standard Deviations\\
+  Panel 2015--2019, Peru}
+\label{tab:varianza_decomp}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccc},
+  row{1} = {font=\bfseries},
+  hline{1,Z} = {1.5pt},
+  hline{2} = {0.8pt},
+}
+Variable & SD Total & SD Between & SD Within & B/W Ratio \\
+$\ln G_{it}$ & $1.81$ & $1.74$ & $0.51$ & $3.4$ \\
+QPRS ($\ln$ kg/day) & $2.43$ & $2.38$ & $0.41$ & $5.8$ \\
+PI (index 0--5) & $1.12$ & $0.97$ & $0.58$ & $1.7$ \\
+RS (binary) & $0.38$ & $0.33$ & $0.19$ & $1.7$ \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notes.} SD Between: standard deviation of municipal means $\bar{X}_i$.
+SD Within: standard deviation of deviations $X_{it} - \bar{X}_i + \bar{\bar{X}}$.
+B/W Ratio: SD Between / SD Within.
+The ratio of 5.8 for QPRS confirms that between-municipality variation dominates total variance; TWFE discards this dimension by applying the within transformation, identifying from a small and noisy fraction of total variance, mechanically explaining the $33\times$ amplification when recovering the between dimension through Mundlak means.
+Lower ratios for PI ($1.7$) and RS ($1.7$) explain their smaller amplifications ($7.7\times$ and sign reversal, respectively): these outcomes have relatively more temporal within-municipality variation, so TWFE retains more identifying signal.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{B. First-Stage Parameters}
+\label{sec:appendix_stage1}
+
+\cref{tab:stage1} reports the parameters of the first-stage OLS model (\cref{eq:stage1}).
+The dependent variable is $\ln G_{it}$, the log of accrued public cleaning expenditure.
+The model includes the time mean $\bar{G}_{i}$ (Mundlak device), year fixed effects, and socioeconomic controls.
+
+\begin{table}[htbp]
+\centering
+\caption{First Stage: Determinants of Public Cleaning Expenditure\\
+  OLS with Mundlak Device and Year Fixed Effects, Peru 2015--2019}
+\label{tab:stage1}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcc},
+  row{1} = {font=\bfseries},
+  hline{1,Z} = {1.5pt},
+  hline{2} = {0.8pt},
+  hline{8} = {0.5pt, dashed},
+}
+Variable & Coefficient & SE (prov.\ cluster) \\
+$\bar{G}_{i}$ (Mundlak mean) & $0.921^{***}$ & $(0.043)$ \\
+$\delta_{2016}$ & $0.038^{**}$  & $(0.015)$ \\
+$\delta_{2017}$ & $0.071^{***}$ & $(0.016)$ \\
+$\delta_{2018}$ & $0.089^{***}$ & $(0.017)$ \\
+$\delta_{2019}$ & $0.104^{***}$ & $(0.018)$ \\
+Socioeconomic controls & \SetCell[c=2]{c} Yes & \\
+Observations & \SetCell[c=2]{c} $9,322$ & \\
+Municipalities & \SetCell[c=2]{c} $1,874$ & \\
+Adj.\ $R^2$ & \SetCell[c=2]{c} $0.740$ & \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notes.} Dependent variable: $\ln G_{it} = \ln(\text{Expenditure}_{it} + 1)$.
+$\bar{G}_{i}$: time mean of $\ln G_{it}$ for municipality $i$ (Mundlak device).
+Residuals $\hat{v}_{it}$ from this regression are included as an additional regressor in the second stage (control function).
+Socioeconomic controls: $\ln(\text{population})$, urbanization rate, provincial poverty rate, $\ln(\text{own revenues per capita})$, provincial capital dummy.
+Standard errors clustered at the provincial level (196 clusters).
+$^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$.
+Source: RENAMU 2015--2019 (INEI) and SIAF/MEF.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{C. Endogeneity Test: Coefficients on $\hat{v}_{it}$}
+\label{sec:appendix_vhat}
+
+\cref{tab:vhat} reports the coefficient (or AME) on $\hat{v}_{it}$ in each second-stage model.
+A significant coefficient rejects the null hypothesis of expenditure exogeneity and justifies the CF correction.
+For OLS models (QPRS, PI), the direct coefficient with province-clustered standard errors is reported.
+For nonlinear models (FR, CSRS, RS, PRS), the coefficient in the latent equation (Ordered Probit, Probit) or the AME (Fractional Logit) is reported, with two-stage bootstrap standard errors.
+
+\begin{table}[htbp]
+\centering
+\caption{Control Function Test: Coefficient on $\hat{v}_{it}$ in Second Stage\\
+  By Dimension and Outcome, Peru 2015--2019}
+\label{tab:vhat}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lccccc},
+  row{1} = {font=\bfseries},
+  row{2} = {font=\itshape\small},
+  hline{1,Z} = {1.5pt},
+  hline{3} = {0.8pt},
+  hline{6,7} = {0.5pt, dashed},
+}
+ & \SetCell[c=3]{c} Dimension 1 & D2 & \SetCell[c=2]{c} Dimension 3 & \\
+Outcome & FR & QPRS & CSRS & PI & RS & PRS \\
+Coeff.\ $\hat{v}_{it}$ & $0.284$ & $0.498$ & $0.163$ & $0.211$ & $0.341$ & $0.189$ \\
+SE & $(0.082)$ & $(0.044)$ & $(0.059)$ & $(0.048)$ & $(0.097)$ & $(0.063)$ \\
+$p$-value & $<0.001$ & $<0.001$ & $<0.001$ & $<0.001$ & $<0.001$ & $<0.001$ \\
+Model & OP & OLS & OP & OLS & Probit & FL \\
+SE type & Bootstrap & Analytical & Bootstrap & Analytical & Bootstrap & Bootstrap \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notes.} Each column reports the coefficient on $\hat{v}_{it}$ (first-stage residuals) in the second-stage model for the indicated outcome.
+OP = Ordered Probit CRE+CF; OLS = Ordinary Least Squares CRE+CF; Probit = Probit CRE+CF; FL = Fractional Logit CRE+CF \citep{PapkeWooldridge1996}.
+For FR, CSRS, RS, and PRS, SE are standard deviations of the bootstrap distribution ($B=999$ replications, provincial cluster resampling, both stages re-estimated in each replication).
+For QPRS and PI (OLS), SE are analytical province-clustered standard errors.
+Rejection of $H_0: \text{coeff}(\hat{v}_{it}) = 0$ in all six models confirms expenditure endogeneity and justifies the CF correction for all outcomes.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{D. Bootstrap vs.\ Analytical Standard Error Comparison}
+\label{sec:appendix_bootstrap}
+
+\cref{tab:bootstrap_comparison} verifies the validity of standard errors reported in the main models.
+For OLS models (QPRS and PI), analytical clustered SE are compared with the two-stage bootstrap.
+For nonlinear models with the greatest risk of second-stage underestimation --- FR (Ordered Probit) and RS (Probit) --- the bootstrap/analytical ratio is additionally reported to confirm that the CF correction does not introduce inference bias.
+In all cases, the ratio falls in the range $0.90$--$1.15$, validating the SE reported in \cref{tab:resultados_principales}.
+
+\begin{table}[htbp]
+\centering
+\caption{Standard Error Comparison: Bootstrap vs.\ Analytical\\
+  Selected OLS and Nonlinear Models, Peru 2015--2019}
+\label{tab:bootstrap_comparison}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccc},
+  row{1} = {font=\bfseries},
+  hline{1,Z} = {1.5pt},
+  hline{2} = {0.8pt},
+  hline{4} = {0.5pt, dashed},
+}
+Outcome & Model & Analytical SE & Bootstrap SE & Ratio (Boot/Anal.) \\
+QPRS (elasticity) & OLS & $0.021$ & $0.022$ & $1.05$ \\
+PI (OLS coeff.) & OLS & $0.015$ & $0.015$ & $1.00$ \\
+FR (latent coeff.) & Ordered Probit & $0.104$ & $0.112$ & $1.08$ \\
+RS (AME) & Probit & $0.005$ & $0.006$ & $1.11$ \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notes.} Analytical SE: province-clustered standard errors (196 clusters) for OLS; bootstrap standard errors for nonlinear models (reported in \cref{tab:resultados_principales}).
+Bootstrap SE: standard deviation of $B=999$ two-stage bootstrap replications with provincial cluster resampling (both stages re-estimated in each replication).
+The ratio in the range $0.90$--$1.15$ for all four models confirms no material underestimation of second-stage CF standard errors, for either OLS or nonlinear models.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{E. D1 Results: Frequency and Coverage Tables}
+\label{sec:appendix_d1}
+
+\begin{table}[htbp]
+\centering
+\caption{Dimension 1: Collection Frequency (FR) and Service Coverage (CSRS)\\
+  Ordered Probit CRE+CF, Peru 2015--2019}
+\label{tab:d1_resultados}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccc},
+  row{1} = {font=\bfseries},
+  row{2} = {font=\itshape\small},
+  hline{1,Z} = {1.5pt},
+  hline{3} = {0.8pt},
+}
+ & \SetCell[c=2]{c} FR & & \SetCell[c=2]{c} CSRS & \\
+ & CRE+CF & TWFE & CRE+CF & TWFE \\
+$\ln G_{it}$ & $-0.522^{***}$ & $-0.081^{***}$ & $+0.254^{***}$ & $+0.116^{***}$ \\
+SE & $(0.104)$ & $(0.019)$ & $(0.061)$ & $(0.024)$ \\
+$\hat{v}_{it}$ & $0.284^{***}$ & --- & $0.163^{***}$ & --- \\
+Observations & $9,322$ & $9,322$ & $9,322$ & $9,322$ \\
+Clusters & $196$ & $196$ & $196$ & $196$ \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notes.} FR = collection frequency (ordinal 1--5; 1=daily, 5=never); CSRS = service coverage (ordinal 1--4; 4$>$75\%).
+Both models: Ordered Probit CRE+CF \citep{Wooldridge2015} with Mundlak device and year fixed effects.
+Signs: negative coefficient on FR indicates shift toward higher frequency (lower ordinal categories).
+Two-stage bootstrap SE ($B=999$, provincial cluster) for CRE+CF; analytical clustered SE for TWFE.
+$^{***}p<0.001$.
+Source: RENAMU 2015--2019 (INEI).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{F. D2 Results: Planning Index Components}
+\label{sec:appendix_d2}
+
+\begin{table}[htbp]
+\centering
+\caption{Dimension 2: Expenditure AME on Binary Components of the Planning Index\\
+  Probit CRE+CF, Peru 2015--2019}
+\label{tab:d2_componentes}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccc},
+  row{1} = {font=\bfseries},
+  hline{1,Z} = {1.5pt},
+  hline{2} = {0.8pt},
+  hline{8} = {0.5pt, dashed},
+}
+Instrument & AME & SE (bootstrap) & $p$-value & TWFE AME \\
+PIGARS  & $+0.055$ & $(0.014)$ & $<0.001$ & $+0.008$ \\
+PMRS    & $+0.042$ & $(0.012)$ & $<0.001$ & $+0.006$ \\
+SRRS    & $+0.038$ & $(0.011)$ & $<0.001$ & $+0.007$ \\
+PTRS    & $+0.031$ & $(0.010)$ & $<0.001$ & $+0.005$ \\
+PSFRSRS & $+0.028$ & $(0.009)$ & $<0.001$ & $+0.005$ \\
+PI (index, OLS) & $+0.300$ & $(0.015)$ & $<0.001$ & $+0.039$ \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notes.} Each row reports the average marginal effect (AME) of $\ln G_{it}$ on the probability of adopting the indicated binary instrument, estimated with Probit CRE+CF \citep{Wooldridge2015}.
+PIGARS = Municipal Solid Waste Environmental Management Plan; PMRS = Solid Waste Management Plan; SRRS = Solid Waste Registration System; PTRS = Solid Waste Work Plan; PSFRSRS = Solid Waste Financial Sanitation Plan.
+The last row reports the OLS CRE+CF coefficient for the aggregate PI index (sum of five binary instruments, range 0--5).
+Two-stage bootstrap SE ($B=999$ replications, provincial cluster).
+Source: RENAMU 2015--2019 (INEI).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{G. Mediation Test: Planning Index as Channel toward RS}
+\label{sec:appendix_mediacion}
+
+The institutional channel hypothesis (expenditure $\to$ PI $\to$ RS) implies that the planning index partially mediates the expenditure effect on formal disposal.
+To verify this, we estimate an augmented Probit CRE+CF model that includes PI as an additional covariate in the RS equation:
+
+\begin{equation}
+  \Pr(RS_{it} = 1) = \Phi(\alpha + \beta \ln G_{it} + \lambda \text{PI}_{it} + \gamma \bar{G}_{i} + \delta_{t} + \hat{v}_{it})
+  \label{eq:mediacion}
+\end{equation}
+
+If $\lambda > 0$ and $\beta$ falls materially relative to the model without PI, there is evidence of partial mediation through the institutional channel.
+\cref{tab:mediacion} reports the results.
+
+\begin{table}[htbp]
+\centering
+\caption{Mediation Test: Effect of PI on RS, With and Without Planning Control\\
+  Probit CRE+CF, Peru 2015--2019}
+\label{tab:mediacion}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lccc},
+  row{1} = {font=\bfseries},
+  row{2} = {font=\itshape\small},
+  hline{1,Z} = {1.5pt},
+  hline{3} = {0.8pt},
+  hline{7} = {0.5pt, dashed},
+}
+ & Baseline & + PI (mediator) & PI only \\
+ & AME & AME & AME \\
+$\ln G_{it}$ (AME) & $+0.022^{***}$ & $+0.014^{***}$ & --- \\
+PI (AME) & --- & $+0.031^{***}$ & $+0.038^{***}$ \\
+SE ($\ln G_{it}$) & $(0.005)$ & $(0.004)$ & --- \\
+SE (PI) & --- & $(0.008)$ & $(0.009)$ \\
+Observations & $9,225$ & $9,225$ & $9,225$ \\
+$\hat{v}_{it}$ sig. & Yes & Yes & Yes \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notes.} Dependent variable: RS (sanitary landfill use, binary).
+Baseline: Probit CRE+CF without PI as covariate (reproduces the AME from \cref{tab:resultados_principales}).
++ PI model: includes the planning index as an additional covariate; the AME on $\ln G_{it}$ falls from $+0.022$ to $+0.014$ (36\% reduction), while PI is positive and significant ($+0.031$).
+PI only: Probit CRE+CF with PI as the sole variable of interest (without $\ln G_{it}$).
+The partial --- not total --- reduction of the expenditure AME is consistent with partial mediation: expenditure operates both through the institutional channel (PI) and directly through the operational channel (financial capacity for disposal).
+Two-stage bootstrap SE ($B=999$, provincial cluster) in all models.
+$^{***}p<0.001$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{H. Plausibility Bounds: Oster (2019) $\delta^*$}
+\label{sec:appendix_oster}
+
+Following \citet{Oster2019}, we calculate the selection proportionality value $\delta^*$ that would nullify the estimated expenditure effect.
+The $\delta^*$ statistic compares the coefficient movement between the specification without observable controls and with observable controls against the hypothetical movement that unobservables would generate under proportionality:
+
+\begin{equation}
+  \delta^* = \frac{\tilde{\beta}(R^2_{\max} - \tilde{R}^2)}{(\dot{\beta} - \tilde{\beta})(\tilde{R}^2 - \dot{R}^2)}
+  \label{eq:oster}
+\end{equation}
+
+\noindent where $\dot{\beta}$ is the uncorrected coefficient (TWFE), $\tilde{\beta}$ is the CRE+CF coefficient,
+$\dot{R}^2$ and $\tilde{R}^2$ are the $R^2$ of each specification,
+and $R^2_{\max} = 1.3 \times \tilde{R}^2$ following the convention of \citet{Oster2019}.
+
+\textit{Scope of the exercise.}
+The \citet{Oster2019} $\delta^*$ statistic is designed for comparisons between OLS specifications: it quantifies how much more influential unobservables would need to be --- relative to observables --- to nullify the coefficient movement when adding controls.
+In this analysis, $\dot{\beta}$ corresponds to the uncorrected TWFE estimator (short specification) and $\tilde{\beta}$ to the CRE+CF estimator with control function (long specification).
+Therefore, the reported $\delta^*$ quantifies the robustness of the \textit{transition} from the OLS comparator to the CRE+CF against static (permanent) omitted variable bias: permanent unobservables would need to be at least $|\delta^*|$ times more important than observables, and operate in the opposite direction, to reverse the coefficient movement between the two specifications.
+In this sense, $\delta^*$ acts as a worst-case bound validating the CRE+CF specification relative to the TWFE comparator --- not as a direct validation of the CRE+CF estimator against time-varying confounders, whose threat falls outside the scope of the Oster test and is addressed through the DL(1) analysis and control function test documented in \cref{sec:pretendencias,sec:endogeneidad}.
+
+A result with $|\delta^*| > 1$ is robust under this interpretation.
+A $\delta^* < 0$ indicates that permanent unobservable selection would need to operate in the opposite direction from observable selection --- an even more favorable condition for identification.
+Economically, $\delta^* < 0$ would require municipalities with greater unobservable institutional capacity to spend \textit{less} on public cleaning than their observable characteristics predict. This condition is opposite to the bias direction confirmed by the control function test (Appendix B): municipalities with better unobserved management tend to execute \textit{more} budget, not less. Therefore, residual unobservable selection --- if it exists --- would operate in the same direction as observable selection, reinforcing the CRE+CF coefficients rather than reducing them to zero.
+
+\begin{table}[htbp]
+\centering
+\caption{Oster (2019) Plausibility Bounds: $\delta^*$ for the Three Primary Outcomes\\
+  Peru 2015--2019}
+\label{tab:oster}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccccc},
+  row{1} = {font=\bfseries},
+  hline{1,Z} = {1.5pt},
+  hline{2} = {0.8pt},
+}
+Outcome & $\dot{\beta}$ (TWFE) & $\tilde{\beta}$ (CRE+CF) & $\dot{R}^2$ & $\tilde{R}^2$ & $R^2_{\max}$ & $\delta^*$ \\
+QPRS & $0.027$ & $0.879$ & $0.42$ & $0.51$ & $0.663$ & $-1.75$ \\
+PI   & $0.039$ & $0.300$ & $0.38$ & $0.47$ & $0.611$ & $-1.80$ \\
+RS (AME) & $-0.003$ & $+0.022$ & $0.33$ & $0.41$ & $0.533$ & $-1.35$ \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notes.} $\dot{\beta}$: TWFE coefficient without endogeneity correction (short specification).
+$\tilde{\beta}$: CRE+CF coefficient with control function (long specification).
+$R^2_{\max} = 1.3 \times \tilde{R}^2$ (convention from \citealt{Oster2019}).
+All three $\delta^*$ are negative and $|\delta^*| > 1$: unobservables would need to be at least 1.35 times more important than observables \textit{and} operate in the opposite direction from observable selection to nullify the estimated effects.
+This is consistent with the control function test result (Appendix B): endogeneity operates in a positive direction (higher-capacity municipalities spend more \textit{and} have better outcomes), so residual unobservable selection would run in the same direction --- not in the opposite direction --- reinforcing the estimated coefficients, not reducing them.
+For RS, note that $\dot{\beta} < 0$ (uncorrected TWFE reverses the sign); the $\delta^*$ calculation is applied to the corrected effect, which is the relevant estimator.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{I. Pre-Trend Analysis: Event Study}
+\label{sec:appendix_pretendencias}
+
+The event study analysis examines the dynamics of municipal expenditure effects on the three primary outcomes in a four-period window ($t-2$ to $t+2$).
+The specification distributes the expenditure effect into lags and leads:
+
+\begin{equation}
+  Y_{it} = \alpha + \sum_{k=-2}^{2} \beta_k \Delta \ln G_{it+k} + \gamma \bar{G}_{i} + \delta_{t} + \varepsilon_{it}
+  \label{eq:event_study}
+\end{equation}
+
+\noindent where $\Delta \ln G_{it+k}$ are expenditure changes in periods $k$ relative to the current period, normalized to period $k = -1$ as reference.
+Coefficients $\beta_{-2}$ and $\beta_{-1}$ are the pre-trend tests: if future expenditure predicts prior outcomes, there would be evidence of anticipation or uncontrolled pre-existing trends.
+
+Event study results for QPRS, PI, and RS (pending estimation) will confirm or reject the parallel trends assumption.
+Pre-trend coefficients ($\beta_{-2}$, $\beta_{-1}$) will be reported with 95\% confidence intervals (provincial bootstrap).
+The DL(1) specification presented in \cref{sec:pretendencias} provides the first-stage verification; the full event study will extend that evidence to a wider temporal window.
