@@ -1,5 +1,7 @@
 # Clo-Author
 
+[![Version](https://img.shields.io/github/v/release/hugosantanna/clo-author?style=flat-square&color=b44dff&label=version)](CHANGELOG.md)
+
 A Claude Code scaffold for empirical economics research. Literature review to journal submission, with 18 agents that review each other's work.
 
 Guide: [hugosantanna.github.io/clo-author](https://hugosantanna.github.io/clo-author/)
@@ -185,8 +187,6 @@ Every output needs human review. Claude plans and executes; you decide what ship
 ---
 
 ## Origin
-
-Built on [Pedro Sant'Anna's claude-code-my-workflow](https://github.com/pedrohcgs/claude-code-my-workflow) (Econ 730, Emory). Reoriented from lectures to empirical research.
 
 Maintained by [Hugo Sant'Anna](https://hsantanna.org) at UAB.
 
