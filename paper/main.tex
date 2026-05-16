@@ -1,0 +1,166 @@
+% ============================================================
+% main.tex
+% Tesis: Impacto del Gasto en Limpieza Pública sobre
+%        Gestión de Residuos Sólidos Municipales, Perú 2015-2019
+% Autor: Dante Barreto Gamarra (UNAS)
+% ============================================================
+\documentclass[12pt]{article}
+
+% ====== Page Layout and Basic Formatting ======
+\usepackage[left=1.0in,right=1.0in,top=1.0in,bottom=1.0in]{geometry}
+\usepackage{setspace}
+\doublespacing
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% ====== Typography and Fonts ======
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[normalem]{ulem}
+\usepackage[T1]{fontenc}
+
+% ====== Section Styling ======
+\usepackage{titlesec}
+\usepackage[title]{appendix}
+\usepackage{titling}
+\pretitle{\begin{center}\large\bfseries}
+\posttitle{\end{center}}
+\preauthor{\begin{center}\normalsize}
+\postauthor{\end{center}}
+\predate{\begin{center}\normalsize}
+\postdate{\end{center}}
+
+% ====== Math Packages ======
+\usepackage{amssymb, amsmath, amsfonts, mathtools}
+\usepackage{dsfont}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{hyp}{Hypothesis}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\1}[1]{\mathds{1}\left[#1\right]}
+
+% ====== Table Packages ======
+\usepackage{array, booktabs, makecell, cellspace}
+\usepackage{siunitx}
+\usepackage[flushleft]{threeparttable}
+\usepackage{rotating, tabularx}
+\usepackage{tabularray}
+\UseTblrLibrary{booktabs, siunitx}
+
+% ====== Figure and Caption Packages ======
+\usepackage{graphicx, subcaption}
+\usepackage{pdflscape, tikz}
+\usepackage{caption}
+\captionsetup{font=small, labelfont=bf, justification=justified}
+\captionsetup[figure]{labelfont=bf}
+\usepackage{float}
+
+% ====== List Formatting ======
+\usepackage{enumitem}
+
+% ====== Bibliography and Citation (biblatex + biber) ======
+\usepackage{xurl}
+\usepackage{xcolor}
+\definecolor{citationcolor}{RGB}{0, 127, 255}
+
+\usepackage[backend=biber,
+            style=authoryear,
+            maxcitenames=3,
+            mincitenames=1,
+            maxbibnames=99,
+            giveninits=true,
+            uniquename=false,
+            uniquelist=true,
+            dashed=false,
+            urldate=long,
+            url=true,
+            natbib=true]{biblatex}
+\addbibresource{../Bibliography_base.bib}
+
+% Citation color settings
+\renewcommand*{\nameyeardelim}{\addcomma\space}
+\DeclareCiteCommand{\cite}
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \printtext[bibhyperref]{\color{citationcolor}\usebibmacro{cite}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+\DeclareCiteCommand{\parencite}[\mkbibparens]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \printtext[bibhyperref]{\color{citationcolor}\usebibmacro{cite}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+% ====== Custom Column Types ======
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\arraybackslash\hspace{0pt}}m{#1}}
+
+% ====== Footnote Settings ======
+\interfootnotelinepenalty=10000
+\setlength{\footnotesep}{0.5cm}
+
+% ====== URL Bleeding Fixes ======
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+\setcounter{biburlnumpenalty}{9000}
+
+% ====== Hyperref (loaded second-to-last) ======
+\usepackage[hidelinks, breaklinks, colorlinks=true,
+            linkcolor=citationcolor, citecolor=citationcolor,
+            urlcolor=citationcolor]{hyperref}
+
+% ====== Cleveref (loaded after hyperref) ======
+\usepackage[nameinlink]{cleveref}
+
+% ============================================================
+\title{Impacto del Gasto Ejecutado en Limpieza Pública sobre la\\
+       Gestión de Residuos Sólidos Municipales en el Perú\\
+       (2015--2019)\thanks{Tesis presentada para optar el Grado de Magíster en Ciencias Económicas, Universidad Nacional Agraria de la Selva (UNAS), Tingo María, Perú.}}
+
+\author{Dante Barreto Gamarra\thanks{Programa de Maestría en Ciencias Económicas, UNAS. Correo: \href{mailto:dbarretogamarra@gmail.com}{dbarretogamarra@gmail.com}}}
+
+\date{Abril 2026}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+\setcounter{page}{1}
+
+\input{sections/abstract}
+
+\newpage
+\tableofcontents
+
+\newpage
+\input{sections/empirical_strategy}
+
+\newpage
+\input{sections/results}
+
+\newpage
+\input{sections/discussion}
+
+\newpage
+\input{sections/conclusion}
+
+\newpage
+\input{sections/appendix}
+
+\clearpage
+\small \printbibliography
+
+\end{document}

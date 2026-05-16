@@ -1,0 +1,371 @@
+% ============================================================
+% appendix.tex
+% Apéndice: Tablas Suplementarias
+% Tesis: Impacto del Gasto en Limpieza Pública sobre
+%        Gestión de Residuos Sólidos Municipales, Perú 2015-2019
+% Autor: Dante Barreto Gamarra (UNAS)
+% ============================================================
+
+\appendix
+\section*{Apéndice}
+\addcontentsline{toc}{section}{Apéndice}
+
+% ------------------------------------------------------------------
+\subsection*{A. Descomposición de Varianza: Within vs.\ Between}
+\label{sec:appendix_varianza}
+
+La amplificación de los coeficientes CRE+CF respecto al TWFE ---factores de $33\times$ para QPRS, $7{,}7\times$ para PI y reversión de signo para RS--- refleja diferencias en la proporción de varianza within vs.\ between entre outcomes y regresores.
+La \cref{tab:varianza_decomp} reporta las desviaciones estándar totales, between y within para $\ln G_{it}$ y los tres outcomes primarios, calculadas sobre el panel balanceado de 9,322 observaciones.
+
+\begin{table}[htbp]
+\centering
+\caption{Descomposición de Varianza: Desviaciones Estándar Total, Between y Within\\
+  Panel 2015--2019, Perú}
+\label{tab:varianza_decomp}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccc},
+  row{1} = {font=\bfseries},
+  hline{1,Z} = {1.5pt},
+  hline{2} = {0.8pt},
+}
+Variable & SD Total & SD Between & SD Within & Ratio B/W \\
+$\ln G_{it}$ & $1{,}81$ & $1{,}74$ & $0{,}51$ & $3{,}4$ \\
+QPRS ($\ln$ kg/día) & $2{,}43$ & $2{,}38$ & $0{,}41$ & $5{,}8$ \\
+PI (índice 0--5) & $1{,}12$ & $0{,}97$ & $0{,}58$ & $1{,}7$ \\
+RS (binario) & $0{,}38$ & $0{,}33$ & $0{,}19$ & $1{,}7$ \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notas.} SD Between: desviación estándar de las medias municipales $\bar{X}_i$.
+SD Within: desviación estándar de los desvíos $X_{it} - \bar{X}_i + \bar{\bar{X}}$.
+Ratio B/W: cociente SD Between / SD Within.
+El ratio $5{,}8$ para QPRS confirma que la variación entre municipios domina la varianza total; el TWFE descarta esta dimensión al aplicar la transformación within, identificando sobre una fracción pequeña y ruidosa de la varianza total, lo que explica mecánicamente la amplificación $33\times$ al recuperar la dimensión between mediante las medias de Mundlak.
+Los ratios inferiores para PI ($1{,}7$) y RS ($1{,}7$) explican sus amplificaciones menores ($7{,}7\times$ y reversión de signo, respectivamente): estos outcomes tienen relativamente más variación temporal dentro del municipio, de modo que el TWFE retiene más señal identificante.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{B. Parámetros de la Primera Etapa}
+\label{sec:appendix_stage1}
+
+La \cref{tab:stage1} reporta los parámetros del modelo OLS de primera etapa (\cref{eq:stage1}).
+La variable dependiente es $\ln G_{it}$, el logaritmo del gasto devengado en limpieza pública.
+El modelo incluye la media temporal $\bar{G}_{i}$ (dispositivo de Mundlak), efectos fijos de año y controles socioeconómicos.
+
+\begin{table}[htbp]
+\centering
+\caption{Primera Etapa: Determinantes del Gasto en Limpieza Pública\\
+  Modelo OLS con Mundlak device y efectos fijos de año, Perú 2015--2019}
+\label{tab:stage1}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcc},
+  row{1} = {font=\bfseries},
+  hline{1,Z} = {1.5pt},
+  hline{2} = {0.8pt},
+  hline{8} = {0.5pt, dashed},
+}
+Variable & Coeficiente & SE (cluster prov.) \\
+$\bar{G}_{i}$ (Mundlak mean) & $0{,}921^{***}$ & $(0{,}043)$ \\
+$\delta_{2016}$ & $0{,}038^{**}$  & $(0{,}015)$ \\
+$\delta_{2017}$ & $0{,}071^{***}$ & $(0{,}016)$ \\
+$\delta_{2018}$ & $0{,}089^{***}$ & $(0{,}017)$ \\
+$\delta_{2019}$ & $0{,}104^{***}$ & $(0{,}018)$ \\
+Controles socioeconómicos & \SetCell[c=2]{c} Sí & \\
+Observaciones & \SetCell[c=2]{c} $9{.}322$ & \\
+Municipios & \SetCell[c=2]{c} $1{.}874$ & \\
+$R^2$ ajustado & \SetCell[c=2]{c} $0{,}740$ & \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notas.} Variable dependiente: $\ln G_{it} = \ln(\text{Gasto}_{it} + 1)$.
+$\bar{G}_{i}$: media temporal de $\ln G_{it}$ para el municipio $i$ (dispositivo de Mundlak).
+Los residuos $\hat{v}_{it}$ de esta regresión se incorporan como regresor adicional en la segunda etapa (función de control).
+Controles socioeconómicos: $\ln(\text{población})$, tasa de urbanización, pobreza provincial, $\ln(\text{ingresos propios per cápita})$, dummy capital provincial.
+Errores estándar agrupados a nivel de provincia (196 clusters).
+$^{***}p<0{,}001$; $^{**}p<0{,}01$; $^{*}p<0{,}05$.
+Fuente: RENAMU 2015--2019 (INEI) y SIAF/MEF.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{C. Test de Endogeneidad: Coeficientes sobre $\hat{v}_{it}$}
+\label{sec:appendix_vhat}
+
+La \cref{tab:vhat} reporta el coeficiente (o AME) sobre $\hat{v}_{it}$ en cada modelo de segunda etapa.
+Un coeficiente significativo rechaza la hipótesis nula de exogeneidad del gasto y justifica la corrección CF.
+Para los modelos OLS (QPRS, PI), se reporta el coeficiente directo con errores estándar clustered a nivel provincial.
+Para los modelos no lineales (FR, CSRS, RS, PRS), se reporta el coeficiente en la ecuación latente (Ordered Probit, Probit) o el AME (Fractional Logit), con errores estándar bootstrap de dos etapas.
+
+\begin{table}[htbp]
+\centering
+\caption{Test de Función de Control: Coeficiente sobre $\hat{v}_{it}$ en Segunda Etapa\\
+  Por dimensión y outcome, Perú 2015--2019}
+\label{tab:vhat}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lccccc},
+  row{1} = {font=\bfseries},
+  row{2} = {font=\itshape\small},
+  hline{1,Z} = {1.5pt},
+  hline{3} = {0.8pt},
+  hline{6,7} = {0.5pt, dashed},
+}
+ & \SetCell[c=3]{c} Dimensión 1 & D2 & \SetCell[c=2]{c} Dimensión 3 & \\
+Outcome & FR & QPRS & CSRS & PI & RS & PRS \\
+Coef.\ $\hat{v}_{it}$ & $0{,}284$ & $0{,}498$ & $0{,}163$ & $0{,}211$ & $0{,}341$ & $0{,}189$ \\
+SE & $(0{,}082)$ & $(0{,}044)$ & $(0{,}059)$ & $(0{,}048)$ & $(0{,}097)$ & $(0{,}063)$ \\
+$p$-valor & $<0{,}001$ & $<0{,}001$ & $<0{,}001$ & $<0{,}001$ & $<0{,}001$ & $<0{,}001$ \\
+Modelo & OP & OLS & OP & OLS & Probit & FL \\
+SE tipo & Bootstrap & Analítico & Bootstrap & Analítico & Bootstrap & Bootstrap \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notas.} Cada columna corresponde al coeficiente sobre $\hat{v}_{it}$ (residuos de la primera etapa) en el modelo de segunda etapa del outcome indicado.
+OP = Ordered Probit CRE+CF; OLS = Mínimos Cuadrados Ordinarios CRE+CF; Probit = Probit CRE+CF; FL = Fractional Logit CRE+CF \citep{PapkeWooldridge1996}.
+Para FR, CSRS, RS y PRS, los SE son desvíos estándar de la distribución bootstrap ($B=999$ réplicas, remuestreo por conglomerado provincial, ambas etapas re-estimadas en cada réplica).
+Para QPRS y PI (OLS), los SE son analíticos clustered a nivel provincial.
+El rechazo de $H_0: \text{coef}(\hat{v}_{it}) = 0$ en los seis modelos confirma la endogeneidad del gasto y justifica la corrección CF en todos los outcomes.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{D. Comparación SE Bootstrap vs.\ SE Analítico}
+\label{sec:appendix_bootstrap}
+
+La \cref{tab:bootstrap_comparison} verifica la validez de los errores estándar reportados en los modelos principales.
+Para los modelos OLS (QPRS y PI), se comparan los SE analíticos clustered con el bootstrap de dos etapas.
+Para los modelos no lineales con mayor riesgo de subestimación en segunda etapa ---FR (Ordered Probit) y RS (Probit)--- se reporta adicionalmente la razón bootstrap/analítico para confirmar que la corrección CF no introduce sesgo de inferencia.
+En todos los casos, la razón se sitúa en el rango $0{,}90$--$1{,}15$, validando los SE reportados en la \cref{tab:resultados_principales}.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparación de Errores Estándar: Bootstrap vs.\ Analítico\\
+  Modelos OLS y No Lineales Seleccionados, Perú 2015--2019}
+\label{tab:bootstrap_comparison}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccc},
+  row{1} = {font=\bfseries},
+  hline{1,Z} = {1.5pt},
+  hline{2} = {0.8pt},
+  hline{4} = {0.5pt, dashed},
+}
+Outcome & Modelo & SE Analítico & SE Bootstrap & Razón (Boot/Anal.) \\
+QPRS (elasticidad) & OLS & $0{,}021$ & $0{,}022$ & $1{,}05$ \\
+PI (coeficiente OLS) & OLS & $0{,}015$ & $0{,}015$ & $1{,}00$ \\
+FR (coef.\ latente) & Ordered Probit & $0{,}104$ & $0{,}112$ & $1{,}08$ \\
+RS (AME) & Probit & $0{,}005$ & $0{,}006$ & $1{,}11$ \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notas.} SE analítico: errores estándar clustered a nivel de provincia (196 clusters) para OLS; errores estándar bootstrap para modelos no lineales (reportados en \cref{tab:resultados_principales}).
+SE bootstrap: desvío estándar de la distribución de $B=999$ réplicas bootstrap de dos etapas con remuestreo por conglomerado provincial (ambas etapas re-estimadas en cada réplica).
+La razón en el rango $0{,}90$--$1{,}15$ para los cuatro modelos confirma que no existe subestimación material del error estándar en la segunda etapa CF, ni en los modelos OLS ni en los no lineales.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{E. Resultados D1: Tablas de Frecuencia y Cobertura}
+\label{sec:appendix_d1}
+
+\begin{table}[htbp]
+\centering
+\caption{Dimensión 1: Frecuencia de Recolección (FR) y Cobertura del Servicio (CSRS)\\
+  Ordered Probit CRE+CF, Perú 2015--2019}
+\label{tab:d1_resultados}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccc},
+  row{1} = {font=\bfseries},
+  row{2} = {font=\itshape\small},
+  hline{1,Z} = {1.5pt},
+  hline{3} = {0.8pt},
+}
+ & \SetCell[c=2]{c} FR & & \SetCell[c=2]{c} CSRS & \\
+ & CRE+CF & TWFE & CRE+CF & TWFE \\
+$\ln G_{it}$ & $-0{,}522^{***}$ & $-0{,}081^{***}$ & $+0{,}254^{***}$ & $+0{,}116^{***}$ \\
+SE & $(0{,}104)$ & $(0{,}019)$ & $(0{,}061)$ & $(0{,}024)$ \\
+$\hat{v}_{it}$ & $0{,}284^{***}$ & --- & $0{,}163^{***}$ & --- \\
+Observaciones & $9{.}322$ & $9{.}322$ & $9{.}322$ & $9{.}322$ \\
+Clusters & $196$ & $196$ & $196$ & $196$ \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notas.} FR = frecuencia de recolección (ordinal 1--5; 1=diaria, 5=nunca); CSRS = cobertura del servicio (ordinal 1--4; 4$>$75\%).
+Ambos modelos: Ordered Probit CRE+CF \citep{Wooldridge2015} con dispositivo de Mundlak y efectos fijos de año.
+Signos: coeficiente negativo en FR indica desplazamiento hacia mayor frecuencia (categorías inferiores del índice ordinal).
+SE bootstrap de dos etapas ($B=999$, cluster provincial) para CRE+CF; SE clustered analítico para TWFE.
+$^{***}p<0{,}001$.
+Fuente: RENAMU 2015--2019 (INEI).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{F. Resultados D2: Componentes del Índice de Planeamiento}
+\label{sec:appendix_d2}
+
+\begin{table}[htbp]
+\centering
+\caption{Dimensión 2: AME del Gasto sobre los Componentes Binarios del Índice de Planeamiento\\
+  Probit CRE+CF, Perú 2015--2019}
+\label{tab:d2_componentes}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccc},
+  row{1} = {font=\bfseries},
+  hline{1,Z} = {1.5pt},
+  hline{2} = {0.8pt},
+  hline{8} = {0.5pt, dashed},
+}
+Instrumento & AME & SE (bootstrap) & $p$-valor & TWFE AME \\
+PIGARS & $+0{,}055$ & $(0{,}014)$ & $<0{,}001$ & $+0{,}008$ \\
+PMRS   & $+0{,}042$ & $(0{,}012)$ & $<0{,}001$ & $+0{,}006$ \\
+SRRS   & $+0{,}038$ & $(0{,}011)$ & $<0{,}001$ & $+0{,}007$ \\
+PTRS   & $+0{,}031$ & $(0{,}010)$ & $<0{,}001$ & $+0{,}005$ \\
+PSFRSRS & $+0{,}028$ & $(0{,}009)$ & $<0{,}001$ & $+0{,}005$ \\
+PI (índice, OLS) & $+0{,}300$ & $(0{,}015)$ & $<0{,}001$ & $+0{,}039$ \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notas.} Cada fila reporta el efecto marginal promedio (AME) de $\ln G_{it}$ sobre la probabilidad de adopción del instrumento binario indicado, estimado con Probit CRE+CF \citep{Wooldridge2015}.
+PIGARS = Plan de Gestión Ambiental de Residuos Sólidos; PMRS = Plan de Manejo de Residuos Sólidos; SRRS = Sistema de Registro de Residuos Sólidos; PTRS = Plan de Trabajo de Residuos Sólidos; PSFRSRS = Plan de Saneamiento Financiero de Residuos Sólidos.
+La última fila reporta el coeficiente OLS CRE+CF del índice agregado PI (suma de los cinco instrumentos binarios, rango 0--5).
+SE bootstrap de dos etapas ($B=999$ réplicas, cluster provincial).
+Fuente: RENAMU 2015--2019 (INEI).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{F. Test de Mediación: Índice de Planeamiento como Canal hacia RS}
+\label{sec:appendix_mediacion}
+
+La hipótesis del canal institucional (gasto $\to$ PI $\to$ RS) implica que el índice de planeamiento media parcialmente el efecto del gasto sobre la disposición formal.
+Para verificarlo, se estima un modelo Probit CRE+CF ampliado que incluye PI como covariable adicional en la ecuación de RS:
+
+\begin{equation}
+  \Pr(RS_{it} = 1) = \Phi(\alpha + \beta \ln G_{it} + \lambda \text{PI}_{it} + \gamma \bar{G}_{i} + \delta_{t} + \hat{v}_{it})
+  \label{eq:mediacion}
+\end{equation}
+
+Si $\lambda > 0$ y $\beta$ se reduce materialmente respecto al modelo sin PI, existe evidencia de mediación parcial por la vía institucional.
+La \cref{tab:mediacion} reporta los resultados.
+
+\begin{table}[htbp]
+\centering
+\caption{Test de Mediación: Efecto del PI sobre RS, con y sin Control por Planeamiento\\
+  Probit CRE+CF, Perú 2015--2019}
+\label{tab:mediacion}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lccc},
+  row{1} = {font=\bfseries},
+  row{2} = {font=\itshape\small},
+  hline{1,Z} = {1.5pt},
+  hline{3} = {0.8pt},
+  hline{7} = {0.5pt, dashed},
+}
+ & Modelo base & + PI (mediador) & Solo PI \\
+ & AME & AME & AME \\
+$\ln G_{it}$ (AME) & $+0{,}022^{***}$ & $+0{,}014^{***}$ & --- \\
+PI (AME) & --- & $+0{,}031^{***}$ & $+0{,}038^{***}$ \\
+SE ($\ln G_{it}$) & $(0{,}005)$ & $(0{,}004)$ & --- \\
+SE (PI) & --- & $(0{,}008)$ & $(0{,}009)$ \\
+Observaciones & $9{.}225$ & $9{.}225$ & $9{.}225$ \\
+$\hat{v}_{it}$ sig. & Sí & Sí & Sí \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notas.} Variable dependiente: RS (uso de relleno sanitario, binario).
+Modelo base: Probit CRE+CF sin PI como covariable (reproduce el AME de la \cref{tab:resultados_principales}).
+Modelo + PI: incluye el índice de planeamiento como covariable adicional; el AME sobre $\ln G_{it}$ se reduce de $+0{,}022$ a $+0{,}014$ ($36\%$ de reducción), mientras que PI es positivo y significativo ($+0{,}031$).
+Solo PI: Probit CRE+CF con PI como único regresor de interés (sin $\ln G_{it}$).
+La reducción parcial ---no total--- del AME sobre el gasto es consistente con mediación parcial: el gasto opera tanto a través del canal institucional (PI) como directamente a través del canal operativo (capacidad financiera para la disposición).
+SE bootstrap de dos etapas ($B=999$, cluster provincial) en todos los modelos.
+$^{***}p<0{,}001$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{G. Límites de Plausibilidad: Oster (2019) $\delta^*$}
+\label{sec:appendix_oster}
+
+Siguiendo \citet{Oster2019}, se calcula el valor $\delta^*$ de proporcionalidad de selección que haría nulo el efecto estimado del gasto.
+El estadístico $\delta^*$ compara el movimiento del coeficiente entre la especificación sin controles observables y con controles observables con el movimiento hipotético que generarían los no-observables bajo proporcionalidad:
+
+\begin{equation}
+  \delta^* = \frac{\tilde{\beta}(R^2_{\max} - \tilde{R}^2)}{(\dot{\beta} - \tilde{\beta})(\tilde{R}^2 - \dot{R}^2)}
+  \label{eq:oster}
+\end{equation}
+
+\noindent donde $\dot{\beta}$ es el coeficiente sin corrección (TWFE), $\tilde{\beta}$ es el coeficiente CRE+CF,
+$\dot{R}^2$ y $\tilde{R}^2$ son los $R^2$ de cada especificación,
+y $R^2_{\max} = 1{,}3 \times \tilde{R}^2$ siguiendo la convención de \citet{Oster2019}.
+
+\textit{Alcance del ejercicio.}
+El estadístico $\delta^*$ de \citet{Oster2019} está diseñado para comparaciones entre especificaciones OLS: cuantifica cuánto más influyentes tendrían que ser los no-observables ---en relación con los observables--- para anular el movimiento del coeficiente al agregar controles.
+En este análisis, $\dot{\beta}$ corresponde al estimador TWFE sin corrección de endogeneidad (especificación corta) y $\tilde{\beta}$ al estimador CRE+CF con función de control (especificación larga).
+Por tanto, el $\delta^*$ reportado cuantifica la robustez de la \textit{transición} del comparador OLS hacia el CRE+CF frente al sesgo de variable omitida estática (permanente): los no-observables permanentes tendrían que ser al menos $|\delta^*|$ veces más importantes que los observables, y operar en dirección opuesta, para revertir el movimiento del coeficiente entre las dos especificaciones.
+En este sentido, $\delta^*$ actúa como un límite de peor escenario (\textit{worst-case bound}) que valida la especificación CRE+CF relativa al comparador TWFE ---no como una validación directa del estimador CRE+CF frente a confundidores tiempo-variantes, cuya amenaza queda fuera del alcance del test de Oster y se aborda mediante el análisis DL(1) y el test de función de control documentados en las \cref{sec:pretendencias,sec:endogeneidad}.
+
+Un resultado con $|\delta^*| > 1$ es robusto bajo esta interpretación.
+Un $\delta^* < 0$ indica que la selección no-observable permanente tendría que operar en dirección contraria a la selección observable ---condición aún más favorable para la identificación.
+En términos económicos, un $\delta^* < 0$ requeriría que los municipios con mayor capacidad institucional no observable gastasen \textit{menos} en limpieza pública de lo esperado por sus características observables. Esta condición es opuesta a la dirección del sesgo confirmada por el test de función de control (Apéndice B): los municipios con mejor gestión no observada tienden a ejecutar \textit{más} presupuesto, no menos. Por tanto, la selección no-observable residual ---de existir--- operaría en el mismo sentido que la selección observable, fortaleciendo los coeficientes CRE+CF en lugar de reducirlos hacia cero.
+
+\begin{table}[htbp]
+\centering
+\caption{Límites de Plausibilidad de Oster (2019): $\delta^*$ para los Tres Outcomes Primarios\\
+  Perú 2015--2019}
+\label{tab:oster}
+\begin{threeparttable}
+\begin{tblr}{
+  colspec = {lcccccc},
+  row{1} = {font=\bfseries},
+  hline{1,Z} = {1.5pt},
+  hline{2} = {0.8pt},
+}
+Outcome & $\dot{\beta}$ (TWFE) & $\tilde{\beta}$ (CRE+CF) & $\dot{R}^2$ & $\tilde{R}^2$ & $R^2_{\max}$ & $\delta^*$ \\
+QPRS & $0{,}027$ & $0{,}879$ & $0{,}42$ & $0{,}51$ & $0{,}663$ & $-1{,}75$ \\
+PI   & $0{,}039$ & $0{,}300$ & $0{,}38$ & $0{,}47$ & $0{,}611$ & $-1{,}80$ \\
+RS (AME) & $-0{,}003$ & $+0{,}022$ & $0{,}33$ & $0{,}41$ & $0{,}533$ & $-1{,}35$ \\
+\end{tblr}
+\begin{tablenotes}[para, flushleft]
+\small
+\textit{Notas.} $\dot{\beta}$: coeficiente TWFE sin corrección de endogeneidad (especificación corta).
+$\tilde{\beta}$: coeficiente CRE+CF con función de control (especificación larga).
+$R^2_{\max} = 1{,}3 \times \tilde{R}^2$ (convención de \citealt{Oster2019}).
+Los tres $\delta^*$ son negativos y $|\delta^*| > 1$: los no-observables tendrían que ser al menos $1{,}35$ veces más importantes que los observables \textit{y} operar en dirección opuesta a la selección observable para anular los efectos estimados.
+Esto es consistente con el resultado del test de función de control (Apéndice B): la endogeneidad opera en dirección positiva (municipios de mayor capacidad gastan más \textit{y} tienen mejores outcomes), de modo que la selección no-observable residual correría en el mismo sentido ---no en dirección opuesta--- fortaleciendo los coeficientes estimados, no reduciéndolos.
+Para RS, nótese que $\dot{\beta} < 0$ (TWFE sin corrección revierte el signo); el cálculo de $\delta^*$ se aplica al efecto estimado con corrección, que es el estimador relevante.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ------------------------------------------------------------------
+\subsection*{H. Análisis de Pre-Tendencias: Event Study}
+\label{sec:appendix_pretendencias}
+
+El análisis de event-study examina la dinámica de los efectos del gasto municipal sobre los tres outcomes primarios en una ventana de cuatro períodos ($t-2$ a $t+2$).
+La especificación distribuye el efecto del gasto en lags y leads:
+
+\begin{equation}
+  Y_{it} = \alpha + \sum_{k=-2}^{2} \beta_k \Delta \ln G_{it+k} + \gamma \bar{G}_{i} + \delta_{t} + \varepsilon_{it}
+  \label{eq:event_study}
+\end{equation}
+
+\noindent donde $\Delta \ln G_{it+k}$ son las variaciones del gasto en los períodos $k$ relativos al período corriente, normalizadas al período $k = -1$ como referencia.
+Los coeficientes $\beta_{-2}$ y $\beta_{-1}$ son las pruebas de pre-tendencias: si el gasto futuro predice los outcomes previos, existiría evidencia de anticipación o de tendencias pre-existentes no controladas.
+
+Los resultados del event-study para QPRS, PI y RS (pendientes de estimación) confirmarán o rechazarán el supuesto de tendencias paralelas.
+Los coeficientes de pre-tendencias ($\beta_{-2}$, $\beta_{-1}$) se reportarán con sus intervalos de confianza al $95\%$ (bootstrap provincial).
+La especificación DL(1) presentada en \cref{sec:pretendencias} ofrece la verificación de primera etapa; el event-study completo extenderá esa evidencia a una ventana temporal más amplia.
+
+
