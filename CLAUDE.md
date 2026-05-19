@@ -5,9 +5,11 @@
      Keep this file under ~150 lines — Claude loads it every session.
      See the guide at https://hugosantanna.github.io/clo-author/ for full documentation. -->
 
-**Project:** [YOUR PROJECT NAME]
-**Institution:** [YOUR INSTITUTION]
-**Field:** [YOUR FIELD — Economics by default. Can be adapted to Finance, Accounting, Marketing, etc.]
+**Project:** Another Model, Another SaaSpocalypse — Heterogeneous Capital Market Reactions to the Anthropic Claude Opus 4.6 Release
+**Institution:** Trinity College Dublin, School of Business (MSc Finance, BU7530-202526)
+**Supervisor:** Professor Constantin Gurdgiev
+**Student:** Rio Giuliana Fitzgerald (25341807)
+**Field:** Finance — Event Study / Empirical Asset Pricing
 **Branch:** main
 
 ---
@@ -134,7 +136,18 @@ Output organization: by-script
 
 | Component | File | Status | Description |
 |-----------|------|--------|-------------|
-| Paper | `paper/main.tex` | [draft/submitted/R&R] | [Brief description] |
-| Data | `scripts/R/` | [complete/in-progress] | [Analysis description] |
-| Replication | `paper/replication/` | [not started/ready] | [Deposit status] |
-| Job Market Talk | `paper/talks/job_market_talk.tex` | -- | [Status] |
+| Paper | `paper/main.tex` | not started | Four-pillar event study: FF5, cross-sectional, DiD, bond pillar |
+| Data | `data/raw/` | not started | Bloomberg Terminal — equity + bond data pending pull |
+| Scripts | `scripts/R/` | not started | FF5 estimation, DiD, cross-sectional, bond event study |
+| Replication | `paper/replication/` | not started | — |
+| Dissertation Talk | `paper/talks/dissertation_talk.tex` | not started | — |
+
+## Project-Specific Notes
+
+- **Focal event:** Anthropic Claude Opus 4.6 release, February 5, 2026
+- **Treated universe:** Syntax SaaS Index (~65 firms post-screening)
+- **Control universe:** Non-SaaS GICS 451030 S&P 500 firms (~25–40 firms)
+- **Three phases:** Phase 1 [Feb 5–18], Phase 2 [Feb 19–Apr 12], Phase 3 [Apr 13–May 12]
+- **Project shortname (for directories):** `saaspocalypse`
+- **Primary causal identification:** Pillar 3 matched-sample DiD (Goldsmith-Pinkham & Lyu 2025 framework)
+- **Data source:** Bloomberg Terminal (equity returns, bond BGN prices, ICE BofA indices, FF5 factors from Ken French)
