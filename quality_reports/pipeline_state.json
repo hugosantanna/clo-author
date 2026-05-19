@@ -1,0 +1,107 @@
+{
+  "project": "saaspocalypse",
+  "last_updated": "2026-05-19",
+  "current_phase": "Strategy",
+  "phases": {
+    "setup": {
+      "status": "complete",
+      "completed": ["CLAUDE.md", "Bibliography_base.bib", "directory_structure", "memory_files"]
+    },
+    "discovery": {
+      "status": "complete",
+      "agents": {
+        "librarian": {
+          "status": "complete",
+          "score": 68,
+          "rounds": 2,
+          "output": "quality_reports/literature/saaspocalypse/annotated_bibliography.md",
+          "html": "quality_reports/lit_review_saaspocalypse.html",
+          "notes": "42 papers across 6 clusters. 3 papers in DO NOT CITE status pending institutional access verification."
+        },
+        "explorer": {
+          "status": "skipped",
+          "score": null,
+          "notes": "Data source is Bloomberg Terminal (known). Formal /discover data run deferred to data collection phase."
+        }
+      }
+    },
+    "strategy": {
+      "status": "complete",
+      "agents": {
+        "strategist": {
+          "status": "complete",
+          "score": 90,
+          "rounds": 2,
+          "round_scores": [76, 90],
+          "output": "quality_reports/strategy/saaspocalypse/strategy_memo.md",
+          "supporting": [
+            "quality_reports/strategy/saaspocalypse/pseudo_code.md",
+            "quality_reports/strategy/saaspocalypse/robustness_plan.md",
+            "quality_reports/strategy/saaspocalypse/falsification_tests.md"
+          ],
+          "decision_record": "quality_reports/decisions/strategy_saaspocalypse.md",
+          "notes": "Round 1: 76/100 (3 MAJOR issues: IGV-XLK parallel trends proxy, missing A11 decision rule, no designated primary window). Round 2: 90/100 ADVANCES. All MAJOR issues resolved plus 4 carry-forward items applied."
+        },
+        "theorist": {
+          "status": "not_started",
+          "score": null,
+          "conditional": true,
+          "notes": "Not required — reduced-form applied paper using off-the-shelf estimators. Skip per permissions.md CONDITIONAL flag."
+        }
+      }
+    },
+    "execution": {
+      "status": "blocked",
+      "blocking": "Bloomberg Terminal data pull not yet completed. Syntax SaaS Index constituent list not yet obtained.",
+      "agents": {
+        "data_engineer": {"status": "not_started", "score": null},
+        "coder": {"status": "not_started", "score": null},
+        "writer": {"status": "not_started", "score": null}
+      }
+    },
+    "peer_review": {
+      "status": "not_started",
+      "agents": {
+        "domain_referee": {"status": "not_started", "score": null},
+        "methods_referee": {"status": "not_started", "score": null}
+      }
+    },
+    "submission": {
+      "status": "not_started",
+      "agents": {
+        "verifier": {"status": "not_started", "score": null}
+      }
+    }
+  },
+  "aggregate_score": {
+    "current": null,
+    "components": {
+      "literature_coverage": {"weight": 0.10, "score": 68},
+      "identification_validity": {"weight": 0.25, "score": 90},
+      "code_quality": {"weight": 0.15, "score": null},
+      "manuscript_polish": {"weight": 0.10, "score": null},
+      "paper_quality_domain": {"weight": 0.125, "score": null},
+      "paper_quality_methods": {"weight": 0.125, "score": null},
+      "replication_readiness": {"weight": 0.05, "score": null}
+    },
+    "note": "Theory weight (0.20) excluded — conditional agent not dispatched for this applied paper. Remaining weights renormalized."
+  },
+  "blocking_conditions": [
+    "Bloomberg Terminal equity return pull required before coder dispatch",
+    "Syntax SaaS Index SYSAAS constituent list (Jan 31, 2026 point-in-time) required",
+    "Bond BGN prices require Bloomberg pull",
+    "SPXXAI access via Goldman Sachs institutional channel required for robustness spec B4 (contingent)"
+  ],
+  "pending_fixes": [
+    "Bertomeu2023_chatgpt in Bibliography_base.bib needs correction to published JAE version (new_references.bib has the entry)",
+    "Wu et al. (2025) and OpenAI Taiwan paper in DO NOT CITE pending Trinity institutional access verification",
+    "pseudo_code.md bond notation should confirm ABR/ASR consistency (minor, pre-coder)"
+  ],
+  "notes": [
+    "Primary causal identification: Pillar 3 DiD (Goldsmith-Pinkham & Lyu 2025 framework).",
+    "FF5 event study is descriptive only — not causal.",
+    "Theorist not dispatched (applied paper, off-the-shelf estimators).",
+    "Bond pillar contingent on issuer sample size — synthetic control fallback at N<8.",
+    "In-sample SaaS-control pre-event correlation flagged as [CONTINGENT ON DATA] — primary parallel trends evidence pending Bloomberg pull."
+  ]
+}

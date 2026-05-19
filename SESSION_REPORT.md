@@ -35,3 +35,30 @@
 **Status:**
 - Done: Phases A-F of HTML dashboard pipeline complete (v4.3.0 scope)
 - Pending: Commit + deploy to GitHub Pages
+
+---
+
+## 2026-05-19 — SaaSpocalypse Dissertation Project Initialisation
+
+**Operations:**
+- Updated `CLAUDE.md` with project metadata (title, institution, supervisor, student, field, project notes)
+- Replaced `Bibliography_base.bib` with 29 formatted BibTeX entries covering all dissertation methodology references (Pillars 1–4, theory, practitioner context)
+- Created `quality_reports/literature/saaspocalypse/`, `data-assessment/saaspocalypse/`, `strategy/saaspocalypse/`, `specs/`, `reviews/`, `traces/`
+- Created `scripts/R/saaspocalypse/`
+- Initialised `quality_reports/research_journal.md` and `quality_reports/pipeline_state.json`
+- Created memory files: `user_profile.md`, `project_saaspocalypse.md`, `MEMORY.md`
+
+**Decisions:**
+- Project shortname `saaspocalypse` adopted for all directory paths — keeps naming consistent and unambiguous
+- DiD (Pillar 3) designated primary causal identification in CLAUDE.md notes, consistent with Goldsmith-Pinkham & Lyu (2025) guidance
+- Bond pillar contingency (synthetic control at N<8) logged in pipeline_state.json
+
+**Results:**
+- Full directory scaffold in place; all 29 methodology references in Bibliography_base.bib; pipeline state initialised at Setup phase
+
+**Commits:**
+- None yet
+
+**Status:**
+- Done: Project setup complete
+- Pending: Bloomberg data pull, Syntax SaaS Index constituent list, `/discover lit` and `/discover data` runs
